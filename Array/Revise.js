@@ -468,62 +468,295 @@ function merge(nums, low, mid, high) {
         nums[i] = temp[i-low]
     }*/
 
-var Merge = function(arr, low, mid, high) {
+// var Merge = function(arr, low, mid, high) {
     
-    let left = low;
-    let right = mid+1;
-    let cnt = 0;
-    let temp = [];
-    while (left <= mid && right <= high) {
+//     let left = low;
+//     let right = mid+1;
+//     let cnt = 0;
+//     let temp = [];
+//     while (left <= mid && right <= high) {
         
-        if (arr[left] <= arr[right]) {
-            temp.push(arr[left]);
+//         if (arr[left] <= arr[right]) {
+//             temp.push(arr[left]);
+//             left++;
+//         }
+
+//         else {
+//             temp.push(arr[right]);
+//             console.log({mid},{left});
+//             cnt += (mid-left+1);
+//             right++;
+//         }
+//     }
+
+//     while (left <= mid) {
+//         temp.push(arr[left]);
+//         left++;
+//     }
+
+//     while (right <= high) {
+//         temp.push(arr[right]);
+//         right++;
+//     }
+
+//     for (let i = low; i <= high; i++) {
+//         arr[i] = temp[i-low];
+//     }
+
+//     return cnt;
+
+// }
+
+// var MSort = function(arr, low, high) {
+
+//     let cnt = 0;
+//     if (low >= high) {
+//         return cnt;
+//     }
+
+//     let mid = Math.floor((low+high)/2);
+//     cnt += MSort(arr, low, mid);
+//     cnt += MSort(arr, mid+1, high);
+//     cnt += Merge(arr, low, mid, high);
+//     // console.log(cnt);
+
+//     return cnt;
+// }
+
+// const arr = [5,2,4,1,8,9];
+
+// console.log(MSort(arr, 0, arr.length-1));
+
+// Longest Subarray with target sum
+
+/*
+var TargetSum = function(nums, target) {
+
+    const n = nums.length;
+    let mapSum = new Map();
+    let sum = 0;
+    let maxLen = -1;
+    let start = -1;
+    let end = -1;
+    for (let i = 0; i < n; i++) {
+        sum += nums[i];
+        if (sum === target) {
+            maxLen = i+1;
+        }
+
+        let remove = sum - target;
+        if (mapSum.has(remove)) {
+            // maxLen = Math.max(maxLen, i-mapSum.get(remove));
+            if (maxLen < i-mapSum.get(remove)) {
+                maxLen = i-mapSum.get(remove);
+                // start = mapSum.get(remove)+1;
+                // end = i;
+            }
+        } else {
+            mapSum.set(sum, i);
+        }
+    }
+    console.log(maxLen, {start, end});
+    
+}
+
+const nums = [2, 4, 2, 0, 0, 6];
+const target = 6;
+TargetSum(nums, target);
+*/
+
+/*
+var CntSum = function(nums, target) {
+
+    const n = nums.length;
+    let cnt = 0;
+    let preSum = 0;
+    let preSumMap = new Map();
+    preSumMap.set(0, 1);
+    for (let i = 0; i < n; i++) {
+        
+        preSum += nums[i];
+       let numExists = preSum - target;
+        if (preSumMap.has(numExists)) {
+            cnt += preSumMap.get(numExists);
+        }
+        preSumMap.set(preSum, (preSumMap.get(numExists) || 0)+1);
+    }
+
+    console.log(cnt);
+    
+}
+
+const nums = [2, 4, 2, 0, 0, 6];
+const target = 6;
+CntSum(nums, target);
+*/
+
+
+// 2 pointers
+
+/*
+var LongestSubArray = function(nums, target) {
+
+    const n = nums.length;
+    let left = 0
+    let right = 0;
+    let maxLen = 0;
+    let preSum = 0;
+
+    while (right < n) {
+
+        preSum += nums[right];
+        
+        while (left <= right && preSum > target) {
+            preSum -= nums[left];
             left++;
         }
-
-        else {
-            temp.push(arr[right]);
-            console.log({mid},{left});
-            cnt += (mid-left+1);
-            right++;
+        
+        if (preSum === target) {
+            console.log(right-left+1);
+            
+            maxLen = Math.max(right-left+1);
         }
-    }
-
-    while (left <= mid) {
-        temp.push(arr[left]);
-        left++;
-    }
-
-    while (right <= high) {
-        temp.push(arr[right]);
         right++;
     }
 
-    for (let i = low; i <= high; i++) {
-        arr[i] = temp[i-low];
+    console.log({ans: maxLen});
+    
+}
+
+const nums = [2, 4, 2, 7, 4, 6];
+const target = 6;
+LongestSubArray(nums, target);
+*/
+
+// find missing number 1 to N
+
+// var MissingNo = function(nums, N) {
+
+//     let MapArray = new Array(N+1).fill(0);
+
+    
+//     for (let i = 0; i < N; i++) {
+//         MapArray[nums[i]]++;
+//     }
+//     console.log(MapArray);
+
+//     for (let j = 1; j <= N; j++) {
+//        if (MapArray[j] === 0) {
+//         console.log(j);
+        
+//        }
+        
+//     }
+//     console.log(MapArray);
+    
+// }
+
+// const arr = [1, 2, 3, 5];
+// const N = 5;
+// MissingNo(arr, N);
+
+
+/*
+var MissingNo = function(nums, N) {
+
+    // const TSum = (N*(N+1)/2);
+    // let numsTotal = nums.reduce((sum, ele) => sum+ele);
+
+    // console.log(TSum-numsTotal);
+
+    let Txor = 0;
+    let Nxor = 0;
+    for (let i = 0; i < N-1; i++) {
+        Nxor = Nxor ^ nums[i];
+        Txor = Txor ^ (i+1);
     }
 
-    return cnt;
+    Txor = Txor ^ N;
+    console.log(Nxor^Txor);
+    
+    
+}
+
+const arr = [1, 2, 3, 5];
+const N = 5;
+MissingNo(arr, N);
+*/
+
+// 3sum || sum of unique 3 elements target to get zero
+
+/*
+var ThreeSum = function (nums) {
+
+    let uniqueEleSet = new Set();
+    
+    const n = nums.length;
+    
+    for (let i = 0; i < n; i++) {
+        let eleSet = new Set();
+        for (let j = i+1; j < n; j++) {
+           
+            let thirdEle = -(nums[i]+nums[j]);
+
+            if (eleSet.has(thirdEle)) {
+                let ele = [nums[i], nums[j], thirdEle];
+                ele.sort((a, b) => a-b);
+                uniqueEleSet.add(JSON.stringify(ele));
+            } else {
+                eleSet.add(nums[j]);
+            } 
+            
+        }
+        
+    }
+
+    let ans = Array.from(uniqueEleSet).map(JSON.parse);
+    console.log(ans);
+    
+    
+}
+*/
+
+var ThreeSum = function (nums, target) {
+
+    const n = nums.length;
+    nums.sort((a,b) => a-b);
+    let triplet = [];
+    for (let i = 0; i < n; i++) {
+       if (i>0 && nums[i] === nums[i-1]) {
+        continue;
+       }
+        let j = i+1;
+        let k = n-1;
+
+        while (j < k) {
+            let sum = nums[i]+nums[j]+nums[k];
+            
+        if (sum > target) {
+            k--;
+        }
+        else if (sum < target) {
+            j++;
+        }
+        else {
+            let ele = [nums[i],nums[j],nums[k]];
+            triplet.push(ele);
+            j++;
+            k--;
+            while (j<k && nums[j] === nums[j-1]) {
+                j++;
+            }
+            while (j<k && nums[k] === nums[k+1]) {
+                k++;
+            }
+        }
+    }
+    }
+console.log(triplet);
+
 
 }
 
-var MSort = function(arr, low, high) {
-
-    let cnt = 0;
-    if (low >= high) {
-        return cnt;
-    }
-
-    let mid = Math.floor((low+high)/2);
-    cnt += MSort(arr, low, mid);
-    cnt += MSort(arr, mid+1, high);
-    cnt += Merge(arr, low, mid, high);
-    // console.log(cnt);
-
-    return cnt;
-}
-
-const arr = [5,2,4,1,8,9];
-
-console.log(MSort(arr, 0, arr.length-1));
-
+const arr = [-1, 0, 1, 2, -1, -4];
+ThreeSum(arr, 0);
