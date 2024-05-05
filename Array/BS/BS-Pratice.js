@@ -236,3 +236,185 @@ var search = function(arr, target) {
 */
 
 
+// 3 may
+
+// min pages as student reads to distribute the all the books/pages for given No.of.students
+// given
+// min a student should read 1 book
+// const books = [ 25, 46, 28, 49, 24]  // ith index represents pages
+// const students = 4;
+
+// so to distribute the books, a student should read max pages in the given book, we need to start searching from max of given books = 49
+// to distribute the given No.of.books / pages with students, we need to find out the no.of.pages a student can read.
+// the worst case scenario is given No.of.students=1, he needs to read all books sum of pages sum(pages);
+
+// so from above, we can say that, we need to run a loop from 49 to 169 (sum of pages) from this min no.of.pages, student can read to distribute amoung
+// given students
+
+// return -1// if no.of.student > no.of.books i.e min a student read 1 book
+
+// For a student we can allocate more than 1 books but in contigues manner & its should of minimum
+
+// Possibilities
+
+// Possibilities- 1 - 25+46 = 71 | 28 | 49 | 24 // max a student can read 71
+
+// Possibilities-2 -  25 | 46+28 = 74 | 49 | 24 // max a student can read 74
+
+// Possibilities-3 -  25 | 46 | 28+49 = 77 | 24 // max a student can read 77
+
+// Possibilities-4 -  25 | 46 | 28 | 49+24 // max a student can read 73
+
+// out of above case, we should take min pages a student can read
+
+
+/*
+var allocateBooks = function(books, students) {
+
+    const noOfBooks = books.length;
+
+    if(students > noOfBooks) return -1;
+
+    // to distribute to a student, he should read minimum maxPages
+    let maxPages = Math.max(...books);
+
+    // max possibility, a student can read
+    let totalPages = books.reduce((tot, curr) => tot+curr, 0);
+
+    let ansstudents = 1;
+    let readPage = 0;
+    let ans = 0;
+    for(let j = maxPages; j<= totalPages; j++) {
+        readPage = 0;
+        ansstudents = 1;
+        if(j === 71) debugger;
+        for(let i = 0;i<noOfBooks;i++) {
+            readPage += books[i];
+            if(readPage <= j) continue;
+            else if(readPage > j){
+                ansstudents++;
+                readPage = books[i];
+            }
+        }
+        if(ansstudents === students) {
+            ans = j;
+            break;
+        }
+    }
+
+    console.log(ans);
+
+}
+
+
+// const books = [ 25, 46, 28, 49, 24]  // ith index represents pages
+// const students = 4;
+const books = [ 1, 2, 3, 4, 5]  // ith index represents pages
+const students = 5;
+allocateBooks(books, students);
+*/
+/*
+var splitArray = function(nums, k) {
+    
+    let minSum = Math.max(...nums);
+    let arrSum = nums.reduce((tot, curr) => tot+curr, 0);
+
+    const n = nums.length;
+    let split = 1;
+    while(minSum <= arrSum) {
+        let mid = Math.floor((minSum+arrSum)/2);
+        let sum = 0;
+        split = 1;
+        for(let i=0; i < n; i++) {
+            
+                sum += nums[i];
+                if(sum > mid){
+                split++;
+                sum = nums[i];
+            }
+        }
+        if(split <= k) {
+            arrSum = mid - 1;
+        } else {
+            minSum = mid+1;
+        }
+    }
+    return minSum;
+};
+
+// const nums = [7,2,5,10,8], k = 2;
+const nums = [1,2,3,4,5], k = 5;
+console.log(splitArray(nums, k));
+*/
+
+
+var medianOfArr = function(arr1, arr2) {
+
+    const n1 = arr1.length;
+    const n2 = arr2.length;
+
+    
+    // will try to make smallest arr as n1 bcz of time complexity
+    if(n1 > n2) return medianOfArr(arr2, arr1);
+    
+    let l = 0;
+    let r = n1;
+    
+    const n = n1+n2;
+    // length of left half, here we need to add + 1, to handle odd (n length)
+
+    let left = Math.floor((n1+n2+1)/2);
+
+    while(l <= r) {
+        let mid1 = Math.floor((l+r)/2);
+        let mid2 = left-mid1;
+
+        // initialize with lesser value for l1, l2,largest value for r1, r2 
+        let l1 = Number.MIN_SAFE_INTEGER;
+        let l2 = Number.MIN_SAFE_INTEGER;
+
+        let r1 = Number.MAX_SAFE_INTEGER;
+        let r2 = Number.MAX_SAFE_INTEGER;
+
+        if(mid1 < n1) r1 = arr1[mid1];
+        if(mid2 < n2) r2 = arr2[mid2];
+
+        if(mid1 - 1 >= 0) l1 = arr1[mid1-1];
+        if(mid2 - 1 >= 0) l2 = arr2[mid2-1];
+
+        if(l1 <= r2 && l2 <= r1) {
+
+            if(n%2 === 1) {
+                return Math.max(l1, l2);
+            } else {
+                return (Math.max(l1,l2) + Math.min(r1, r2))/2;
+            } 
+        }
+        // move left
+        else if(l1 > r2) r = mid1 - 1;
+        // move right
+        else r = mid1+1;
+
+    }
+
+}
+
+// [1, 2, 3, 4 ,5, 6, 7 ,9]
+// its even = 8/2 => 4 & 5, median  = 4+5 => 9/2 => 4.5
+
+// const arr1 = [1, 3 ,4, 5, 7];
+// const arr2 = [2, 6, 9];
+
+// let a = [1, 4, 7, 10, 12];
+// let b = [2, 3, 6, 15];
+
+// const a = [1, 3, 4]
+// const b = [2, 9]
+const a = [1, 3]
+const b = [2]
+// console.log("The median of two sorted arrays is " + median(a, b).toFixed(1));
+// console.log(medianOfArr(arr1, arr2));
+
+
+
+
