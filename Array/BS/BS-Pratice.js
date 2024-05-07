@@ -347,7 +347,7 @@ const nums = [1,2,3,4,5], k = 5;
 console.log(splitArray(nums, k));
 */
 
-
+/*
 var medianOfArr = function(arr1, arr2) {
 
     const n1 = arr1.length;
@@ -415,6 +415,129 @@ const b = [2]
 // console.log("The median of two sorted arrays is " + median(a, b).toFixed(1));
 // console.log(medianOfArr(arr1, arr2));
 
+*/
 
+// given 2D array, contains only 0s & 1s, find the row with max no.of.ones
+
+/*
+// loop approach
+// TC - O(n2)
+
+const matrix = [
+    [0, 1, 1],
+    [1, 1, 1],
+    [1, 1, 1],
+];
+
+const row = matrix.length;
+let maxCnt = -1;
+let index = -1;
+
+for(let r = 0; r < row; r++) {
+    cnt = 0;
+    for(let c = 0; c < matrix[r].length; c++) {
+        if(matrix[r][c] === 1) cnt++;
+    }
+    if(cnt > maxCnt) {
+        [cnt, maxCnt] = [maxCnt, cnt];
+        index = r;
+    }
+}
+
+*/
+
+// we can use lowerBound, upperBound or firstOccurance/lastOccurance methods
+
+// with go with lowerBound O(n + log(n))
+
+/*
+
+var findRow = function(nums, target) {
+
+    const r = nums.length;
+    let maxCnt = -1;
+    let index;
+    for(let i = 0; i < r; i++) {
+        let cnt = 0;
+        let startingIndex = lowerBound(nums[i], target);
+        cnt = nums[i].length - startingIndex;
+
+        if(cnt > maxCnt) {
+            maxCnt = cnt;
+            index = i;
+        }
+    }
+
+    function lowerBound(row, target) {
+
+        let l = 0;
+        let r = row.length;
+        
+        while(l<=r) {
+        let mid = Math.floor((l+r)/2);
+
+        if(row[mid] >= target) {
+            index = mid;
+            r = mid-1;
+        } else {
+            l = mid+1;
+        }
+        }
+        return index;
+    }
+
+    return maxCnt;
+
+}
+
+const matrix = [
+    [0, 1, 1],
+    [1, 1, 1],
+    [1, 1, 1],
+];
+console.log(" row with max no.of.onces ", findRow(matrix, 1));
+
+*/
+
+// search the target in 2D array, ascending order
+
+// Better Approach
+// first check which target value lies in between start/end of row
+
+var searchTarget = function(nums, target) {
+
+    const n = nums.length;
+    for(let row = 0; row < n; row++) {
+        let col = nums[row].length;
+        if(nums[row][0] >= target && nums[row][col-1] <= target) {
+            binarySearch(nums[row], target);
+        }
+    }
+
+    function binarySearch(row, target) {
+        let l = 0;
+        let r = row.length;
+
+        while(l <= r) {
+            let mid = Math.floor((l+r)/2);
+
+            if(row[mid] === target) {
+                return mid;
+            } else if (row[mid] > target) {
+                r = mid -1;
+            } else {
+                l = mid+1;
+            }
+        }
+    }
+
+}
+
+const matrix = [
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [10, 12, 13, 14],
+];
+console.log(searchTarget(matrix, 8));
 
 
