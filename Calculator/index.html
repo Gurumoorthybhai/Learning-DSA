@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Preconnect -->
+    <!-- <link rel="preconnect" href="https://"> -->
+    
+    <link rel="preconnect" href="script3.js">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Prefetch -->
+    
+    <link rel="Prefetch" as="script" href="script1.js" />
+    <link rel="Prefetch" as="style" href="style1.css" />
+    
+    <!-- Preload -->
+    
+    <link rel="Preload" as="script" href="script2.js" />
+    <link rel="Preload" as="style" href="style2.css" />
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <section class="container">
+        <div class="calc-grid">
+            <div class="display">
+                <!-- <input type="number" id="display"> -->
+                <p data-previous class="previous">1000*</p>
+                <p data-current class="current">1000</p>
+            </div>
+            <div id="numbers-grid" class="numbers-grid">
+
+                <button data-allClear class="AC">AC</button>
+                <button data-delete class="del">DEL</button>
+                <button data-operator>/</button>
+                <button data-operand class="first">1</button>
+                <button data-operand>2</button>
+                <button data-operand>3</button>
+                <button data-operator>*</button>
+                <button data-operand>4</button>
+                <button data-operand>5</button>
+                <button data-operand>6</button>
+                <button data-operator>+</button>
+                <button data-operand>7</button>
+                <button data-operand>8</button>
+                <button data-operand>9</button>
+                <button data-operator>-</button>
+                <button data-operand>.</button>
+                <button data-operand>0</button>
+                <button data-equal class="equalTo">=</button>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

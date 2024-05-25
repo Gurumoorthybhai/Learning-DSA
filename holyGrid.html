@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holy Grid</title>
+</head>
+
+<style>
+    *, ::after, ::before {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    html, body {
+        height: 100%;
+        width: 100%;
+    }
+
+    .container {
+        display: grid;
+        /* grid-template-columns: auto 1fr auto;
+        grid-template-rows: 100px 1fr 100px; */
+  grid: auto 1fr auto / 100px 1fr 100px;
+
+        height: 100%;
+        /* width: 100%;  */
+    }
+
+    header {
+        grid-column: 1/-1;
+        background-color: aqua;
+    }
+    footer {
+        /* grid-row: 3; */
+        grid-column: 1/-1;
+        background-color: red;
+        padding: 10px;
+    }
+    aside.left{
+        background-color: blue;
+    }
+    aside.right{
+        background-color: violet;
+    }
+   
+</style>
+<!-- <link rel="stylesheet" href="holy.css"> -->
+<body>
+    <section class="container">
+    <header> This is the header</header>
+    <aside class="left"> This is the left aside</aside>
+    <main>This is the main </main>
+    <aside class="right"> This is the right aside</aside>
+    <footer> This is the footer</footer>
+</section>
+
+<!-- <div class="parent">
+    <header>This is header</header>
+    <div class="left-sidebar">
+      I am left sidebar
+    </div>
+    <main>
+      I am main content
+    </main>
+    <div class="right-sidebar">
+      I am right sidebar and I am having more text
+    </div>
+    <footer>
+      I am footer
+    </footer>
+  </div> -->
+</body>
+</html>
