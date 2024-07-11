@@ -1625,35 +1625,49 @@ class Node{
     }
 }
 
-function createCyclicNode(arr, cyclicIndex) {
+// function createCyclicNode(arr, cyclicIndex) {
 
-let head = new Node(arr[0]);
-let temp = head;
-let cyclicNode = null;
+// let head = new Node(arr[0]);
+// let temp = head;
+// let cyclicNode = null;
 
-for(let i = 0; i < arr.length; i++) {
-    let newNode = new Node(arr[i]);
-    temp.next = newNode;
-    temp = temp.next;
+// for(let i = 0; i < arr.length; i++) {
+//     let newNode = new Node(arr[i]);
+//     temp.next = newNode;
+//     temp = temp.next;
 
-    if(i === cyclicIndex) cyclicNode = temp;
-}
+//     if(i === cyclicIndex) cyclicNode = temp;
+// }
 
-temp.next = cyclicNode;
+// temp.next = cyclicNode;
 
-// console.log((head));
-return head;
+// // console.log((head));
+// return head;
+// }
+
+function formLL(arr) {
+
+    let head = new Node(arr[0]);
+    let temp = head;
+    for(let i = 1; i < arr.length; i++) {
+
+        const newNode = new Node(arr[i]);
+        temp.next = newNode;
+        temp = temp.next;
+    }
+
+    return head;
 }
 
 // const arr = [1, 2, 3 ,4, 5, 6, 7, 8];
 
-const arr = [1, 2, 3];
+// const arr = [1, 2, 3];
 
 // with cyclinc node
 // const head = createCyclicNode(arr, 2);
 
 // without cyclinc node
-let head = createCyclicNode(arr, 0);
+// let head = createCyclicNode(arr, 0);
 
 // console.log(head);
 
@@ -1742,28 +1756,107 @@ function lengthOfLoop(head) {
 }
     */
 
-console.log(lengthOfLoop(head));
+// console.log(lengthOfLoop(head));
 
-function lengthOfLoop(head) {
+// function lengthOfLoop(head) {
 
-    if(!head) return null;
-    let slowPtr = head;
-    let fastPtr = head;
+//     if(!head) return null;
+//     let slowPtr = head;
+//     let fastPtr = head;
+//     let len = 0;
+
+//     while(fastPtr && fastPtr.next) {
+//         slowPtr = slowPtr.next;
+//         fastPtr = fastPtr.next.next;
+
+//         if(slowPtr === fastPtr) {
+//             len++;
+//             fastPtr = fastPtr.next;
+//             while(slowPtr !== fastPtr) {
+//                 len++;
+//                 fastPtr = fastPtr.next;
+//             }
+//             return len;
+//         }
+//     }
+//     return len;
+// }
+
+// =======================================================
+
+
+// delete the middle node
+
+// approach 1: 
+// 1. find the len of the LL
+// 2. find N/2 node, this will be prev node
+// 3. update the next address 
+
+// odd len
+// const arr = [1, 2, 3 ,4, 5];
+
+// even len
+// const arr = [1, 2, 3 ,4, 5, 6];
+
+
+// const arr = [1, 2];
+const arr = [1, 2, 3];
+
+
+// const arr = [];
+
+// const arr = [1];
+
+
+let head = formLL(arr);
+
+/*
+function deleteMiddleNode() {
+
+    let temp = head;
+
+    // empty node LL or single headed node
+    if(!head || !head.next) return null;
+
     let len = 0;
 
-    while(fastPtr && fastPtr.next) {
+    while(temp) {
+        len++;
+        temp = temp.next;
+    }
+
+    let middeNode = parseInt(len/2, 10);
+    let temp1 = head;
+    while(middeNode) {
+        middeNode--;
+
+        if(middeNode === 0) break;
+        temp1 = temp1.next;
+    }
+
+    temp1.next = temp1.next.next;
+    return head;
+}
+
+*/
+
+// slow and fast ptr
+
+function deleteMiddleNode() {
+
+    if(!head || !head.next) return null;
+
+    let slowPtr = head;
+    let fastPtr = head;
+
+    fastPtr = fastPtr.next.next;
+
+    if(fastPtr && fastPtr.next) {
         slowPtr = slowPtr.next;
         fastPtr = fastPtr.next.next;
-
-        if(slowPtr === fastPtr) {
-            len++;
-            fastPtr = fastPtr.next;
-            while(slowPtr !== fastPtr) {
-                len++;
-                fastPtr = fastPtr.next;
-            }
-            return len;
-        }
     }
-    return len;
+    slowPtr.next = slowPtr.next.next;
+    return head;
 }
+
+console.log(JSON.stringify(deleteMiddleNode()));
