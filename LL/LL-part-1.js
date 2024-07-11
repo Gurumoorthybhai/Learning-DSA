@@ -1625,39 +1625,39 @@ class Node{
     }
 }
 
-// function createCyclicNode(arr, cyclicIndex) {
+function createCyclicNode(arr, cyclicIndex) {
 
-// let head = new Node(arr[0]);
-// let temp = head;
-// let cyclicNode = null;
+let head = new Node(arr[0]);
+let temp = head;
+let cyclicNode = null;
 
-// for(let i = 0; i < arr.length; i++) {
-//     let newNode = new Node(arr[i]);
-//     temp.next = newNode;
-//     temp = temp.next;
+for(let i = 1; i < arr.length; i++) {
+    let newNode = new Node(arr[i]);
+    temp.next = newNode;
+    temp = temp.next;
 
-//     if(i === cyclicIndex) cyclicNode = temp;
-// }
-
-// temp.next = cyclicNode;
-
-// // console.log((head));
-// return head;
-// }
-
-function formLL(arr) {
-
-    let head = new Node(arr[0]);
-    let temp = head;
-    for(let i = 1; i < arr.length; i++) {
-
-        const newNode = new Node(arr[i]);
-        temp.next = newNode;
-        temp = temp.next;
-    }
-
-    return head;
+    if(i === cyclicIndex) cyclicNode = temp;
 }
+
+temp.next = cyclicNode;
+
+// console.log((head));
+return head;
+}
+
+// function formLL(arr) {
+
+//     let head = new Node(arr[0]);
+//     let temp = head;
+//     for(let i = 1; i < arr.length; i++) {
+
+//         const newNode = new Node(arr[i]);
+//         temp.next = newNode;
+//         temp = temp.next;
+//     }
+
+//     return head;
+// }
 
 // const arr = [1, 2, 3 ,4, 5, 6, 7, 8];
 
@@ -1800,7 +1800,7 @@ function lengthOfLoop(head) {
 
 
 // const arr = [1, 2];
-const arr = [1, 2, 3];
+// const arr = [1, 2, 3];
 
 
 // const arr = [];
@@ -1808,7 +1808,7 @@ const arr = [1, 2, 3];
 // const arr = [1];
 
 
-let head = formLL(arr);
+// let head = formLL(arr);
 
 /*
 function deleteMiddleNode() {
@@ -1842,6 +1842,8 @@ function deleteMiddleNode() {
 
 // slow and fast ptr
 
+/*
+
 function deleteMiddleNode() {
 
     if(!head || !head.next) return null;
@@ -1860,3 +1862,73 @@ function deleteMiddleNode() {
 }
 
 console.log(JSON.stringify(deleteMiddleNode()));
+
+*/
+
+// find the starting point of the cycle
+
+// approach1:
+// push the node to map or set, if we reach that node next time, we can confirm
+// check in the set or map then if not push
+
+const arr = [1, 2, 3 ,4, 5, 6, 7, 8, 9, 10];
+
+let head = createCyclicNode(arr, 2);
+
+
+// TC - O(n)
+// SC - O(n)
+
+/*
+
+function startingPt() {
+    let temp = head;
+    let nodeSet = new Set();
+
+    while(temp) {
+
+        if(nodeSet.has(temp)) return temp;
+        nodeSet.add(temp);
+        temp = temp.next;
+    }
+    return null;
+}
+
+*/
+
+// approach 2: SlowPtr & FastPtr
+// 1. find the meeting pt of slow & fastPtr
+// 2. move the slowPtr to head and move the fastPtr one step at a time
+// total distance of circle is C, meeting pt is Y, head to staring pt is X
+// C-Y
+
+function startingPt() {
+
+    while (!head || !head.next) return null;
+
+    let slowPtr = head;
+    let fastPtr = head;
+
+    while (fastPtr && fastPtr.next) {
+
+        slowPtr = slowPtr.next;
+        fastPtr = fastPtr.next.next;
+
+        // colliding node
+        if (slowPtr === fastPtr) {
+            slowPtr = head;
+
+            while (slowPtr !== fastPtr) {
+                
+                slowPtr = slowPtr.next;
+                fastPtr = fastPtr.next;
+            }
+            return slowPtr;
+        }
+
+    }
+
+    return null;
+}
+
+console.log(startingPt());
