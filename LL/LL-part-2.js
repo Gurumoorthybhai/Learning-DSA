@@ -19,7 +19,10 @@ function LL(arr) {
 }
 
 
-const arr = [1, 2, 3, 4, 5, 6, 7];
+// const arr = [1, 2, 3, 4, 5, 6, 7];
+
+// less than k size
+const arr = [1, 2];
 let head = LL(arr);
 
 // reverse K-group
@@ -51,7 +54,7 @@ function reverseKGroup(head, k) {
         kthNode.next = null;
 
         reverse(temp);
-
+        
         // first group
         if(head === temp) {
             head = kthNode;
