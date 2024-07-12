@@ -19,6 +19,8 @@ function LL(arr) {
 }
 
 
+/*
+
 // const arr = [1, 2, 3, 4, 5, 6, 7];
 
 // less than k size
@@ -95,4 +97,61 @@ function reverse(head) {
         temp = next;
     }
     return prev;
+}
+
+*/
+
+// ========================================================
+
+// reverse the linked list k times
+// get length of the ll, if k > length, take k = k%length
+// get len - k node, bcz new last node make its next to null
+// join the last node next to head of ll
+
+// const arr = [1, 2, 3, 4, 5, 6, 7];
+
+// TC - O(2n) 
+// O(n) - len, O(n) - find new last node
+
+
+// less than k
+const arr = [1, 2];
+
+let head = LL(arr);
+
+// console.log(reverseKtime(head, 3));
+
+// len, k are same
+console.log(reverseKtime(head, 2));
+
+function reverseKtime(head, k) {
+
+    if(!head) return head;
+
+    let len = 0;
+    let temp = head;
+
+    while(temp.next) {
+        len++;
+        temp = temp.next;
+    }
+    len++;
+
+    // no rotation change
+    if(k % len === 0) return head;
+    
+    k = k % len;
+    let temp2 = head;
+    let lastNode = len-k;
+    temp.next = head;
+    while(temp2 && lastNode) {
+        lastNode--;
+        if(lastNode === 0) {
+            head = temp2.next;
+            temp2.next = null;
+            return head;
+        }
+        temp2 = temp2.next;
+    }
+
 }
