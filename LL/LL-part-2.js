@@ -115,13 +115,20 @@ function reverse(head) {
 
 
 // less than k
-const arr = [1, 2];
+const arr = [4, 8];
 
 let head = LL(arr);
+
+const arr1 = [1, 2, 3, 5, 6, 7];
+
+let head2 = LL(arr1);
 
 // console.log(reverseKtime(head, 3));
 
 // len, k are same
+
+/*
+
 console.log(reverseKtime(head, 2));
 
 function reverseKtime(head, k) {
@@ -154,4 +161,48 @@ function reverseKtime(head, k) {
         temp2 = temp2.next;
     }
 
+}
+
+*/
+
+// Merge the sorted 2 linked list
+
+// initialize a dummy node, iterate and compare ll1, ll2
+
+// console.log(JSON.stringify(head2));
+console.log(JSON.stringify(mergeLL(head, head2)));
+
+function mergeLL(head, head2) {
+
+    if(!head) return head2;
+    if(!head2) return head;
+
+    let dummyNode = new Node(-1);
+    let temp = dummyNode;
+
+    while(head && head2) {
+
+        if(head.data >= head2.data) {
+            temp.next = head2;
+            // temp = head2;
+                head2 = head2.next;
+
+        } else {
+            temp.next = head;
+            // temp = head;
+            head = head.next;
+        }
+
+        temp = temp.next;
+    }
+
+    if(head) {
+        temp.next = head;
+    }
+
+    else {
+        temp.next = head2;
+    }
+
+    return dummyNode.next;
 }
