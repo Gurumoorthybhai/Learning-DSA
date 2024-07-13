@@ -234,7 +234,7 @@ function mergeLL(head, head2) {
 // .
 // .
 
-
+/*
 
 function childNode(...args) {
 
@@ -314,3 +314,86 @@ if(head) {
 return dummyNode.child;
 
 }
+
+*/
+
+// Merge the sorted k ll
+
+// approach 1:
+// loop all the ll and push into a new array
+// sort the array and convert the array to ll nodes
+
+// TC - O(n) + O(nlogn) + O(n)
+// SC - O(n)
+
+// approach 2:
+// similar to previous prb recursion, will do with loop
+
+let ll1 = [1, 5, 9, 13, 16];
+let ll2 = [2, 6, 10, 14];
+let ll3 = [3, 7, 11, 15];
+let ll4 = [4, 8, 12];
+
+let nodeLL1 = LL(ll1);
+let nodeLL2 = LL(ll2);
+let nodeLL3 = LL(ll3);
+let nodeLL4 = LL(ll4);
+
+console.log(mergeKsortedLL(nodeLL1, nodeLL2, nodeLL3, nodeLL4));
+
+// O(n) + m(1+2+3+...) => n.m2 ~ n3
+function mergeKsortedLL(...args) {
+
+    let head = args[0];
+    for(let i = 1; i < args.length; i++) {
+        if(args[i].length === 0) {
+            continue;
+        }
+        head = mergeLL(head, args[i]);
+    }
+    return head;
+}
+
+function mergeLL(head, head2) {
+
+    let dummyNode = new Node(-1);
+    let temp = dummyNode;
+    
+    while(head && head2) {
+    
+        if(head.data <= head2.data) {
+            temp.next = head;
+            temp = head;
+            head = head.next;
+        } else {
+            temp.next = head2;
+            temp = head2;
+            head2 = head2.next;
+        }
+        temp.next = null;
+    }
+     
+    if(head) {
+        temp.next = head;
+    } else {
+        temp.next = head2;
+    }
+    
+    return dummyNode.next;
+    
+    }
+
+// approach 3: priority queue
+
+// create a pq(priority queue) with only head
+// create a dummy node and add by top() pair (integer, node) to get smallest number
+// assign dummy next to top().second to get node and pop() to remove from pq
+// move to next pq of specific node
+// return dummynode.next
+
+// TC - pq operation log k
+// diff ll -> k * log k insertion to pq
+// top & pop -> k * n * 3 log k
+
+// TC - (k * log k) + k * n * log k
+// SC - O(k * n)
