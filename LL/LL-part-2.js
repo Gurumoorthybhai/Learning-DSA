@@ -401,3 +401,81 @@ function mergeLL(head, head2) {
 // SC - O(k * n)
 
 */
+
+// sort the given ll
+const arr = [3, 1, 5, 2, 4, 6];
+const head = LL(arr);
+
+// approach 1:
+// create a new container and push all the elements into - O(n)
+// sort the array - O(n * log n)
+// by iterating the array & list, overwrite the node data - O(n)
+
+
+
+
+
+// approach 2: resolve spacecomplexity
+// merge sort technic
+// find the middle by tortoise/hare
+// merge
+// TC - O(n/2) middle node + n log n
+// SC - O(log n) recursive call stack
+
+console.log(sortLL(head));
+
+function sortLL(head) {
+
+    if(!head || !head.next) return head;
+
+    let middleNode = returnMiddleNode(head);
+    let leftHead = head;
+    let rightHead = middleNode.next;
+    middleNode.next = null; 
+
+    let left = sortLL(leftHead);
+    let right = sortLL(rightHead);
+
+    return mergeLL(left, right);
+}
+
+function returnMiddleNode(head) {
+
+    let slowPtr = head;
+    let fastPtr = head.next;
+
+    while(fastPtr && fastPtr.next) {
+        slowPtr = slowPtr.next;
+        fastPtr = fastPtr.next.next;
+    }
+
+    return slowPtr;
+}
+
+function mergeLL(head, head1) {
+
+    let dummyNode = new Node(-1);
+    let temp = dummyNode;
+
+    while(head && head1) {
+
+        if(head.data < head1.data) {
+            temp.next = head;
+            head = head.next;
+        } else {
+            temp.next = head1;
+            head1 = head1.next;
+        }
+        temp = temp.next;
+        temp.next = null;
+    }
+
+    if(head) {
+        temp.next = head;
+    } else {
+        temp.next = head1;
+    }
+
+    return dummyNode.next;
+
+}
