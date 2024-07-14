@@ -329,6 +329,8 @@ return dummyNode.child;
 // approach 2:
 // similar to previous prb recursion, will do with loop
 
+/*
+
 let ll1 = [1, 5, 9, 13, 16];
 let ll2 = [2, 6, 10, 14];
 let ll3 = [3, 7, 11, 15];
@@ -397,3 +399,5 @@ function mergeLL(head, head2) {
 
 // TC - (k * log k) + k * n * log k
 // SC - O(k * n)
+
+*/
