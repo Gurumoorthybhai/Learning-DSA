@@ -403,8 +403,8 @@ function mergeLL(head, head2) {
 */
 
 // sort the given ll
-const arr = [3, 1, 5, 2, 4, 6];
-const head = LL(arr);
+// const arr = [3, 1, 5, 2, 4, 6];
+// const head = LL(arr);
 
 // approach 1:
 // create a new container and push all the elements into - O(n)
@@ -422,6 +422,7 @@ const head = LL(arr);
 // TC - O(n/2) middle node + n log n
 // SC - O(log n) recursive call stack
 
+/*
 console.log(sortLL(head));
 
 function sortLL(head) {
@@ -477,5 +478,103 @@ function mergeLL(head, head1) {
     }
 
     return dummyNode.next;
+
+}
+    */
+
+// copy the ll with next and random pointer
+
+
+class randomNode {
+    constructor(value) {
+        this.data = value;
+        this.next = null;
+        this.random = null;
+    }
+}
+
+function withRandomPtr(arr, random) {
+
+    // create new node
+    let nodes = arr.map(val => new randomNode(val));
+
+    // let head = newNode[0];
+
+
+    // assign next & random
+    for(let i = 0; i < arr.length; i++) {
+        nodes[i].next = nodes[i+1];
+    }
+
+    for(let i = 0; i < arr.length; i++) {
+        if(random[i] != null && random[i] < arr.length) {
+            // assigning the node, with random index
+            nodes[i].random = nodes[random[i]];
+        }
+    }
+
+    let temp = nodes[0];
+    while(temp) {
+        console.log(temp.random?.data);
+        temp = temp.next;
+    }
+
+    // head first index
+    return nodes[0];
+}
+const arr = [3, 1, 5, 2, 4, 6];
+const random = [2, 3, 5, 1, 4 ,0]
+const head = withRandomPtr(arr, random);
+
+// general approch
+
+// we eill think, will create a new node with next but its random node will not be created at the time of newnode creation
+// so this method fails
+
+// approch 1
+
+// will loop through original node list and push the map <original node as key , node data as value>
+// next loop, will assign next and random from created map
+
+function getCircularReplacer() {
+    const seen = new WeakSet();
+    return (key, value) => {
+      if (typeof value === "object" && value !== null) {
+        if (seen.has(value)) {
+          return "[Circular]";
+        }
+        seen.add(value);
+      }
+      return value;
+    };
+  }
+
+console.log(copyNode(head));
+
+function copyNode(head) {
+    let headItr = head;
+    let copyMap = new Map();
+    let dummyNode = new Node(-1);
+    let itr = dummyNode;
+
+    while(headItr) {
+        let newNode = new Node(headItr.data);
+        copyMap.set(headItr, newNode);
+        headItr = headItr.next;
+    }
+
+    let headItr1 = head;
+
+    while(headItr1) {
+
+        itr.next = copyMap.get(headItr1);
+        itr.next.next = copyMap.get(headItr1.next);
+        itr.next.random = copyMap.get(headItr1.random);
+        headItr1 = headItr1.next;
+        itr = itr.next
+    }
+console.log(JSON.stringify(dummyNode.next, getCircularReplacer(), 2));
+// console.log(JSON.stringify(head, getCircularReplacer(), 2));
+
 
 }
