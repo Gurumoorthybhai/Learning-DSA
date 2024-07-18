@@ -536,6 +536,9 @@ const head = withRandomPtr(arr, random);
 // will loop through original node list and push the map <original node as key , node data as value>
 // next loop, will assign next and random from created map
 
+
+
+
 function getCircularReplacer() {
     const seen = new WeakSet();
     return (key, value) => {
@@ -549,6 +552,7 @@ function getCircularReplacer() {
     };
   }
 
+  /*
 console.log(copyNode(head));
 
 function copyNode(head) {
@@ -575,6 +579,54 @@ function copyNode(head) {
     }
 console.log(JSON.stringify(dummyNode.next, getCircularReplacer(), 2));
 // console.log(JSON.stringify(head, getCircularReplacer(), 2));
+
+
+}
+
+*/
+
+// approach 2:
+// 1) insert the cloned node at next of current node
+// 2) add the random ptr to the cloned node
+// 3) add the next ptr to the cloned node
+
+console.log(copyNode(head));
+
+function copyNode(head) {
+
+    let dummyNode = new Node(-1);
+
+    let itr1 = head;
+    // let temp = dum
+    while(itr1) {
+        let newNode = new Node(itr1.data);
+        newNode.next = itr1.next;
+        itr1.next = newNode;
+        itr1 = itr1.next.next;
+    }
+
+    let itr2 = head;
+    while(itr2) {
+        let temp = itr2.next;
+
+        // some time, its will point to null
+        if(itr2.random) temp.random = itr2.random.next;
+        else temp.random = null;
+        itr2 = itr2.next.next;
+    }
+
+    let itr3 = head;
+    let copyNode2 = dummyNode;
+    while(itr3) {
+        copyNode2.next = itr3.next;
+        itr3.next = itr3.next.next;
+
+        itr3 = itr3.next;
+        copyNode2 = copyNode2.next;
+    }
+
+// console.log(dummyNode.next);
+console.log(JSON.stringify(dummyNode.next, getCircularReplacer(), 2));
 
 
 }
