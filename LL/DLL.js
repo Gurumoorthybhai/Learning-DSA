@@ -173,6 +173,8 @@ console.log(JSON.stringify(deleteKthNode(head, 3), getCircularReplacer(), 2));
 // 2. tail
 // 3. kthNode
 
+/*
+
 function beforeHead(head, value) {
 
     let newHead = new dllNode(value, head, null);
@@ -201,6 +203,7 @@ function beforeTail(head, value) {
 
 console.log(JSON.stringify(beforeTail(head, 6), getCircularReplacer(), 2));
 
+*/
 
 /*
 
@@ -286,3 +289,39 @@ function insertAtKthNode(head, k, value) {
 }
 
 */
+
+// ==========================================
+
+// reverse a dll
+
+// approach 1:
+// 1. iterate dll & push data to stack
+// 2. agin iterate & over write the dll with stack pop
+
+// TC - O(2n) -> iteration + overwrite
+// SC - O(n) -> stack
+
+// approach 2:
+// what we need to swap of prev, next node will reverse the dll
+
+console.log(JSON.stringify(reverseDLL(head), getCircularReplacer(), 2));
+
+
+function reverseDLL(head) {
+
+    if(!head || !head.next) return head;
+
+    let itr = head;
+    let prev = null;
+    while(itr) {
+
+        prev = itr.prev;
+        itr.prev = itr.next;
+        itr.next = prev;
+
+        itr = itr.prev;
+    }
+
+    return prev.prev;
+
+}
