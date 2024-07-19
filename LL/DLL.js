@@ -22,8 +22,8 @@ class dllNode {
             this.data = val;
         }
 
-        this.next = next;
         this.prev = prev;
+        this.next = next;
 
     }
 }
@@ -65,6 +65,9 @@ const arr = [1, 2, 3, 4, 5];
 
 const head = dll(arr);
 // console.log(JSON.stringify(dll(arr), getCircularReplacer(), 2));
+
+
+/*
 
 // deletion
 // 1. head
@@ -158,5 +161,128 @@ function deleteKthNode(head, k) {
 console.log(JSON.stringify(deleteKthNode(head, 3), getCircularReplacer(), 2));
 // console.log(head);
 
+*/
+
+// insertion
+
+// 1. before head
 
 
+
+// 1. head
+// 2. tail
+// 3. kthNode
+
+function beforeHead(head, value) {
+
+    let newHead = new dllNode(value, head, null);
+    head.prev = newHead;
+    // head = newNode;
+    return newHead;
+}
+
+// console.log(JSON.stringify(beforeHead(head, -1), getCircularReplacer(), 2));
+
+
+function beforeTail(head, value) {
+
+    let itr = head;
+
+    while(itr.next) {
+        itr = itr.next;
+    }
+    let tail = itr;
+    let beforeTail = new dllNode(value ,tail, tail.prev);
+    tail.prev.next = beforeTail;
+    tail.prev = beforeTail;
+
+    return head;
+}
+
+console.log(JSON.stringify(beforeTail(head, 6), getCircularReplacer(), 2));
+
+
+/*
+
+function insertAtHead(head, value) {
+
+    if(head === null) {
+        let newNode = new dllNode(value);
+        head = newNode;
+    }
+
+    return head;
+}
+
+function insertAtTail(head, value) {
+    let itr = head;
+
+    while(itr.next) {
+        itr = itr.next;
+    }
+
+    let newNode = new dllNode(value);
+    newNode.prev = itr;
+    itr.next = newNode;
+    return head;
+}
+
+
+
+function insertAtKthNode(head, k, value) {
+
+    let itr = head;
+    let len = 0;
+
+    if(head === null) {
+        head = new dllNode(value);
+        return head;
+    }
+
+    while(itr) {
+        len++;
+        itr = itr.next;
+    }
+
+    if(k <= 0 || k > len) return null;
+    let index = 0;
+    let itr2 = head;
+
+    while(itr2) {
+        index++;
+        if(index === k) break;
+
+        itr2 = itr2.next;
+    }
+
+    let prevNode = itr2.prev;
+    let nextNode = itr2.next;
+
+    // if - insert at head
+    // else if - at tail
+    // else - kth node
+
+    if(prevNode === null) {
+        newNode.next = head;
+        head.prev = newNode;
+        head = newNode;
+    } else if(nextNode === null) {
+        let oldTail = itr2;
+        oldTail.next = newNode;
+        newNode.prev = oldTail;
+        tail = newNode;
+    } else {
+        // prevNode.next = nextNode;
+        // nextNode.prev = prev
+        let indexNode = itr2;
+        let newNode = new dllNode(value, nextNode, prevNode);
+        indexNode.prev = newNode;
+        prevNode.next = newNode;
+
+    }
+
+    return head;
+
+}
+
+*/
