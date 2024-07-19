@@ -61,7 +61,15 @@ function getCircularReplacer() {
 
 
 // const arr = [1];
-const arr = [1, 2, 3, 4, 5];
+// const arr = [1, 2, 3, 4, 5];
+
+// all occurance
+
+// const arr = [3, 1, 2, 3, 4, 5];
+// const arr = [3, 1, 2, 3, 4, 3];
+
+
+const arr = [1, 3];
 
 const head = dll(arr);
 // console.log(JSON.stringify(dll(arr), getCircularReplacer(), 2));
@@ -304,6 +312,8 @@ function insertAtKthNode(head, k, value) {
 // approach 2:
 // what we need to swap of prev, next node will reverse the dll
 
+/*
+
 console.log(JSON.stringify(reverseDLL(head), getCircularReplacer(), 2));
 
 
@@ -324,4 +334,48 @@ function reverseDLL(head) {
 
     return prev.prev;
 
+}
+
+*/
+
+// delete all the occurance of same key
+
+console.log(JSON.stringify(deleteOccurance(head, 3), getCircularReplacer(), 2));
+
+
+function deleteOccurance(head, key) {
+
+    if(!head || !head.next) return null;
+
+    let itr = head;
+
+    while(itr) {
+        if(key === itr.data) {
+            if(itr === head) {
+                // let newHead = head.next;
+                // head.next = null;
+                // newHead.prev = null;
+                head = head.next;
+            }
+            let prev = itr.prev;
+            let next = itr.next;
+
+            if(prev) {
+                prev.next = next;
+            }
+            if(next) {
+                next.prev = prev;
+            }
+
+            // to reset current node
+            // keyNode.prev = null;
+            // keyNode.next = null;
+            itr = itr.next;
+
+        } else {
+            itr = itr.next;
+        }
+    }
+
+    return head;
 }
