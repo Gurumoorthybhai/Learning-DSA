@@ -18,9 +18,9 @@
 class dllNode {
     constructor(val, next, prev) {
 
-        if(val) {
-            this.data = val;
-        }
+        this.data = val;
+        // if(val) {
+        // }
 
         this.prev = prev;
         this.next = next;
@@ -69,9 +69,13 @@ function getCircularReplacer() {
 // const arr = [3, 1, 2, 3, 4, 3];
 
 
-const arr = [1, 3];
+// const arr = [1, 3];
 
-const head = dll(arr);
+// const head = dll(arr);
+
+
+// sorted dll
+// const arr = [2, 0, 3, 6, 1, 5];
 // console.log(JSON.stringify(dll(arr), getCircularReplacer(), 2));
 
 
@@ -340,6 +344,8 @@ function reverseDLL(head) {
 
 // delete all the occurance of same key
 
+/*
+
 console.log(JSON.stringify(deleteOccurance(head, 3), getCircularReplacer(), 2));
 
 
@@ -378,4 +384,78 @@ function deleteOccurance(head, key) {
     }
 
     return head;
+}
+
+*/
+
+// return the pair, if its equal to given sum
+
+// sorted dll
+const arr = [0, 1, 2, 3, 5, 6];
+const target = 6;
+
+// approach 1
+// 1. first loop to iterate each node
+// 2. second loop to each check with sum
+let head = dll(arr);
+
+console.log(returnPairSum(head, target));
+
+/*
+
+function returnPairSum(head, target) {
+    let itr = head;
+    let pair = [];
+
+    while(itr) {
+
+        let itr2 = itr.next;
+        while(itr2) {
+            if(itr.data + itr2.data === target) {
+                pair.push([itr.data, itr2.data]);
+            }
+            itr2 = itr2.next;
+        }
+        itr = itr.next;
+
+    }
+
+    console.log(pair);
+
+}
+
+*/
+
+// approach 2:
+// 1. its given that array is sorted, will use 2 pointer
+// TC - O(2n)
+
+function returnPairSum(head, target) {
+    let left = head;
+    // let right = head;
+    let itr = head;
+
+    // O(n)
+    while(itr.next) {
+        itr = itr.next;
+    }
+
+    let right = itr;
+    let pair = [];
+
+    // O(n)
+    while(left.data < right.data) {
+
+        let sum = left.data+right.data;
+        if(sum > target) {
+            right = right.prev;
+        } else if(target > sum) {
+            left = left.next;
+        } else {
+            pair.push([left.data, right.data]);
+            left = left.next;
+            right = right.prev;
+        }
+    }
+    console.log(pair);
 }
