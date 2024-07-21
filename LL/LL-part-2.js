@@ -484,6 +484,7 @@ function mergeLL(head, head1) {
 
 // copy the ll with next and random pointer
 
+/*
 
 class randomNode {
     constructor(value) {
@@ -525,6 +526,9 @@ function withRandomPtr(arr, random) {
 const arr = [3, 1, 5, 2, 4, 6];
 const random = [2, 3, 5, 1, 4 ,0]
 const head = withRandomPtr(arr, random);
+
+*/
+
 
 // general approch
 
@@ -590,6 +594,7 @@ console.log(JSON.stringify(dummyNode.next, getCircularReplacer(), 2));
 // 2) add the random ptr to the cloned node
 // 3) add the next ptr to the cloned node
 
+/*
 console.log(copyNode(head));
 
 function copyNode(head) {
@@ -630,3 +635,109 @@ console.log(JSON.stringify(dummyNode.next, getCircularReplacer(), 2));
 
 
 }
+
+*/
+
+// intersection of 2 ll
+
+
+const ll1 = LL([3, 1, 5, 3, 4, 5]);
+// 1, 3, 3, 4 ,5 ,5
+
+// 2, 3, 5, 5, 7, 9
+const ll2 = LL([5, 9, 2, 7, 3, 5]);
+
+let temp1 = sort(ll1);
+let temp2 = sort(ll2);
+
+let result = intersection(temp1, temp2);
+
+console.log(JSON.stringify(result, getCircularReplacer(), 2));
+
+function intersection(head1, head2) {
+    let dummyNode = new Node(-1);
+    let temp = dummyNode;
+
+    while(head1 && head2) {
+        if(head1.data > head2.data) {
+            head2 = head2.next;
+        } else if(head2.data > head1.data) {
+            head1 = head1.next;
+        } else {
+            let n = head1;
+            head1 = head1.next;
+            head2 = head2.next;
+            temp.next = n;
+            n.next = null;
+            temp = temp.next;
+        }
+    }
+
+    return dummyNode.next;
+}
+
+// console.log(JSON.stringify(sort(ll1), getCircularReplacer(), 2));
+
+
+function findMiddleNode(head) {
+    let slowPtr = head;
+    let fastPtr = head.next;
+
+    while(fastPtr && fastPtr.next) {
+        slowPtr = slowPtr.next;
+        fastPtr = fastPtr.next.next;
+    }
+    return slowPtr;
+}
+
+
+function sort(head) {
+
+    if(!head || !head.next) return head;
+
+    let middle = findMiddleNode(head);
+
+    let left = head;
+    let right = middle.next;
+
+    middle.next = null;
+
+    let left1 = sort(left);
+    let right1 = sort(right);
+
+    return merge(left1, right1);
+}
+
+function merge(head1, head2) {
+    let dummyNode = new Node(-1);
+    let temp = dummyNode;
+
+    while(head1 && head2) {
+        if(head1.data >= head2.data) {
+            temp.next = head2;
+            temp = head2;
+            head2 = head2.next;
+        } else {
+
+            // duplicate allowed
+            // temp.next = head1;
+            // temp = head1;
+            // head1 = head1.next;
+
+            // no duplicate
+            // before inserting, just check with prev node
+
+            if(temp.data !== head1.data) {
+                temp.next = head1;
+                temp = head1;
+            }
+            head1 = head1.next;
+        }
+    }
+
+    if(head1) temp.next = head1;
+    if(head2) temp.next = head2;
+
+    return dummyNode.next;
+}
+
