@@ -640,6 +640,45 @@ console.log(JSON.stringify(dummyNode.next, getCircularReplacer(), 2));
 
 /*
 
+// set data structure
+
+// const head = createLinkedList([1, 2, 3, 4, 5]);
+// const head2 = createLinkedList([9, 12, 7, 8]);
+
+// only logic, that head, head1 are in sorted order
+
+function intersection(head, head1) {
+
+    let itr1 = head;
+    let itr2 = head1;
+    let dummyNode = new Node();
+    let res = dummyNode;
+    const set = new Set();
+
+    while(itr1) {
+        set.add(itr1.data);
+        itr1 = itr1.next;
+    }
+
+    while(itr2) {
+
+        if(set.has(itr2.data) && res.data !== itr2.data) {
+
+            // resuse existing node
+            res.next = itr2;
+            res = res.next;
+
+            // delete existing node to avoid duplicate
+            set.delete(itr2.data)
+        }
+        itr2 = itr2.next;
+    }
+
+    // to terminate last link
+    res.next = null;
+    console.log(dummyNode.next);
+}
+
 // intersection of 2 ll, 2 pointers
 // 1. sort both the ll
 // 2. based on value, move the pointers, if u found same value in both ll, move to new ll
@@ -742,15 +781,14 @@ function merge(head1, head2) {
         }
     }
 
-    if(head1) temp.next = head1;
-    if(head2) temp.next = head2;
-
     return dummyNode.next;
 }
 
 */
 
 // union of 2 ll
+
+/*
 
 const ll1 = LL([3, 1, 5, 3, 4, 5]);
 // 1, 3, 3, 4 ,5 ,5
@@ -866,3 +904,5 @@ function merge(head1, head2) {
 
     return dummyNode.next;
 }
+
+*/
