@@ -101,7 +101,7 @@ return dummyNode.next;
 
 // deleteNode(5);
 
-const head = createLinkedList([12, 15, 10, 11, 5, 6, 3, 2]);
+// const head = createLinkedList([12, 15, 10, 11, 5, 6, 3, 2]);
 // const head2 = createLinkedList([9, 12, 7, 8]);
 // deleteNode(head);
 
@@ -217,6 +217,8 @@ function reverse(head) {
 }
 */
 
+/*
+
 var reverse = function(head) {
     let temp = head;
     let prev = null;
@@ -255,3 +257,104 @@ var removeNodes = function (head) {
 };
 
 console.log(JSON.stringify(removeNodes(head)));
+
+*/
+
+function getCircularReplacer() {
+    const seen = new WeakSet();
+    return (key, value) => {
+      if (typeof value === "object" && value !== null) {
+        if (seen.has(value)) {
+          return "[Circular]";
+        }
+        seen.add(value);
+      }
+      return value;
+    };
+  }
+
+  /*
+
+class Solution {
+    //Function to sort a linked list of 0s, 1s and 2s.
+    segregate(head)
+    {
+        let zeroHead = new Node(-1);
+        let zero = zeroHead;
+        let firstHead = new Node(-1);
+        let first = firstHead;
+        let secondHead = new Node(-1);
+        let second = secondHead;
+        let temp = head;
+        while(temp) {
+            if(temp.data === 0) {
+                let newNode = new Node(temp.data);
+                zero.next = newNode;
+                zero = newNode;
+            } else if(temp.data === 1) {
+                let newNode = new Node(temp.data);
+                first.next = newNode;
+                first = newNode;
+            } else {
+                let newNode = new Node(temp.data);
+                second.next = newNode;
+                second = newNode;
+            }
+            temp = temp.next;
+        }
+        
+        zero.next = firstHead.next ? firstHead.next : secondHead.next;
+        first.next = secondHead.next;
+
+        console.log(JSON.stringify(zeroHead.next, getCircularReplacer(), 2));
+
+        
+    }   
+}
+
+const head = createLinkedList([2, 1, 0, 2, 1, 0, 2]);
+const obj = new Solution();
+// console.log(obj.segregate(head));
+console.log(JSON.stringify(obj.segregate(head), getCircularReplacer(), 2));
+*/
+
+// class Solution {
+//     //Function to remove duplicates from sorted linked list.
+//     removeDuplicates(head)
+//     {
+//         let temp = head;
+//         let head1 = head;
+//         while(temp.next) {
+//             let next = temp.next;
+//             if(temp.data !== next.data) {
+//                 head1.next = next;
+//                 head1 = head1.next;
+//             }
+//             temp = temp.next;
+//         }
+//         if(head1) head1.next = null;
+//         return head;
+//     }
+// }
+function duplicate(head) {
+    if (head === null) {
+        return head;
+    }
+    //your code here
+    let temp = head;
+    while (temp !== null && temp.next !== null) {
+        if (temp.data === temp.next.data) {
+            temp.next = temp.next.next;
+        } else {
+            temp = temp.next;
+        }
+
+    }
+    console.log(JSON.stringify(head));
+    return head;
+}
+
+const head = createLinkedList([1, 1, 1, 2, 4, 5, 5]);
+
+// const obj = new Solution();
+console.log(duplicate(head));
