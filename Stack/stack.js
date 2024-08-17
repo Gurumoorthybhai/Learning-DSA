@@ -271,6 +271,7 @@ console.log(LLQue);
 // in if block,its a opening pushed to stack
 // in else check, the top element is closing bracket, if not its not balances return 0
 
+/*
 
 function checkBalancedParentheses(s) {
 let stack = [];
@@ -296,4 +297,312 @@ let stack = [];
 
 let s = '((())){)()';
 console.log(checkBalancedParentheses(s));
+
+*/
+
+
+// check balance of parenthesis
+
+// 1. given String, loop through it, push only opening packets to stack
+
+// old refere new below
+
+// var validateParentheses = function(str) {
+//     let stack = [];
+//     let openingBrackets = ['(', '{', '['];
+
+//     for(let c of str) {
+//         if(openingBrackets.includes(c)) {
+//             stack.push(c);
+//         } else {
+//             // if its empty, then still we have opening brackets return false
+//             if(!stack.length) return false;
+//             let prevChar = stack.pop();
+//             if(!((c === ')' && prevChar === '(') || (c === '}' && prevChar === '{') || (c === ']' && prevChar === '[') )) {
+//                 return false;
+//             }
+//         }
+//     }
+
+//     return stack.length ? false : true;
+// }
+
+
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+// var isValid = function(s) {
+//     let stack = [];
+//     const openChar = ['(', '{', '['];
+//     for(let c of s) {
+//         if(openChar.includes(c)) {
+//             stack.push(c);
+//         } else {
+//             if(!stack.length) return false;
+//             let char = stack.pop();
+//             if(! (c === ')' && char === '(') || (c === '}' && char === '{') || (c === ']' && char === '[')) return false;
+//         }
+//     }
+
+//     return stack.length ? false : true;
+// };
+
+
+// // const str = '()[{}]';
+// const str = '()[{}(])';
+// console.log(validateParentheses(str));
+
+
+// Precedence
+
+// priority order, high to low
+// 1. (), {}, []                Associativity
+// 2.  ^                        R - L       
+// 3. /, *   - equal            L - R
+// 4. +, -   - equal            L - R
+
+// Associcavity
+
+// L - R
+
+// 1 + 2 * 3 + 10/5
+
+// first - 1 + (2 * 3) + 10/5
+// 1 + 6 + 10/5
+// 1 + 6 + 2 = 9
+
+// R - L
+// from right
+// 2 ^ 4 ^ 3
+
+// 2 ^ 64
+
+
+
+
+
+/*
+infix - operator inside operand
+p*q + q^(m+n)
+
+prefix - starts with operator
+*-pq+mn
+
+postfix - operand after operator
+pq - mn ^(pm)
+
+  priority order, high to low
+1. ^
+2. /, *   - equal
+3. +, -   - equal
+4. (
+
+ */
+
+// Note: Should be existing operator in the stack has less priority than the incoming operator
+// loop the given string
+// 1. push operand separartely to a variable
+// 2. push operator to stack
+// 3. Before pushing to stack, check the previous operator in the stack should have lesser priority
+// if not pop it and push to character variable
+// 4. Mean time, if you encounter a '(' packet, after ')' closing packet, pop all the operator
+//  into variable. Packet is not needed to add into the variable.
+// 5. Once loop is over, pop all the operators to variable
+
+// p*q + (q^m+n) => *pqq^mn+
+
+/*
+
+index   stack        ans
+
+p                     p
+*         *           p
+q         *           pq
+q         *           pqq
++         *+          pqq
+^         *+^         pqq
+m         *+^         pqqm
++         *++         pqqm^   bcz of priority ^ > +, its popped out
+n         *+          pqqm^n
+
+
+*/
+
+// once the loop completes, pop all remaining stack operator to ans
+
+// pqqm^n++*
+
+// convert infix to postfix
+
+const str = 'a*b+(c^d-c)';
+
+const operators = {
+    '+' : 1,
+    '-' : 1,
+    '*' : 2,
+    '/' : 2,
+    '^' : 3
+}
+
+var priorityCheckPostFix = function(operator1, operator2) {
+
+    return (operators[operator1] >= operators[operator2]);
+}
+
+function priorityCheckPreFix(char1, char2) {
+
+    return operators[char1] > operators[char2];
+}
+
+
+convertToPostfix(str);
+function convertToPostfix (str) {
+    let result = '', stack = [];
+
+    for(let char of str) {
+        // characters, numbers
+        // console.log(char.charCodeAt(0),char.charCodeAt('A'), char.charCodeAt('Z'), char.charCodeAt('a'), char.charCodeAt('z'), '0'.charCodeAt(0), '9'.charCodeAt(0));
+        if((char.charCodeAt(0) >= 'A'.charCodeAt(0) && char.charCodeAt(0) <= 'Z'.charCodeAt(0)) || 
+        (char.charCodeAt(0) >= 'a'.charCodeAt(0) && char.charCodeAt(0) <= 'z'.charCodeAt(0)) || 
+        (char.charCodeAt(0) >= '0'.charCodeAt(0) && char.charCodeAt(0) <= '9'.charCodeAt(0))) {
+            result += char;
+        } else if(char === '(') {
+            stack.push(char);
+        } else if(char === ')') {
+            while(stack.length && char !== '(') {
+                result += stack.pop();
+            }
+        } else {
+            // check if stack alread has any operators, if yes, the new insertion operator should have high priority
+            // then existing operator, if not pop the high priority operator from stack to result
+            // then add new operator
+            let topOperator = stack.pop();
+
+            // check if operator is present in stack and then has high priority 
+            while(stack.length && priorityCheckPostFix(topOperator, char)) {
+                result += topOperator;
+            }
+            stack.push(char);
+        }
+    }
+
+    while(stack.length) {
+        result.push(stack.pop());
+    }
+
+    console.log(result);
+}
+
+
+
+// 1. reverse the string, convert opening bracket '(' to closing bracket ')'
+// 2. except ^ operator, if stacks top operator and upcoming operator is same DON'T pop it out 
+function infixToPrefix(str) {
+    let reversedStr = reverse(str);
+    let stack = [];
+    let result = '';
+
+    for(let char of reversedStr) {
+        if( (char.charCodeAt(0) >= 'A'.charCodeAt(0)) && (char.charCodeAt(0) >= 'Z'.charCodeAt(0)) ||
+        (char.charCodeAt(0) >= 'a'.charCodeAt(0)) && (char.charCodeAt(0) >= 'z'.charCodeAt(0)) ||
+        (char.charCodeAt(0) >= '0'.charCodeAt(0)) && (char.charCodeAt(0) >= '9'.charCodeAt(0))) {
+            result += char;
+        } else if(char === '(') {
+            stack.push(char);
+        } else if(char === ')') {
+            while(stack.length && char !== '(') {
+                result += stack.pop();
+            }
+        } else {
+            let top = stack.pop();
+            while(stack.length && priorityCheckPreFix(top, char)) {
+                result += char;
+            }
+            stack.push(char);
+        }
+    }
+
+    while(stack.length) {
+        result += stack.pop();
+    }
+
+    return result;
+}
+
+const str1 = '(a+b)*c-d+f';
+
+console.log(`Infix to preFix ${infixToPrefix(JSON.stringify(str1))}`)
+
+// // O(n)- split + O(n)- swap + O(n) - join
+// function reverse(str) {
+//     let arr = str.split('');
+//     let len = str.length;
+//     for(let i = 0; i < (len)/2; i++) {
+//         if(arr[i] === '(') arr[i] = ')';
+//         else if(arr[i] === ')') arr[i] = '(';
+//         [arr[i] , arr[len-1-i]] =  [arr[len-1-i], arr[i]]
+//     }
+//     arr = arr.join('');
+//     console.log(arr);
+// }
+
+
+// O(n)
+function reverse(str) {
+    let reverseStr = '';
+    let len = str.length;
+    for(let i = 0; i < len; i++) {
+        let char = str[len-1-i];
+        if(char === '(') char = ')';
+        else if(char === ')') char = '(';
+        reverseStr += char;
+    }
+    // console.log(reverseStr);
+    return reverseStr;
+}
+
+// reverse(str1);
+// console.log(priorityCheck('(', '/'))
+
+
+
+/*
+
+// postfix to infix
+
+// 1. Iterate the given string, push operand to stack and if u encounter a operator
+// 2. pick last 2 operand, insert operator in-between them
+
+
+const str1 = 'AB-CD/+E*';
+postFixToInfix(str1);
+function postFixToInfix(str) {
+    let stack = [];
+
+    for(let char of str) {
+
+        if( (char.charCodeAt(0) >= 'A'.charCodeAt(0)) && (char.charCodeAt(0) <= 'Z'.charCodeAt(0)) ||
+        (char.charCodeAt(0) >= 'a'.charCodeAt(0)) && (char.charCodeAt(0) <= 'z'.charCodeAt(0)) ||
+        (char.charCodeAt(0) >= '0'.charCodeAt(0)) && (char.charCodeAt(0) <= '9'.charCodeAt(0))) {
+            stack.push(char);
+        } else {
+            let str1 = '';
+            let top2 = stack.pop();
+            let top1 = stack.pop();
+
+            // A-B
+            str1 = `(${top1}${char}${top2})`;
+            stack.push(str1);
+        }
+
+    }
+    console.log(stack)
+}
+    */
+
+
+
+
+
 
