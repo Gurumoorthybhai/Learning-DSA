@@ -602,6 +602,243 @@ function postFixToInfix(str) {
     */
 
 
+//    Create a getMin method with O(1) time/ O(n) space complexity
+
+// approach1:
+
+// will use 2 stacks:
+// 1. Original Stack to maintain the orders
+// 2. Auxililary Stack to get min Element
+
+/*
+class Stack1 {
+    constructor() {
+        this.array = [];
+        this.top = -1;
+        this.max = 100;
+    }
+
+    isFull() {
+        if(this.top === this.max-1) return true;
+        return false;
+    }
+
+    isEmpty() {
+        if(this.top === -1) return true;
+        return false;
+    }
+
+    push(val) {
+        if(this.isFull()) {
+            console.log('The Stack is full');
+            return;
+        }
+        this.top++;
+        this.array.push(val);
+    }
+
+    pop() {
+        if(this.isEmpty()) {
+            console.log('The Stack is Empty');
+            return;
+        }
+        this.top--;
+        return this.array.pop();
+    }
+}
+
+
+class SpecialStack extends Stack1 {
+    constructor() {
+        super();
+        this.Min = new Stack1();
+    }
+
+    push(val) {
+        if (this.isFull()) {
+            console.log('The Stack is Full');
+            return;
+        }
+
+        if (this.isEmpty()) {
+            super.push(val);
+            this.Min.push(val);
+        } else {
+            super.push(val);
+            let min = this.Min.pop();
+            this.Min.push(min);
+            if (val <= min) {
+                this.Min.push(val);
+            } else {
+                this.Min.push(min);
+            }
+        }
+        console.log('The insertion element is : ', val);
+
+    }
+
+    pop() {
+        if (this.isEmpty()) {
+            console.log('The Stack is empty');
+            return;
+        }
+        super.pop();
+        return this.Min.pop();
+    }
+
+    getMin() {
+        if (this.isEmpty()) {
+            console.log('The Stack is empty');
+        }
+        let min = this.Min.pop();
+        this.Min.push(min);
+        console.log('The Minimum element is : ', min);
+
+        return min;
+    }
+}
+
+const obj = new SpecialStack();
+
+obj.push(3);
+obj.push(5);
+obj.push(2);
+// obj.getMin();
+obj.push(1);
+// obj.getMin();
+obj.push(1);
+// obj.getMin();
+obj.push(-1);
+// obj.getMin();
+
+// obj.printStack();
+// obj.peek();
+
+obj.getMin(); // -1
+obj.pop();
+obj.getMin(); // 1
+obj.pop();
+obj.getMin();   // 1
+obj.pop();
+obj.getMin(); // 2
+obj.pop();
+obj.getMin(); // 3
+obj.pop();
+obj.getMin(); // 3
+
+*/
+
+
+
+// approach 2:
+// Create a getMin method with O(1) time/ space complexity
+
+// 1. create a variable with minEle which holds current minEle, initially assign first Ele as minEle
+// 2. push, compare upcoming ele with minEle, if
+// upcoming ele is greater than minEle, push to stack
+// if upcoming ele is smaller than minEle,
+// perform => 2(ele) - minEle, push the result into stack
+
+/*
+class MinEleStack {
+
+    constructor() {
+        this.minEle;
+        this.stack = [];
+    }
+
+    getMin() {
+        if (this.stack.length === 0) {
+            console.log(`The Stack is Empty`);
+            return;
+        }
+
+        console.log(`Minimum Element in the stack is ${this.minEle}`);
+    }
+
+    push(val) {
+        if (this.stack.length === 0) {
+            this.minEle = val;
+            this.stack.unshift(val);
+        } else if (val < this.minEle) {
+            this.stack.unshift(2 * val - this.minEle);
+            this.minEle = val;
+        } else {
+            this.stack.unshift(val);
+        }
+
+        console.log(`The inserted element is ${val}`);
+    }
+
+
+    pop() {
+        if(!this.stack.length) {
+            console.log('The Stack is Empty');
+            return;
+        }
+
+        console.log('The Top Most Element Removed : ');
+        let t = this.stack[0];
+        this.stack.shift();
+
+        if(t < this.minEle) {
+            console.log(this.minEle);
+            this.minEle = 2 * this.minEle - t;
+        } else {
+            console.log(t);
+        }
+    }
+    // prints the top element
+    peek() {
+        if(!this.stack.length) {
+            console.log('Stack is empty');
+            return;
+        }
+
+        let t = this.stack[0];
+
+        console.log('The Top Element is : ');
+        (t < this.minEle) ? console.log(this.minEle) : console.log(t);
+    }
+
+    printStack() {
+        console.log(`The Stack elements are ${this.stack}`);
+    }
+}
+
+const obj = new MinEleStack();
+
+obj.push(3);
+obj.push(5);
+obj.push(2);
+// obj.getMin();
+obj.push(1);
+// obj.getMin();
+obj.push(1);
+// obj.getMin();
+obj.push(-1);
+// obj.getMin();
+
+// obj.printStack();
+// obj.peek();
+
+obj.getMin(); // -1
+obj.pop();
+obj.getMin(); // 1
+obj.pop();
+obj.getMin();   // 1
+obj.pop();
+obj.getMin(); // 2
+obj.pop();
+obj.getMin(); // 2
+obj.pop();
+obj.getMin(); // 3
+obj.pop();
+
+obj.getMin(); // 3
+// obj.stack();
+
+*/
 
 
 
