@@ -842,4 +842,161 @@ obj.getMin(); // 3
 
 
 
+// Next Greatest Element
+
+// Given array 
+// arr = [4, 12, 5, 3, 1, 2, 5, 3, 1, 2, 4, 6];
+// ans = [12, -1, 6, 5, 2, 6, 4, 2, 4, 6, -1];
+
+// iterate from right, if no element is greate than its right Elements, assign -1, push the element into stack
+// while searching in stack, if the stack elements are small, pop out them
+
+/*
+
+const arr = [4, 12, 5, 3, 1, 2, 5, 3, 1, 2, 4, 6];
+console.log(NextGreatestElement(arr));
+
+function NextGreatestElement(arr) {
+    let NGE = [];
+    let stack = [];
+    let len = arr.length;
+
+    // iterate from right
+    /*
+
+    for(let i = len-1; i >= 0; i--) {
+        let currentElement = arr[i];
+        if(!stack.length) {
+            NGE[i] = -1;
+            stack.push(currentElement);
+        } else {
+            while (stack.length) {
+                let top = stack.pop();
+                stack.push(top);
+                if (currentElement < top) {
+                    NGE[i] = top;
+                    stack.push(currentElement);
+                    break;
+                } else {
+                    stack.pop();
+                }
+                if(!stack.length) {
+                    NGE[i] = -1;
+                    stack.push(currentElement);
+                    break;
+
+                }
+            }
+        }
+    }
+    return NGE;
+
+    // for(let i = len-1; i >= 0; i--) {
+    //     // arr[i] >= stack.pop() if, we pop() out, even if its greater or lesser
+    //     while(!stack.length && arr[i] >= stack.pop()) {
+    //         stack.pop();
+    //     }
+
+    //     if(!stack.length) NGE[i] = -1;
+    //     else {
+    //         NGE[i] = arr[i];
+    //         stack.push(arr[i]);
+    //     }
+    // }
+    
+}
+*/
+
+// Find next greatest element, circular array
+
+// 1. Need to create a imaginary array of same array & loop1 -> outloop, innerloop -> double of array size
+// 2. With help of module array length, we will be able to get elements before current element
+
+// TC - O(n2)
+// SC - O(n) / to store result
+
+/*
+
+const arr = [2, 10, 12, 1, 11];
+NGE2(arr);
+
+function NGE2(arr) {
+    let NGE = [];
+    let l = arr.length;
+
+    for(let i = 0; i < l; i++) {
+        NGE[i] = -1;
+        for(let j = i+1; j <= i+l-1; j++) {
+            let ind = j%l;
+            if(arr[i] < arr[ind]) {
+                NGE[i] = arr[ind];
+                break;
+            }
+        }
+
+    }
+}
+
+*/
+
+// 1. Create a imaginary array with double its size & loop from back
+// 2. Push to NGE array, once n value is less than length
+
+/*
+
+const arr = [2, 10, 12, 1, 11];
+NGE2(arr);
+
+function NGE2(arr) {
+    let NGE = [];
+    let s = [];
+    let l = arr.length;
+    for(let i = (2*l)-1; i >= 0; i--) {
+        if(s.length)
+        console.log(`${arr[i%l]}, ${arr[s[s.length-1]]}`);
+        while(s.length && arr[i%l] >= arr[s[s.length-1]]) {
+            s.pop();
+        }
+
+        if(i < l) {
+            NGE[i%l] = !s.length ? -1 : arr[s[s.length-1]];
+        }
+        s.push(i%l);
+    }
+    console.log(NGE)
+}
+
+*/
+
+
+// find next smallest element
+
+// const arr = [3, 2, 4, 5, 1];
+
+// const res = [2, 1, 1, 1, -1];
+
+const arr = [9, 8, 7, 6, 5];
+
+
+NSE(arr);
+
+function NSE(arr) {
+    let l = arr.length;
+    let s = [];
+    let res = [];
+    
+    for(let i = l-1; i >= 0; i--) {
+        // let stackIndex = s.length-1;
+
+        while(s.length && arr[i] <= arr[s[s.length-1]]) {
+            s.pop();
+        }
+
+        res[i] = !s.length ? -1 : arr[s[s.length-1]];
+
+        s.push(i);
+    }
+    console.log(res)
+}
+
 
