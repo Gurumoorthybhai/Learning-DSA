@@ -435,6 +435,8 @@ n         *+          pqqm^n
 
 // convert infix to postfix
 
+/*
+
 const str = 'a*b+(c^d-c)';
 
 const operators = {
@@ -565,7 +567,7 @@ function reverse(str) {
 // reverse(str1);
 // console.log(priorityCheck('(', '/'))
 
-
+*/
 
 /*
 
@@ -968,7 +970,7 @@ function NGE2(arr) {
 
 */
 
-
+/*
 // find next smallest element
 
 // const arr = [3, 2, 4, 5, 1];
@@ -998,5 +1000,59 @@ function NSE(arr) {
     }
     console.log(res)
 }
+
+*/
+
+// Astroids travelling
+
+// Astroids will be travelling in both +ve and -ve direction after collision, return the remaining o/p in same order
+
+// const arr = [4, 7, 1, 1, 2, -3, -7, 17, 15, -16];
+
+// 1. loop and push +ve elements into stack, incase of -ve element compare with stack elemnets
+// if abs(-ve) is greater than stack element, pop() from stack & continue
+// 2. In case of equal ans(-ve) and stack value, pop() the element
+// 3. In case of stack is empty and if current element is -ve, push to stack
+// 4. return the output in same order as input, bcz of this that we can use stack and atlast reverse or pop() & add to new variable  or
+// use list
+
+function astroidCollision(arr) {
+    let res = [];
+
+    for(let i = 0; i < arr.length; i++) {
+
+        if(arr[i] > 0) res.push(arr[i]);
+        else {
+            // imp res[res.length-1] > 0, if already a -ve element is present, we shouldnt check that
+            while(res.length && res[res.length-1] > 0 && Math.abs(arr[i]) > res[res.length-1])
+                res.pop();
+
+            // equal
+            console.log(`${arr[i]}, ${Math.abs(res[res.length-1])}`)
+            if(res.length && Math.abs(arr[i]) === res[res.length-1])
+                res.pop();
+            // stack is empty
+            else if(!res.length || res[res.length-1] < 0)
+                res.push(arr[i]);
+        }
+    }
+
+    console.log(res);
+}
+
+// const arr = [4, 7, 1, 1, 2, -3, -7, 17, 15, -16];
+// o/p => [4, 17]
+// astroidCollision(arr);
+
+// const arr = [-2, -1, 1, 2];
+// o/p => [-2, -1, 1, 2] same output -ve is pushed first then +ve
+
+
+// const arr = [-4, 1, -1, -3];
+// o/p => [-4, -3]
+
+astroidCollision(arr);
+
+
 
 
