@@ -894,7 +894,7 @@ function NextGreatestElement(arr) {
     return NGE;
 
     // for(let i = len-1; i >= 0; i--) {
-    //     // arr[i] >= stack.pop() if, we pop() out, even if its greater or lesser
+    //     // arr[i] >= stack.pop() if, we pop() out, even if its greater or equal
     //     while(!stack.length && arr[i] >= stack.pop()) {
     //         stack.pop();
     //     }
@@ -1003,6 +1003,54 @@ function NSE(arr) {
 
 */
 
+// sum of sub-array minimum
+// Need to sum the minimum value from each subarray
+// const arr = [3, 1, 2, 4];
+// example
+
+// 1st element subarray
+
+// subArray_1 - [3] - 3
+// subArray_2 - [3, 1] - 1 is the minimum
+// subArray_3 - [3, 1, 2] - 1 is the minimum
+// subArray_4 - [3, 1, 2, 4] - 1 is the minimum
+
+// 2nd element subarray
+
+// subArray_1 - [1] - 1
+// subArray_2 - [1, 2] - 1 is the minimum
+// subArray_3 - [1, 2, 4] - 1 is the minimum
+
+// 3rd element subarray
+
+// subArray_1 - [2] - 2
+// subArray_2 - [2, 4] - 2 is the minimum
+
+// 4th element subarray
+// subArray_1 - [4] - 4 is the minimum
+
+// sum of all minimum subarrays = 3+1+1+1 + 1+1+1 + 2+2 + 4 = 16
+
+// approach1:
+// use 2 loop to generate subarrays and get minimum and sum
+
+// outer loop to iterate each element
+// inner loop to generate subarrays and get minimum and add to sum
+
+function sumMinSubArray(arr) {
+    
+    let l = arr.length;
+
+    for(let i = 0; i < l; i++) {
+        let min = arr[i];
+        for(let j = i; j < l; j++) {
+            min = Math.min(min, arr[j]);
+        }
+    }
+}
+
+/*
+
 // Astroids travelling
 
 // Astroids will be travelling in both +ve and -ve direction after collision, return the remaining o/p in same order
@@ -1053,6 +1101,253 @@ function astroidCollision(arr) {
 
 astroidCollision(arr);
 
+*/
+
+// const arr = [4, 12, 5, 3, 1, 2, 5, 3, 1, 2, 4, 6];
+
+// Next Greater Element (NGE)
+
+/*
+
+NGE(arr);
+function NGE(arr) {
+    let l = arr.length;
+
+    let s = [];
+    let res = [];
+    res[l-1] = -1;
+    for(let i = l-1; i >= 0; i--) {
+
+        if(!s.length) {
+            s.push(arr[i]);
+            res[i] = -1;
+        } else {
+            // current element is greater, so no need of smaller element,
+            // remove the smaller element from stack
+            while(arr[i] >= s[s.length-1]) {
+                s.pop();
+            }
+            res[i] = s.length ? s[s.length-1]: -1;
+            s.push(arr[i]);
+        }
+
+    }
+
+    console.log(res);
+}
+
+*/
+
+// Previous Smaller Element - PSE
+
+// pop() when current element is smaller than stack element
+
+/*
+
+PSE(arr);
+
+function PSE(arr) {
+    let l = arr.length;
+    let s = [];
+    let res = [];
+
+    for(let curr of arr) {
+
+        if(!s.length) {
+            s.push(curr);
+            res.push(-1);
+        } else {
+            while(curr <= s[s.length-1]) {
+                s.pop();
+            }
+            let res1 = !s.length ? -1 : s[s.length-1];
+            res.push(res1);
+            s.push(curr);
+        }
+    }
+
+    console.log(res);
+}
+
+*/
+
+/*
+
+// NSE - Next Smallest Element
+
+// pop() -> when curr is smaller than stack element
+
+// const arr =       [4, 12, 5, 3,  1, 2, 5, 3, 1,  2,   4, 6];
+// expected output = [3,  5, 3, 1, -1, 1, 3, 1, -1, -1, -1, -1];
+
+// varient 1: values
+
+NSE(arr);
+
+function NSE(arr) {
+    let l = arr.length;
+    let s = [];
+    let res = [];
+
+    for(let i = l-1; i >= 0; i--) {
+
+        if(!s.length) {
+            res[i] = -1;
+            s.push(arr[i]);
+        } else {
+
+            while(arr[i] <= s[s.length-1]) {
+                s.pop();
+            }
+            res[i] = !s.length ? -1 : s[s.length-1];
+            s.push(arr[i]);
+        }
+    }
+    console.log(res);
+}
+
+*/
 
 
+// varient -2: hold index in stack
 
+// if no NSE, its index should be size of arr
+
+// const arr = [3, 2, 10, 11, 5, 10, 6, 3];
+//expetced next smallest element's index [1, 8, 4, 4, 7, 6, 7, 8] 
+
+// NSE(arr);
+
+function NSE(arr) {
+    let l = arr.length;
+    let s = [];
+    let res = [];
+
+    for(let i = l-1; i >= 0; i--) {
+
+        if(!s.length) {
+            // if no NSE exists, pass arr length
+            res[i] = l;
+            s.push(i);
+        } else {
+            while(arr[i] <= arr[s[s.length-1]]) {
+                s.pop();
+            }
+            res[i] = !s.length ? l : s[s.length-1];
+            s.push(i);
+        }
+    }
+    // console.log(res)
+    return res;
+}
+
+
+// similarly for PSE index
+
+// if no PSE, its index should be -1
+
+// const arr = [3, 2, 10, 11, 5, 10, 6, 3];
+//expetced previous smallest element's index [-1, -1, 1, 2, 1, 4, 4, 1] 
+
+// PSE(arr);
+
+function PSE(arr) {
+    let l = arr.length;
+    let s = [];
+    let r = [];
+
+    for(let i = 0; i < l; i++) {
+
+        if(!s.length) {
+            r[i] = -1;
+            s.push(i);
+        } else {
+            while(arr[i] <= arr[s[s.length-1]]) {
+                s.pop();
+            }
+            r[i] = !s.length ? -1 : s[s.length-1];
+            s.push(i);
+        }
+    }
+
+    // console.log(r)
+    return r;
+}
+
+
+// find the largest rectangle
+
+// const int = [3, 2, 10, 11, 5, 6, 7] check histogram diagram in note
+// formula arr[i] * (NSE index - PSE index - 1) , why -1 added, bcz index starts from '0'
+
+// from above existing fn will get NSE index, PSE index
+// loop through every index, find NSE index, PSE index and substitute in the formula
+// trace the largest rectangle
+
+// TC -> O(4n)
+// SC -> O(2n)
+/*
+const arr = [3, 2, 10, 11, 5, 10, 6, 3];
+largestRect(arr);
+
+function largestRect(arr) {
+    let l = arr.length;
+    let largestRect = 0;
+
+    let PSEIndex = PSE(arr);
+    let NSEIndex = NSE(arr);
+
+    for(let i = 0; i < l; i++) {
+        let currentPSEIndex = PSEIndex[i];
+        let currentNSEIndex = NSEIndex[i];
+
+        let area = arr[i] * (currentNSEIndex - (currentPSEIndex) - 1);
+        largestRect = Math.max(largestRect, area);
+    }
+    console.log(largestRect);
+}
+
+*/
+
+
+// Optimized approach
+
+// Instead of precalculating the PSE & NSE, will calculate on the fly
+// with the help of PSE
+// How PSE helps, stack will be containing the smallest element then current arr[i] if this breaks,
+// we come to know that arr[i] is the NSE
+
+// TC - O(n) for loop + O(n) for both while loops
+ 
+const arr = [3, 2, 10, 11, 5, 10, 6, 3];
+largestRect(arr)
+function largestRect(arr) {
+    let l = arr.length;
+    let s = [];
+    let maxRect = 0;
+
+    for(let i = 0; i < l; i++) {
+
+        while(s.length && arr[i] <= arr[s[s.length-1]]) {
+            let ele = s.pop();
+            let NSEIndex = i;
+            let PSEindex = !s.length ? -1 : s[s.length-1];
+            let Rect = arr[ele] * (NSEIndex-PSEindex-1);
+            maxRect = Math.max(maxRect, Rect);
+        }
+        s.push(i);
+    }
+
+    // we need to check we have calculate Rect for all the elements, how we are calculating the Rect only
+    // when we pop the element, think that above case we dont have any element smaller than 2, 3, we need to loop through stack elements
+    while(s.length) {
+        let ele = s.pop();
+        // we dont have smaller to calculate NSE, so instead give length of arr
+        // in case of PSE, if we have 2 elements, 1st ele will be the PSE for 2nd, for 1st its will be -1
+        let NSEIndex = l;
+        let PSEindex = !s.length ? -1 : s[s.length-1];
+        let Rect = arr[ele] * (NSEIndex-PSEindex-1);
+        maxRect = Math.max(maxRect, Rect);
+    }
+    console.log(maxRect);
+}
