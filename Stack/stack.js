@@ -1319,8 +1319,8 @@ function largestRect(arr) {
 
 // TC - O(n) for loop + O(n) for both while loops
  
-const arr = [3, 2, 10, 11, 5, 10, 6, 3];
-largestRect(arr)
+// const arr = [3, 2, 10, 11, 5, 10, 6, 3];
+// largestRect(arr)
 function largestRect(arr) {
     let l = arr.length;
     let s = [];
@@ -1350,4 +1350,99 @@ function largestRect(arr) {
         maxRect = Math.max(maxRect, Rect);
     }
     console.log(maxRect);
+}
+
+
+// 13. Find the maximu Reactangle in the given 2D matrix wit only 0's, 1's
+// pre-request: largestRect (histogram)
+
+
+// input:
+const arr = [
+    [1, 0, 1, 0, 1],
+    [1, 0, 1, 1, 1],
+    [1, 1, 1, 1, 1],
+    [1, 0, 0, 1, 0],
+]
+
+// from above we can say that 
+
+// row 1, column 2 to row 2 column 4 has the max rect of 6
+// [1, 1, 1]
+// [1, 1, 1]
+
+// approach:
+// with help of preSum, need to convert each row into histogram inputs, we utilize the histogram output to find max rect
+
+// preSum arr, the catch is if we reach arr[i][j] = 0, reset to 0
+// will pass each row to histogram as i/p get max of each row, out of that will find final max rect
+// preSum = 
+// [
+//     [1, 0, 1, 0, 1],
+//     [2, 0, 2, 1, 2],
+//     [3, 1, 3, 2, 3],
+//     [4, 0, 0, 3, 0],
+// ]
+
+// maxRect - 6
+
+maxRect(arr);
+function maxRect(arr) {
+
+    
+    let row = arr.length;
+    let col = arr[0].length;
+    let maxRect = 0;
+
+    let preSum = new Array(row).fill(0).map(() => new Array(col).fill(0));
+    // map() is need to create diff reference, or else it will point to same reference
+    // preSum[0][2] = 1;
+    // let preSum = new Array(row).fill(new Array(col).fill(0));
+    // console.log(preSum)
+
+    for(let j=0; j < col; j++) {
+        let sum = 0;
+        for(let i = 0; i < row; i++) {
+
+            // if arr[i][j] is 0, we dont have histogram, so sum = 0;
+            sum = (arr[i][j] === 0) ? 0 : sum + arr[i][j];
+            preSum[i][j] = sum;
+        }
+    }
+
+    for(let i = 0; i < row; i++) {
+        let rect = reviseLargestRect(preSum[i]);
+        // console.log(`${i}, ${rect}`);
+        maxRect = Math.max(maxRect, rect);
+    }
+    console.log(maxRect);
+}
+
+function reviseLargestRect(arr) {
+    let l = arr.length;
+    let s = [];
+    let maxArea = 0;
+
+    for(let i = 0; i < l; i++) {
+
+        while(s.length && arr[i] <= arr[s[s.length-1]]) {
+            // pop() should be used, or else infinite loop
+            let ele = arr[s.pop()];
+            let PSEIndex = !s.length ? -1 : s[s.length-1];
+            let NSEIndex = i;
+            let area = ele * (NSEIndex-PSEIndex-1);
+            maxArea = Math.max(maxArea, area);
+        }
+        s.push(i);
+    }
+
+
+    while(s.length) {
+        let ele = arr[s.pop()];
+        let PSEIndex = !s.length ? -1 : s[s.length-1];
+        let NSEIndex = l;
+        let area = ele * (NSEIndex-PSEIndex-1);
+        maxArea = Math.max(maxArea, area);
+    }
+    return maxArea;
 }
