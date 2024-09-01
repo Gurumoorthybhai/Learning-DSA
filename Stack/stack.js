@@ -1456,6 +1456,8 @@ function reviseLargestRect(arr) {
 
 */
 
+/*
+
 // 14. remove k digits, to make smallest value
 
 // i/p const s = '1432219'; k = 3, return string with smallest value
@@ -1529,4 +1531,41 @@ function removeKDigits(str, k) {
     // } 
 
     return smallestDigits ? smallestDigits : '0';
+}
+
+*/
+
+// 15. Stock span, given method 'insert', on each function call, passes a value
+// need to return the maximum no.of.days the stock value is smaller or equal to current day
+
+// i/p = [7, 2, 1, 3, 3, 1, 8]
+// for value 7 - cnt 1 (current day)
+// for value 2 - cnt 1 (current day)
+// for value 1 - cnt 1 (current day)
+// for value 3 - cnt 3 (current index, 2 index, 1 index)
+// for value 3 - cnt 3 (current index, 2 index, 1 index)
+// for value 1 - cnt 1 (current day)
+// for value 8 - cnt 7 (all of its prev value are smaller than current index)
+
+// const arr = [7, 2, 1, 3, 3, 1, 8];
+// const arr = [1, 2, 3, 4, 5];
+const arr = [8, 7, 6, 5, 5];
+
+console.log(`Max Days the stack is equal or less than is ${stockSpan(arr)}`);
+function stockSpan(arr) {
+    let l = arr.length;
+    let s = [];
+    let cnt = 0;
+    let maxDays = 1;
+
+    for(let i = 0; i < l; i++) {
+        while(s.length && arr[i] > arr[s[s.length-1]]) {
+            s.pop();
+        }
+        cnt = i - (s.length ? s[s.length-1] : -1);
+        maxDays = Math.max(maxDays, cnt);
+        s.push(i);
+    }
+
+return maxDays;
 }
