@@ -1208,6 +1208,7 @@ function NSE(arr) {
 
 */
 
+/*
 
 // varient -2: hold index in stack
 
@@ -1273,7 +1274,7 @@ function PSE(arr) {
     // console.log(r)
     return r;
 }
-
+*/
 
 // find the largest rectangle
 
@@ -1309,6 +1310,7 @@ function largestRect(arr) {
 
 */
 
+/*
 
 // Optimized approach
 
@@ -1351,7 +1353,9 @@ function largestRect(arr) {
     }
     console.log(maxRect);
 }
+*/
 
+/*
 
 // 13. Find the maximu Reactangle in the given 2D matrix wit only 0's, 1's
 // pre-request: largestRect (histogram)
@@ -1384,6 +1388,9 @@ const arr = [
 //     [4, 0, 0, 3, 0],
 // ]
 
+// TC = O(n*m) preSum arr + O(n) + O(2n)
+// SC = O(n*m) preSum arr + O(m)
+// single column so m
 // maxRect - 6
 
 maxRect(arr);
@@ -1399,7 +1406,7 @@ function maxRect(arr) {
     // preSum[0][2] = 1;
     // let preSum = new Array(row).fill(new Array(col).fill(0));
     // console.log(preSum)
-
+    // O(n*m)
     for(let j=0; j < col; j++) {
         let sum = 0;
         for(let i = 0; i < row; i++) {
@@ -1445,4 +1452,81 @@ function reviseLargestRect(arr) {
         maxArea = Math.max(maxArea, area);
     }
     return maxArea;
+}
+
+*/
+
+// 14. remove k digits, to make smallest value
+
+// i/p const s = '1432219'; k = 3, return string with smallest value
+// approach
+// try to make starting digits small
+
+// I think PSE approach will work, bcz it removes greater digits, keep track of removing k times  
+// Edge case
+
+// 1. k == n, need to remove all the digits, so in that case return '0'
+// 2. if output is '000100', in that case return '100'
+// 3. what if i/p '123456', no elements will be removed, previous digits are small in that case remove
+// from last bcz last digits are greater than previous digits which gives smallest value
+
+// const str = '1432219';
+
+// const str = '0001123';
+
+// edge case 1
+const str = '123';
+// output -> 200
+const k = 3;
+
+
+// edge case 2
+// const str = '10200'; output -> 200
+// const k = 1;
+
+// edge case 3
+// const str = '1234567'; 
+// output -> 1234
+// const k = 3;
+
+console.log(`Smallest Value is ${removeKDigits(str, k)}`);
+function removeKDigits(str, k) {
+    let l = str.length;
+    let s = [];
+
+    for(let num of str) {
+        // equal is not need, as it has same value
+        // console.log(num-'0');
+        while(s.length && num-'0' < s[s.length-1]-'0' && k) {
+            s.pop();
+            k--;
+        }
+        if((!s.length && num !== '0') || (s.length)) {
+            s.push(num);
+        }
+    }
+
+    // edge case 1
+    if(!s.length)
+    return '0';
+
+    // edge case 3
+    // if k is not zero, remove remaining k digits
+    if(k) {
+        s = s.slice(0, -k);
+    }
+    
+    let smallestDigits = s.join('');
+    // edge case 2
+    // convert stack to string but we took the array, so they ready in input order
+    // for(let char of s) {
+    //     res += char;
+    // }
+
+    // need to remove zero's from string as its after reverse will have the same value
+    // while(res.length && res[res.length] === '0') {
+    //     delete res
+    // } 
+
+    return smallestDigits ? smallestDigits : '0';
 }
