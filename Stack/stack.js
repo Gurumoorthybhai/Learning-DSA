@@ -1535,6 +1535,8 @@ function removeKDigits(str, k) {
 
 */
 
+/*
+
 // 15. Stock span, given method 'insert', on each function call, passes a value
 // need to return the maximum no.of.days the stock value is smaller or equal to current day
 
@@ -1568,4 +1570,86 @@ function stockSpan(arr) {
     }
 
 return maxDays;
+}
+
+*/
+
+// 16. return a array with maximum of subarray with 'k' length,
+// Sliding window maximum
+// given arr = [1, 3, -1, -3, 5, 3, 2, 1 ,6], k=3
+// first k split [1, 3, -1]  ->  3 - max value 
+// next k split  [3, -1, -3] ->  3 max value 
+// next k split  [-1, -3, 5] ->  5 max value 
+// next k split  [-3, 5, 3]  ->  5 max value 
+// next k split  [5, 3, 2]   ->  5 max value 
+// next k split  [3, 2, 1]   ->  3 max value 
+// next k split  [2, 1 ,6]   ->  6 max value 
+
+// approach 1
+
+// outer loop to loop
+// inner loop run till the k index i+k
+// TC - O(n-k)*(k)
+// SC - O(n-k)
+
+const arr = [1, 3, -1, -3, 5, 3, 2, 1 ,6], k=3;
+
+slidingMax(arr, k);
+
+/*
+
+function slidingMax(arr) {
+    let l = arr.length;
+    let res = [];
+
+    for(i = 0; i <= l-k; i++) {
+        let max = arr[i];
+        for(let j = i; j < i+k; j++) {
+            max = Math.max(max, arr[j]);
+        }
+        res.push(max);
+    }
+    console.log(res.join(', '));
+}
+
+*/
+
+// approach 2
+
+// Deque which allows to insert back, delete back or insert front, delete front
+// to make deque, will use stack in a monotonous decreasing fashion, which means
+// smaller to bigger, so that it easy to get bigger value at bottom
+
+// 2 things to consider
+// 1. how to identify the index which is out of K index & remove
+//    stack index <= i-k, in case for index 3, k = 3, its index should be [1, 2, 3],if stack index is 0, 0 <= 3-3, then this should be removed
+// 2. how to identify the closer of the k window, >= k-1, => 3-1 =>  for index greater than >=2, so that for each k window, will be calculating the maximum
+// its easily to get greater element, bcz greater element will always present in bottom or 0th index
+
+
+function slidingMax(arr, k) {
+    let l = arr.length;
+    let s = [];
+    let res = [];
+
+    for(let i = 0; i < l; i++) {
+
+        // remove stack index 0th index, bcz its out the side k window
+        if(s.length && s[0] <= i-k) {
+            s.shift();
+        }
+        // no point of having same value, so >=
+        while(s.length && arr[i] >= arr[s[s.length-1]]) {
+            s.pop();
+        }
+        
+        s.push(i);
+
+        if(i >= k-1) {
+            res.push(arr[s[0]]);
+        }
+
+    }
+
+    console.log(res.join(', '));
 }
