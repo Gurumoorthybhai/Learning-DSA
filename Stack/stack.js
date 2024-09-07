@@ -1574,6 +1574,8 @@ return maxDays;
 
 */
 
+/*
+
 // 16. return a array with maximum of subarray with 'k' length,
 // Sliding window maximum
 // given arr = [1, 3, -1, -3, 5, 3, 2, 1 ,6], k=3
@@ -1585,34 +1587,32 @@ return maxDays;
 // next k split  [3, 2, 1]   ->  3 max value 
 // next k split  [2, 1 ,6]   ->  6 max value 
 
-// approach 1
+// // approach 1
 
-// outer loop to loop
-// inner loop run till the k index i+k
-// TC - O(n-k)*(k)
-// SC - O(n-k)
+// // outer loop to loop
+// // inner loop run till the k index i+k
+// // TC - O(n-k)*(k)
+// // SC - O(n-k)
 
-const arr = [1, 3, -1, -3, 5, 3, 2, 1 ,6], k=3;
+// const arr = [1, 3, -1, -3, 5, 3, 2, 1 ,6], k=3;
 
-slidingMax(arr, k);
+// slidingMax(arr, k);
 
-/*
 
-function slidingMax(arr) {
-    let l = arr.length;
-    let res = [];
+// function slidingMax(arr) {
+//     let l = arr.length;
+//     let res = [];
 
-    for(i = 0; i <= l-k; i++) {
-        let max = arr[i];
-        for(let j = i; j < i+k; j++) {
-            max = Math.max(max, arr[j]);
-        }
-        res.push(max);
-    }
-    console.log(res.join(', '));
-}
+//     for(i = 0; i <= l-k; i++) {
+//         let max = arr[i];
+//         for(let j = i; j < i+k; j++) {
+//             max = Math.max(max, arr[j]);
+//         }
+//         res.push(max);
+//     }
+//     console.log(res.join(', '));
+// }
 
-*/
 
 // approach 2
 
@@ -1653,3 +1653,162 @@ function slidingMax(arr, k) {
 
     console.log(res.join(', '));
 }
+*/
+
+// 17. Find the Celebrity person
+// who is celebrity person ?
+// everyone should known him and for him no one knowns
+
+// Given 2D
+
+// [
+// p-0    [0, 1, 1, 0],
+// p-1    [0, 0, 0, 0],
+// p-2    [0, 1, 0, 0],
+// p-3    [1, 1, 0, 0]
+// ]
+// row -> knows another
+// column -> knows him
+// from the above matrix, p-1 knowns no one (rows have all 0)
+
+
+// approach1
+
+// need to find/store 2 things in arr
+
+// knowsMe
+// Iknow
+
+// filter with knowsMe === n-1, why n-1, except him(all persons would know) and Iknow === 0 (knowns no one)
+
+// TC = O(n2) + O(n)
+// SC = O(2n)
+
+// ans: 1
+const arr = [
+    [0, 1, 1, 0],
+    [0, 0, 0, 0],
+    [0, 1, 0, 0],
+    [1, 1, 0, 0]
+    ];
+
+// ans: 3
+// const arr = [
+//     [0, 1, 1, 1],
+//     [0, 0, 0, 1],
+//     [0, 1, 0, 1],
+//     [0, 0, 0, 0]
+//     ];
+
+console.log(`Celebrity is ${FindCelebrity(arr)}`);
+
+// function FindCelebrity(arr) {
+//     let n = arr.length;
+//     let m = arr[0].length;
+//     let knowsMe = new Array(n).fill(0);
+//     let Iknow = new Array(n).fill(0);
+//     for(let i = 0; i < n; i++) {
+//         for(let j = 0; j < m; j++) {
+//             if(arr[i][j] === 1) {
+//                 Iknow[i]++;
+//                 knowsMe[j]++;
+//             }
+//         }
+//     }
+
+//     for(let i = 0; i < n; i++) {
+//         if(knowsMe[i] === n-1 && Iknow[i] === 0) return i;
+//     }
+
+//     return -1;
+// }
+
+
+// approach 2: optimised approach (final)
+// declare 2 variable top & bottom
+// loop through the persons and check each connection, moved to next person, if they know 
+
+// TC - O(2n)
+// SC - O(1)
+
+function FindCelebrity(arr) {
+    let n = arr.length;
+    let top = 0, bottom = n-1;
+
+    while(top < bottom) {
+            // eliminate the top
+        if(arr[top][bottom] === 1) {
+            top++;
+            // eliminate the bottom
+        } else if(arr[bottom][top] === 1) {
+            bottom--;
+        } else {
+            top++;
+            bottom--;
+        }
+    }
+
+    // now top & bottom is pointing on same person, so need to check he is a celebrity 
+    // check row-wise if he knows someone, if he knows, return -1, or else check with column also
+    // check column-wise, everyone knows him, if yes, return i, or return -1
+
+    for(let i = 0; i < n; i++) {
+        // except self, check row/column
+        if(i=== top) continue;
+        if(arr[top][i] === 0 && arr[i][top] === 1) {
+            continue;
+        } else {
+            return -1;
+        }
+    }
+    return top;
+}
+
+// stack implementation (personal not optimized)
+
+// similar to above elimination of persons
+// push all the persons to the stack
+// loop till 1 person
+// pick top 2 persons and check the connect and eliminate till 1 person
+// check if it is a personality
+
+// TC: O(3n)
+// SC: O(n)
+
+// function FindCelebrity(arr) {
+//         let n = arr.length;
+//         // stack
+//         let s = [];
+    
+//         for(let i = 0; i < n; i++) {
+//             s.push(i);
+//         }
+    
+//         while(s.length !== 1) {
+//             let person1 = s.pop();
+//             let person2 = s.pop();
+
+//             // if person1 know person2, then person1 is a not a celebrity
+//             if(arr[person1][person2] === 1) {
+//                 s.push(person2);
+//             } else {
+//                 s.push(person1);
+//             }
+//         }
+
+//         // after all only 1 person is left, so need to the it a celebrity, rowcheck and column check
+
+//         let person = s.pop();
+
+//         for(let i = 0; i < n; i++) {
+//             if(i === person) continue;
+//             if(arr[person][i] === 0 && arr[i][person] === 1) {
+//                 continue;
+//             } else {
+//                 return -1;
+//             }
+//         }
+
+//         return person;
+
+// }
