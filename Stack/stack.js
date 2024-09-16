@@ -1685,12 +1685,12 @@ function slidingMax(arr, k) {
 // SC = O(2n)
 
 // ans: 1
-const arr = [
-    [0, 1, 1, 0],
-    [0, 0, 0, 0],
-    [0, 1, 0, 0],
-    [1, 1, 0, 0]
-    ];
+// const arr = [
+//     [0, 1, 1, 0],
+//     [0, 0, 0, 0],
+//     [0, 1, 0, 0],
+//     [1, 1, 0, 0]
+//     ];
 
 // ans: 3
 // const arr = [
@@ -1700,7 +1700,7 @@ const arr = [
 //     [0, 0, 0, 0]
 //     ];
 
-console.log(`Celebrity is ${FindCelebrity(arr)}`);
+// console.log(`Celebrity is ${FindCelebrity(arr)}`);
 
 // function FindCelebrity(arr) {
 //     let n = arr.length;
@@ -1731,38 +1731,38 @@ console.log(`Celebrity is ${FindCelebrity(arr)}`);
 // TC - O(2n)
 // SC - O(1)
 
-function FindCelebrity(arr) {
-    let n = arr.length;
-    let top = 0, bottom = n-1;
+// function FindCelebrity(arr) {
+//     let n = arr.length;
+//     let top = 0, bottom = n-1;
 
-    while(top < bottom) {
-            // eliminate the top
-        if(arr[top][bottom] === 1) {
-            top++;
-            // eliminate the bottom
-        } else if(arr[bottom][top] === 1) {
-            bottom--;
-        } else {
-            top++;
-            bottom--;
-        }
-    }
+//     while(top < bottom) {
+//             // eliminate the top
+//         if(arr[top][bottom] === 1) {
+//             top++;
+//             // eliminate the bottom
+//         } else if(arr[bottom][top] === 1) {
+//             bottom--;
+//         } else {
+//             top++;
+//             bottom--;
+//         }
+//     }
 
     // now top & bottom is pointing on same person, so need to check he is a celebrity 
     // check row-wise if he knows someone, if he knows, return -1, or else check with column also
     // check column-wise, everyone knows him, if yes, return i, or return -1
 
-    for(let i = 0; i < n; i++) {
-        // except self, check row/column
-        if(i=== top) continue;
-        if(arr[top][i] === 0 && arr[i][top] === 1) {
-            continue;
-        } else {
-            return -1;
-        }
-    }
-    return top;
-}
+//     for(let i = 0; i < n; i++) {
+//         // except self, check row/column
+//         if(i=== top) continue;
+//         if(arr[top][i] === 0 && arr[i][top] === 1) {
+//             continue;
+//         } else {
+//             return -1;
+//         }
+//     }
+//     return top;
+// }
 
 // stack implementation (personal not optimized)
 
@@ -1812,3 +1812,347 @@ function FindCelebrity(arr) {
 //         return person;
 
 // }
+
+
+
+// Implement stack with array
+
+// need to design stack operations
+// 1. push
+// 2. pop
+// 3. top/peek
+// 4. size
+// in order to design stack, a fixed size is required, so size = 10, to maintain the insertion/ index, will use top variable
+
+/*
+
+var ImplementStack = function(size) {
+    this.s = new Array(size);
+    this.index = -1;
+}
+
+ImplementStack.prototype.push = function(x) {
+    if(this.index >=  10) return 'Stack is full';
+    this.index++;
+    this.s[this.index] = x;
+}
+
+ImplementStack.prototype.pop = function() {
+
+    if(this.index === -1) return 'Stack is empty';
+    let val = this.s[this.index];
+    this.index--;
+    return val;
+}
+
+ImplementStack.prototype.top = function() {
+    return this.s[this.index] ? this.s[this.index] : undefined; 
+}
+
+ImplementStack.prototype.size = function() {
+    return this.index+1;
+}
+
+let obj = new ImplementStack(10);
+
+obj.push(1);
+obj.push(2);
+obj.push(3);
+console.log(`Size is ${obj.size()}`);
+
+console.log(`Top element is ${obj.top()}`);
+console.log(`Pop element is ${obj.pop()}`);
+
+console.log(`Top element is ${obj.top()}`);
+console.log(`Pop element is ${obj.pop()}`);
+
+console.log(`Top element is ${obj.top()}`);
+console.log(`Pop element is ${obj.pop()}`);
+
+console.log(`Top element is ${obj.top()}`);
+
+console.log(`Pop element is ${obj.pop()}`);
+
+console.log(`Size is ${obj.size()}`);
+*/
+
+
+// need to design query operations
+// 1. push
+// 2. pop
+// 3. top/peek
+// 4. size
+// in order to design queue, a fixed size is required, so size = 10, to maintain the starting -> start and insertion -> stop index
+
+// var QImple = function(size1) {
+//     this.size = size1;
+//     this.q = new Array(this.size);
+//     this.currSize = 0;
+//     this.start = -1;
+//     this.end = -1;
+// }
+
+// QImple.prototype.push = function(val) {
+
+//     if(this.currSize >= this.size) return 'Queue is full';
+
+//     if(this.currSize === 0) {
+//         this.start = 0;
+//     }
+//     this.end = (this.end+1)%this.size;
+//     this.q[this.end] = val;
+//     this.currSize++;
+// }
+
+// QImple.prototype.pop = function() {
+//     if(this.currSize === 0) {
+//         return 'Queue is empty';
+//     }
+
+//     let val = this.q[this.start];
+//     // incase only 1 element is present
+//     if(this.currSize === 1) {
+//         this.start = -1;
+//         this.end = -1;
+//     }
+
+//     this.start = (this.start+1)%this.size;
+//     this.currSize--;
+//     return val;
+// }
+
+// QImple.prototype.top = function() {
+//     if(this.currSize === 0) return 'Queue is empty';
+
+//     return this.q[this.end];
+// }
+
+// QImple.prototype.size = function() {
+//     return this.currSize;
+// }
+
+
+// let Q = new QImple(4);
+// // console.log(Q.pop());
+// // console.log(Q.top());
+// Q.push(1);
+// Q.push(2);
+// console.log(Q.pop());
+
+// console.log(Q.top());
+// Q.push(3);
+// console.log(Q.push(4));
+// // console.log(Q.top());
+
+// console.log(Q.push(5));
+
+
+/*
+
+// Implement stack LIFO with queue
+
+// input [1, 2, 3, 4, 5];
+
+// I will be performing query operations,
+// pop/top - queue should return (stack value) which means latest element(top element) instead queue default first value
+
+// from second element, before insertion of 2nd element, 
+
+// |     |         |     |  
+// |     |         |  1  |
+// |__1__|         |__2__|
+
+// from above, if we pop/top a element from queue now it will return 2, this is what it stimulates stack will return
+
+// we need to rotate(pop from 0th and push on top of the queue) with queue size
+
+// Stack - Last In First Out (LIFO)
+// Queue - First In First Lout (FIFO)
+
+// stack operations
+// push()
+// pop()
+// peek() or top()
+// isEmpty
+// size
+
+
+// Queue operations
+// enqueue - add at tail
+// dequeue  - remove from front and return
+// front or peek - return front element without removing
+// isEmpty
+// size 
+
+var StackImple = function() {
+    this.queue = [];
+}
+
+StackImple.prototype.push = function(val) {
+
+    let size = this.queue.length;
+    this.queue.push(val);
+
+    while(0 > size) {
+        // it will return first ele, gets added to top of the list
+        let firstEle = this.queue.shift();     // Dequeue from front (top of stack)
+        this.queue.push(firstEle);
+    }
+}
+
+StackImple.prototype.pop = function() {
+    if(this.queue.length === 0) return 'Stack is empty';
+    return this.queue.shift();
+}
+
+StackImple.prototype.top = function() {
+    if(this.queue.length === 0) return 'Stack is empty';
+    return this.queue[0];
+}
+
+StackImple.prototype.size = function() {
+    return this.queue.length;
+}
+
+StackImple.prototype.empty = function() {
+    return this.queue.length === 0;
+}
+
+let stackObj = new StackImple();
+stackObj.push(1);
+// console.log(stackObj.top());
+stackObj.push(2);
+stackObj.push(3);
+console.log(stackObj.top());
+stackObj.push(5);
+console.log(stackObj.pop());
+console.log(stackObj.top());
+console.log(stackObj.size());
+
+*/
+
+// const arr = [1, 2, 3, 4, 5];
+
+const queueObj = new QueueImple(5);
+queueObj.push(1);
+queueObj.push(2);
+queueObj.push(3);
+console.log(queueObj.pop())
+console.log(queueObj.top())
+console.log(queueObj.pop())
+console.log(queueObj.top())
+
+// Implement queue with stack
+
+// when you perform stack operations top/pop -> it should get the old/ first inserted element
+// but its a stack, so it will latest element
+
+// will create a 2 stack array variable
+
+// |  3  |         |  1  |  
+// |  2  |         |  2  |
+// |__1__|         |__3__|
+
+// here we have 2 approaches
+// push expensive 1. In push operation, will move all elements from S2 and push to S1
+// pop expensive 
+// will pop from S1 and push to S2, so that when we perform top/pop, will get old/ first inserted element
+
+/*
+
+// expensive push operation
+var QueueImple = function(arr) {
+    this.S1 = [];
+    this.S2 = [];
+    this.size = this.S2.length;
+}
+
+QueueImple.prototype.push = function(val) {
+
+    // get all elements from S1 and push to S2
+    while(this.S1.length) {
+        this.S2.push(this.S1.pop());
+    }
+    // push the latest element on top of other elements
+    this.S1.push(val);
+
+    // now once again move from S2 to S1 (reversed) old elements will be on top
+    while(this.S2.length) {
+        this.S1.push(this.S2.pop());
+    }
+}
+
+QueueImple.prototype.pop = function() {
+
+    if(this.S2.length) {
+        return this.S2.pop();
+    }
+    return 'Queue is empty'
+}
+
+QueueImple.prototype.top = function() {
+    if(this.S2.length) {
+        let ele = this.S2.pop();
+        this.S2.push(ele);
+        return ele;
+    }
+    return 'Queue is empty'
+}
+
+QueueImple.prototype.isEmpty = function() {
+    return this.S2.length === 0;
+}
+
+*/
+
+// expensive pop/top operation
+// instead of each push, we are doing above operation like moving from S1 to S2, and then S2 to S1
+// instead will transform(reverse) in pop(), S1 to S2, untill the S2 stack is empty, will try to get from S2. when S2 is empty, will transform from S1 to S2.
+
+
+var QueueImple = function(size) {
+    this.S1 = new Array(size);
+    this.S2 = new Array(size);
+    this.size = size;
+}
+
+QueueImple.prototype.push = function(val) {
+    if(this.size > this.S1.length) return 'Queue is Full';
+    this.S1.push(val)
+}
+
+QueueImple.prototype.pop = function() {
+    let s1Size = this.S2.length;
+    let s2Size = this.S2.length;
+    if(s1Size === 0 && s2Size === 0) return 'Queue is Empty';
+
+    if(s2Size) {
+        return this.S2.pop();
+    }
+
+    // pop and push from S1 to S2
+    while(s1Size) {
+        this.S2.pop(this.S1.pop())
+    }
+    return this.S2.pop();
+}
+
+QueueImple.prototype.top = function() {
+    let s1Size = this.S2.length;
+    let s2Size = this.S2.length;
+    if(s1Size === 0 && s2Size === 0) return 'Queue is Empty';
+
+    if(s2Size) return this.S2.pop();
+
+    while(s1Size) {
+        this.S2.push(this.S1.pop())
+    }
+
+    let ele = this.S2.pop();
+    this.S2.push(ele);
+    return ele;
+}
+
+QueueImple.prototype.isEmpty = function() {
+    return !(this.S1.length || this.S1.length);
+}
