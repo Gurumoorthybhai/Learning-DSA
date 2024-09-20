@@ -1038,12 +1038,12 @@ function NSE(arr) {
 // inner loop to generate subarrays and get minimum and add to sum
 
 function sumMinSubArray(arr) {
-    
+
     let l = arr.length;
 
-    for(let i = 0; i < l; i++) {
+    for (let i = 0; i < l; i++) {
         let min = arr[i];
-        for(let j = i; j < l; j++) {
+        for (let j = i; j < l; j++) {
             min = Math.min(min, arr[j]);
         }
     }
@@ -1748,9 +1748,9 @@ function slidingMax(arr, k) {
 //         }
 //     }
 
-    // now top & bottom is pointing on same person, so need to check he is a celebrity 
-    // check row-wise if he knows someone, if he knows, return -1, or else check with column also
-    // check column-wise, everyone knows him, if yes, return i, or return -1
+// now top & bottom is pointing on same person, so need to check he is a celebrity 
+// check row-wise if he knows someone, if he knows, return -1, or else check with column also
+// check column-wise, everyone knows him, if yes, return i, or return -1
 
 //     for(let i = 0; i < n; i++) {
 //         // except self, check row/column
@@ -1779,11 +1779,11 @@ function slidingMax(arr, k) {
 //         let n = arr.length;
 //         // stack
 //         let s = [];
-    
+
 //         for(let i = 0; i < n; i++) {
 //             s.push(i);
 //         }
-    
+
 //         while(s.length !== 1) {
 //             let person1 = s.pop();
 //             let person2 = s.pop();
@@ -1882,6 +1882,7 @@ console.log(`Size is ${obj.size()}`);
 // 2. pop
 // 3. top/peek
 // 4. size
+// 5. isEmpty
 // in order to design queue, a fixed size is required, so size = 10, to maintain the starting -> start and insertion -> stop index
 
 // var QImple = function(size1) {
@@ -2033,14 +2034,14 @@ console.log(stackObj.size());
 
 // const arr = [1, 2, 3, 4, 5];
 
-const queueObj = new QueueImple(5);
-queueObj.push(1);
-queueObj.push(2);
-queueObj.push(3);
-console.log(queueObj.pop())
-console.log(queueObj.top())
-console.log(queueObj.pop())
-console.log(queueObj.top())
+// const queueObj = new QueueImple(5);
+// queueObj.push(1);
+// queueObj.push(2);
+// queueObj.push(3);
+// console.log(queueObj.pop())
+// console.log(queueObj.top())
+// console.log(queueObj.pop())
+// console.log(queueObj.top())
 
 // Implement queue with stack
 
@@ -2109,6 +2110,7 @@ QueueImple.prototype.isEmpty = function() {
 // instead of each push, we are doing above operation like moving from S1 to S2, and then S2 to S1
 // instead will transform(reverse) in pop(), S1 to S2, untill the S2 stack is empty, will try to get from S2. when S2 is empty, will transform from S1 to S2.
 
+/*
 
 var QueueImple = function(size) {
     this.S1 = new Array(size);
@@ -2156,3 +2158,93 @@ QueueImple.prototype.top = function() {
 QueueImple.prototype.isEmpty = function() {
     return !(this.S1.length || this.S1.length);
 }
+
+*/
+
+// Implement Stack with Linked List
+
+// stack - to keep track of last element, will create a node (top)
+
+// head -> 3 -> 2 -> 1
+// create a new top node
+// we can use top as alias of end node
+// in case of pop()
+// move to next node and make it as a head
+
+
+
+class Node {
+    constructor(val) {
+        this.data = val;
+        this.next = null;
+    }
+}
+
+class StackImple {
+
+    constructor() {
+        this.topNode = null;
+        this.length = 0;
+    }
+
+    // normal flow create new node and assign to head.next 
+    // here first we will create the new node and its next will be previous head/top to make pop easily
+
+    push(val) {
+        let newNode = new Node(val);
+        newNode.next = this.topNode;
+        this.topNode= newNode;
+        this.length++;
+    }
+
+
+    pop() {
+        if (this.topNode === null) return 'Stack is Empty';
+        const temp = this.topNode;
+        this.topNode = this.topNode.next;
+        temp.next = null;
+        this.length--;
+        return temp.data;
+    }
+
+
+    top() {
+        if(this.topNode === null) return 'Stack is Empty';
+        return this.topNode.data;
+    }
+
+    isEmpty() {
+        return this.topNode === null;
+    }
+
+    size() {
+        return this.length;
+    }
+}
+
+const obj = new StackImple();
+
+// console.log(obj)
+obj.push(10);
+obj.push(20);
+// console.log(obj);
+
+obj.push(30);
+// console.log(obj);
+
+
+// console.log(`Top element - ${obj.top()}`);
+// obj.pop();
+// obj.pop();
+console.log(`Pop element ${obj.pop()}`);
+console.log(`Pop element ${obj.pop()}`);
+console.log(`Pop element ${obj.pop()}`);
+console.log(`Pop element ${obj.pop()}`);
+// console.log(`Pop element ${obj.pop()}`);
+// console.log(`Pop element ${obj.pop()}`);
+
+// console.log(`Pop element - ${obj.pop()}`);
+// console.log(obj.pop());
+console.log(obj);
+
+
