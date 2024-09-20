@@ -2173,6 +2173,85 @@ QueueImple.prototype.isEmpty = function() {
 
 
 
+// class Node {
+//     constructor(val) {
+//         this.data = val;
+//         this.next = null;
+//     }
+// }
+
+// class StackImple {
+
+//     constructor() {
+//         this.topNode = null;
+//         this.length = 0;
+//     }
+
+//     // normal flow create new node and assign to head.next 
+//     // here first we will create the new node and its next will be previous head/top to make pop easily
+
+//     push(val) {
+//         let newNode = new Node(val);
+//         newNode.next = this.topNode;
+//         this.topNode= newNode;
+//         this.length++;
+//     }
+
+
+//     pop() {
+//         if (this.topNode === null) return 'Stack is Empty';
+//         const temp = this.topNode;
+//         this.topNode = this.topNode.next;
+//         temp.next = null;
+//         this.length--;
+//         return temp.data;
+//     }
+
+
+//     top() {
+//         if(this.topNode === null) return 'Stack is Empty';
+//         return this.topNode.data;
+//     }
+
+//     isEmpty() {
+//         return this.topNode === null;
+//     }
+
+//     size() {
+//         return this.length;
+//     }
+// }
+
+// const obj = new StackImple();
+
+// // console.log(obj)
+// obj.push(10);
+// obj.push(20);
+// // console.log(obj);
+
+// obj.push(30);
+// // console.log(obj);
+
+
+// // console.log(`Top element - ${obj.top()}`);
+// // obj.pop();
+// // obj.pop();
+// console.log(`Pop element ${obj.pop()}`);
+// console.log(`Pop element ${obj.pop()}`);
+// console.log(`Pop element ${obj.pop()}`);
+// console.log(`Pop element ${obj.pop()}`);
+// // console.log(`Pop element ${obj.pop()}`);
+// // console.log(`Pop element ${obj.pop()}`);
+
+// // console.log(`Pop element - ${obj.pop()}`);
+// // console.log(obj.pop());
+// console.log(obj);
+
+// Implement queue using linked list
+// will use 2 nodes start, end to track remove and push element
+
+// on push assign new element to next of end
+
 class Node {
     constructor(val) {
         this.data = val;
@@ -2180,71 +2259,54 @@ class Node {
     }
 }
 
-class StackImple {
-
+class ImpleQueue {
     constructor() {
-        this.topNode = null;
+        this.start = this.end = null;
         this.length = 0;
     }
 
-    // normal flow create new node and assign to head.next 
-    // here first we will create the new node and its next will be previous head/top to make pop easily
-
     push(val) {
         let newNode = new Node(val);
-        newNode.next = this.topNode;
-        this.topNode= newNode;
+
+        if(this.start === null) {
+            this.start = newNode;
+            this.end = this.start;
+            this.length++;
+            return;   
+        }
+        this.end.next = newNode;
+        this.end = newNode;
         this.length++;
     }
 
-
     pop() {
-        if (this.topNode === null) return 'Stack is Empty';
-        const temp = this.topNode;
-        this.topNode = this.topNode.next;
+        if(this.start === null) return "Queue is Empty";
+        
+        let temp = this.start;
+        this.start = temp.next;
         temp.next = null;
         this.length--;
         return temp.data;
     }
 
-
     top() {
-        if(this.topNode === null) return 'Stack is Empty';
-        return this.topNode.data;
-    }
-
-    isEmpty() {
-        return this.topNode === null;
+        if(this.start === null) return "Queue is Empty";
+        return this.start.data;
     }
 
     size() {
         return this.length;
     }
+
+    isEmpty() {
+        return this.start === null;
+    }
 }
 
-const obj = new StackImple();
-
-// console.log(obj)
+const obj = new ImpleQueue();
 obj.push(10);
 obj.push(20);
-// console.log(obj);
-
 obj.push(30);
-// console.log(obj);
-
-
-// console.log(`Top element - ${obj.top()}`);
-// obj.pop();
-// obj.pop();
-console.log(`Pop element ${obj.pop()}`);
-console.log(`Pop element ${obj.pop()}`);
-console.log(`Pop element ${obj.pop()}`);
-console.log(`Pop element ${obj.pop()}`);
-// console.log(`Pop element ${obj.pop()}`);
-// console.log(`Pop element ${obj.pop()}`);
-
-// console.log(`Pop element - ${obj.pop()}`);
-// console.log(obj.pop());
+console.log(obj.top());
+console.log(obj.pop());
 console.log(obj);
-
-
