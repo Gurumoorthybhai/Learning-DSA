@@ -2252,61 +2252,169 @@ QueueImple.prototype.isEmpty = function() {
 
 // on push assign new element to next of end
 
-class Node {
-    constructor(val) {
-        this.data = val;
-        this.next = null;
-    }
-}
+// class Node {
+//     constructor(val) {
+//         this.data = val;
+//         this.next = null;
+//     }
+// }
 
-class ImpleQueue {
-    constructor() {
-        this.start = this.end = null;
-        this.length = 0;
-    }
+// class ImpleQueue {
+//     constructor() {
+//         this.start = this.end = null;
+//         this.length = 0;
+//     }
 
-    push(val) {
-        let newNode = new Node(val);
+//     push(val) {
+//         let newNode = new Node(val);
 
-        if(this.start === null) {
-            this.start = newNode;
-            this.end = this.start;
-            this.length++;
-            return;   
-        }
-        this.end.next = newNode;
-        this.end = newNode;
-        this.length++;
-    }
+//         if(this.start === null) {
+//             this.start = newNode;
+//             this.end = this.start;
+//             this.length++;
+//             return;   
+//         }
+//         this.end.next = newNode;
+//         this.end = newNode;
+//         this.length++;
+//     }
 
-    pop() {
-        if(this.start === null) return "Queue is Empty";
+//     pop() {
+//         if(this.start === null) return "Queue is Empty";
         
-        let temp = this.start;
-        this.start = temp.next;
-        temp.next = null;
-        this.length--;
-        return temp.data;
-    }
+//         let temp = this.start;
+//         this.start = temp.next;
+//         temp.next = null;
+//         this.length--;
+//         return temp.data;
+//     }
 
-    top() {
-        if(this.start === null) return "Queue is Empty";
-        return this.start.data;
-    }
+//     top() {
+//         if(this.start === null) return "Queue is Empty";
+//         return this.start.data;
+//     }
 
-    size() {
-        return this.length;
-    }
+//     size() {
+//         return this.length;
+//     }
 
-    isEmpty() {
-        return this.start === null;
+//     isEmpty() {
+//         return this.start === null;
+//     }
+// }
+
+// const obj = new ImpleQueue();
+// obj.push(10);
+// obj.push(20);
+// obj.push(30);
+// console.log(obj.top());
+// console.log(obj.pop());
+// console.log(obj);
+
+// https://leetcode.com/problems/implement-stack-using-queues/description/?envType=problem-list-v2&envId=stack&difficulty=EASY
+
+// Implement LIFO stack with queue
+
+
+// stack
+// pop/ top -> return last Element
+
+// queue 
+// pop/ top -> return first Element
+
+// so on each push we need to reverse the queue, so that recent value will at bottom, on pop/top operation will returns expected element
+// With 2 queue
+// Q1
+// Q2
+
+// var ImpleStack = function() {
+//     this.Q1 = [];
+//     this.Q2 = [];
+// }
+
+// ImpleStack.prototype.push = function(val) {
+    
+//     this.Q2.push(val);
+
+//     while(this.size()) {
+//         this.Q2.push(this.Q1.shift());
+//     }
+        
+//     let temp = this.Q1;
+//     this.Q1 = this.Q2;
+//     this.Q2 = temp;
+
+// }
+// ImpleStack.prototype.top = function() {
+//     return this.Q1[0];
+// }
+
+// ImpleStack.prototype.pop = function() {
+//     return this.Q1.shift();
+// }
+
+// ImpleStack.prototype.size = function() {
+//     return this.Q1.length;
+// }
+
+// ImpleStack.prototype.isEmpty = function() {
+//     return this.size === 0
+// }
+
+
+// const obj = new ImpleStack();
+// obj.push(10);
+// obj.push(20);
+
+// console.log(obj)
+// obj.push(30);
+// console.log(obj.top());
+// console.log(obj.pop());
+// console.log(obj.pop());
+// console.log(obj);
+
+// to use single queue
+
+// run a loop to swap the array
+
+var ImpleStack = function() {
+    this.Q = [];
+}
+
+ImpleStack.prototype.push = function(val) {
+
+    let size = this.size();
+
+    this.Q.push(val);
+    while(size) {
+        this.Q.push(this.Q.shift());
+        size--;
     }
 }
 
-const obj = new ImpleQueue();
+ImpleStack.prototype.pop = function() {
+    return this.Q.shift();
+}
+
+ImpleStack.prototype.top = function() {
+    return this.Q[0];
+}
+
+ImpleStack.prototype.isEmpty = function() {
+    return this.Q.size === 0;
+}
+
+ImpleStack.prototype.size = function() {
+    return this.Q.length;
+}
+
+const obj = new ImpleStack();
 obj.push(10);
 obj.push(20);
-obj.push(30);
-console.log(obj.top());
-console.log(obj.pop());
-console.log(obj);
+
+// console.log(obj)
+// obj.push(30);
+// console.log(obj.top());
+// console.log(obj.pop());
+// console.log(obj.pop());
+console.log(obj.isEmpty());
