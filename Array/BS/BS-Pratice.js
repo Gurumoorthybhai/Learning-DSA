@@ -501,28 +501,30 @@ console.log(" row with max no.of.onces ", findRow(matrix, 1));
 
 // search the target in 2D array, ascending order
 
-// Better Approach
+// Better Approach O(n * log2(m))
 // first check which target value lies in between start/end of row
+
+/*
 
 var searchTarget = function(nums, target) {
 
     const n = nums.length;
     for(let row = 0; row < n; row++) {
         let col = nums[row].length;
-        if(nums[row][0] >= target && nums[row][col-1] <= target) {
-            binarySearch(nums[row], target);
+        if(nums[row][0] <= target && nums[row][col-1] >= target) {
+            if(binarySearch(nums[row], target)) return true;
         }
     }
 
     function binarySearch(row, target) {
         let l = 0;
-        let r = row.length;
+        let r = row.length-1;
 
         while(l <= r) {
             let mid = Math.floor((l+r)/2);
 
             if(row[mid] === target) {
-                return mid;
+                return true;
             } else if (row[mid] > target) {
                 r = mid -1;
             } else {
@@ -530,6 +532,8 @@ var searchTarget = function(nums, target) {
             }
         }
     }
+
+    return false;
 
 }
 
@@ -540,4 +544,13 @@ const matrix = [
 ];
 console.log(searchTarget(matrix, 8));
 
+*/
 
+var searchTarget = function(nums, target) {
+
+    const row = nums.length;
+    const n = row*row[0].length;
+
+    let l = nums[0][0];
+    
+}
