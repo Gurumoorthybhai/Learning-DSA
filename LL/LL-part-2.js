@@ -812,7 +812,7 @@ function union(head1, head2) {
 
             if(temp.data !== head2) {
                 temp.next = head2;
-                temp = temp.next;
+                temp = temp.next;   
             }
             head2 = head2.next;
         } else if(head2.data > head1.data){

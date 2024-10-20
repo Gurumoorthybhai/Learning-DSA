@@ -1900,7 +1900,7 @@ function startingPt() {
 // 1. find the meeting pt of slow & fastPtr
 // 2. move the slowPtr to head and move the fastPtr one step at a time
 // total distance of circle is C, meeting pt is Y, head to staring pt is X
-// C-Y
+// starting node = C-Y
 
 function startingPt() {
 
@@ -1919,7 +1919,7 @@ function startingPt() {
             slowPtr = head;
 
             while (slowPtr !== fastPtr) {
-                
+
                 slowPtr = slowPtr.next;
                 fastPtr = fastPtr.next;
             }

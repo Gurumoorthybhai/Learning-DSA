@@ -16,7 +16,7 @@
 // console.log(obj);
 
 class dllNode {
-    constructor(val, next, prev) {
+    constructor(val, next=null, prev=null) {
 
         this.data = val;
         // if(val) {
@@ -388,6 +388,8 @@ function deleteOccurance(head, key) {
 
 */
 
+/*
+
 // return the pair, if its equal to given sum
 
 // sorted dll
@@ -430,6 +432,8 @@ function returnPairSum(head, target) {
 // 1. its given that array is sorted, will use 2 pointer
 // TC - O(2n)
 
+/*
+
 function returnPairSum(head, target) {
     let left = head;
     // let right = head;
@@ -458,4 +462,159 @@ function returnPairSum(head, target) {
         }
     }
     console.log(pair);
+}
+
+*/
+
+/*
+
+    function printUnion( arr1,  arr2,  m,  n)
+    {
+        let i = 0, j = 0;
+        let result = [];
+        
+        while(i < m && j < n) {
+            if(arr1[i] > arr2[j]) {
+
+                // check if last element pushed is not same
+                if(result[result.length-1] !== arr2[j]) {
+                    result.push(arr2[i]);
+                }
+                j++;
+            } else if(arr2[j] > arr1[i]) {
+                if(result[result.length-1] !== arr1[i]) {
+                    result.push(arr1[i]);
+                }
+                i++;
+            } else {
+                // if both the elements are equal, any arr ele can be compared and pushed
+                if(result[result.length-1] !== arr1[i]) {
+                    result.push(arr1[i]);
+                }
+                i++;
+                j++;
+            }
+        }
+
+        while(i < m) {
+            if(result[result.length-1] !== arr2[i]) {
+                result.push(arr2[i]);
+            }
+            i++;
+        }
+
+        while(j < n) {
+            if(result[result.length-1] !== arr2[j]) {
+                result.push(arr2[j]);
+            }
+            j++;
+        }
+
+        console.log(result);
+    }
+
+        var arr1 = [ 1, 2, 4, 5, 6 ];
+        var arr2 = [ 2, 2, 5, 7 ];
+        var m = arr1.length;
+        var n = arr2.length;
+        printUnion(arr1, arr2, m, n);
+        
+
+*/
+
+
+// return the head, with intersection elements
+
+// const arr = [3, 1, 2, 3, 4, 5];
+// const arr = [3, 1, 2, 3, 4, 3];
+
+const ll1 = dll([3, 1, 2, 3, 4, 5]);
+// const ll2 = dll([1, 2, 3, 4, 5]);
+
+// intersectionOfnodes(ll1, ll2);
+
+/*
+not working
+function intersectionOfnodes(head1, head2) {
+    let itr1 = head1;
+    let itr2 = head2;
+    let dummyNode = new dllNode(-1);
+    let temp = dummyNode;
+
+    while(itr1) {
+
+        itr2 = head2;
+        while(itr2) {
+            if(itr1.data === itr2.data) {
+               let newNode = new dllNode(itr1.data, null, temp);
+                temp.next = newNode;
+                break;
+            }
+            itr2 = itr2.next;
+        }
+
+        itr1 = itr1.next;
+    }
+
+    console.log(dummyNode.next);
+}   
+
+*/
+
+// approch 2 | 2 pointer
+// sort the given 2 ll
+
+console.log(JSON.stringify(sort(ll1), getCircularReplacer(), 2));
+
+function findMiddleNode(head) {
+    let slowPtr = head;
+    let fastPtr = head.next;
+
+    while(fastPtr && fastPtr.next) {
+        slowPtr = slowPtr.next;
+        fastPtr = fastPtr.next.next;
+    }
+
+    return slowPtr;
+}
+
+function sort(head) {
+
+    if(!head || !head.next) return head;
+
+    let middleNode = findMiddleNode(head);
+
+    let left = head;
+    let right = middleNode.next;
+    middleNode.next = null;
+
+    let left1 = sort(left);
+    let right1 = sort(right);
+
+    return merge(left1, right1);
+
+}
+
+function merge(head1, head2) {
+
+    let dummyNode = new dllNode(-1);
+    let temp = dummyNode;
+
+    while(head1 && head2) {
+
+        if(head1.data >= head2.data) {
+            temp.next = head2;
+            temp = head2;
+            head2 = head2.next;
+        } else {
+            temp.next = head1;
+            temp = head1;
+            head1 = head1.next;
+        }
+    }
+
+    if(head1) temp.next = head1;
+    if(head2) temp.next = head2;
+
+    return dummyNode.next;
 }

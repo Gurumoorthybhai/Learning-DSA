@@ -16,6 +16,23 @@ function createLinkedList(arr) {
 return dummyNode.next;
 }
 
+// function createLinkedListWithCycle(arr, pos) {
+//     let dummyNode = new Node();
+//     let temp = dummyNode;
+//     let cyclicNode = null;
+
+//     for(let [ind, val] of arr.entries()) {
+        
+//         temp.next = new Node(val);
+//         if(ind === pos) cyclicNode = temp.next;
+//         temp = temp.next;
+//     }
+
+//     temp.next = cyclicNode;
+// return dummyNode.next;
+// }
+
+
 // function printLinkedList(head) {
 //     let temp = head;
 
@@ -336,6 +353,9 @@ console.log(JSON.stringify(obj.segregate(head), getCircularReplacer(), 2));
 //         return head;
 //     }
 // }
+
+/*
+
 function duplicate(head) {
     if (head === null) {
         return head;
@@ -358,3 +378,683 @@ const head = createLinkedList([1, 1, 1, 2, 4, 5, 5]);
 
 // const obj = new Solution();
 console.log(duplicate(head));
+
+*/
+
+/*
+class Solution {
+    //Function to check whether the list is palindrome.
+    isPalindrome(head)
+    {
+        if(!head || !head.next) return false;
+        let temp = head;
+        let middleNode = obj.returnMiddleNode(temp);
+        let secondHalf = middleNode.next;
+        middleNode.next = null;
+        let reversedHead = obj.reverse(secondHalf);
+
+        while(reversedHead) {
+            if(temp.data !== reversedHead.data) return false;
+                temp = temp.next;
+                reversedHead = reversedHead.next;
+            }
+        return true;
+    }
+    
+    returnMiddleNode(head) {
+        let slowPtr = head;
+        let fastPtr = head.next;
+        
+        while(fastPtr && fastPtr.next) {
+            slowPtr = slowPtr.next;
+            fastPtr = fastPtr.next.next;
+            
+        }
+        
+        return slowPtr;
+    }
+
+    reverse(head) {
+        let prev = null;
+        let temp = head;
+        let next;
+
+        while(temp) {
+            next = temp.next;
+            temp.next = prev;
+            prev = temp;
+            temp = next;
+        }
+
+        return prev;
+    }
+    
+}
+
+const head = createLinkedList([1, 2, 2, 1]);
+
+const obj = new Solution();
+// console.log(obj.isPalindrome(head));
+
+let a = {};
+
+console
+*/
+
+// class Solution {
+//     // Function to find intersection point in Y shaped Linked Lists.
+//     intersectPoint(head1, head2) {
+//         // your code here
+//         if(!head1 || !head2) return -1;
+//         let l1Len = 0;
+//         let l2Len = 0;
+//         let temp1 = head1;
+//         let temp2 = head2;
+
+//         while(temp1) {
+//             l1Len++;
+//             temp1 = temp1.next;
+//         }
+        
+//          while(temp2) {
+//             l2Len++;
+//             temp2 = temp2.next;
+//         }
+        
+//         if(l2Len === l1Len) {
+//             return this.returnIntersectionPt(head1, head2, l1Len-l2Len);
+//         } else if(l2Len > l1Len) {
+//             return this.returnIntersectionPt(head2, head1, l2Len-l1Len);
+//         } else {
+//             return this.returnIntersectionPt(head1, head2, l1Len-l2Len);
+//         }
+//     }
+//     returnIntersectionPt(head1, head2, diff) {
+//         let temp1 = head1;
+//         let temp2 = head2;
+//         while(diff) {
+//             if(diff === 0) break;
+//             temp1 = temp1.next;
+//             diff--;
+//         }
+//         while(temp1) {
+//             if(JSON.stringify(temp1) === JSON.stringify(temp2)) {
+//                 return temp1;
+//             }
+//             temp1 = temp1.next;
+//             temp2 = temp2.next;
+//         }
+//         return -1;
+//     }
+// }
+
+
+
+// function Yintercept(head1, head2) {
+
+//     if(!head1 || !head2) return -1;
+//     let temp1 = head1;
+//     let temp2 = head2;
+
+//     while(temp1 !== temp2) {
+
+//         temp1 = temp1.next;
+//         temp2 = temp2.next;
+
+//         // if(JSON.stringify(temp1) === JSON.stringify(temp2)) {
+//         //     return temp1;
+//         // }
+//         if(!temp1) {
+//             temp1 = head2;
+//         }
+//         if(!temp2) {
+//             temp2 = head1;
+//         }
+// //         // let temp1 = head1;
+// //         // let temp2 = head2;
+    
+// //         // Traverse both lists. When one pointer reaches the end, redirect it to the head of the other list.
+//     }
+// //     return temp1;
+// }
+
+
+// var removeNthFromEnd = function(head, n) {
+
+//     // edge case, if n=5(head) of the node
+//     let temp = head;
+//     let len = 0;
+//     while(temp) {
+//         len++;
+//         temp = temp.next;
+//     }
+//     if(n === len) return head.next;
+//     let fastPtr = head;
+//     while(fastPtr) {
+//         if(n === 0) break;
+//         fastPtr = fastPtr.next;
+//         n--;
+//     }
+
+//     let slowPtr = head;
+//     while(fastPtr.next) {
+//         slowPtr = slowPtr.next;
+//         fastPtr = fastPtr.next;
+//     }
+
+//     slowPtr.next = slowPtr.next.next;
+//     return head;
+// };
+
+
+// var addTwoNumbers = function(l1, l2) {
+//     let temp1 = l1;
+//     let temp2 = l2;
+//     let dummyNode = new Node(-1);
+//     let sumNodes = dummyNode;
+//     let carry = 0;
+
+//     while(temp1 || temp2) {
+
+//         let sum = carry;
+//         carry = 0;
+//         sum += temp1.data + temp2.data;
+
+//         if(sum >= 10) {
+//             let rem = sum % 10;
+//             carry = 1;
+
+//             sumNodes.next = new Node(rem);
+//         } else {
+//             sumNodes.next = new Node(sum);
+//         }
+//             sumNodes = sumNodes.next;
+//             if(temp1)   temp1 = temp1.next;
+//             if(temp2)   temp2 = temp2.next;
+//     }
+
+//     if(carry) {
+//         sumNodes.next = new Node(carry);
+//     }
+//         return dummyNode.next;
+    
+// };
+
+
+// var addTwoNumbers = function(l1, l2) {
+//     let temp1 = l1;
+//     let temp2 = l2;
+//     let dummyNode = new Node(-1);
+//     let sumNodes = dummyNode;
+//     let carry = 0;
+
+//     while(temp1 || temp2) {
+
+//         let sum = carry;
+//         carry = 0;
+
+//         if(temp1) {
+//             sum += temp1.data;
+//             temp1 = temp1.next;
+//         }
+//         if(temp2) {
+//             sum += temp2.data;
+//             temp2 = temp2.next;
+//         }
+
+//         if(sum >= 10) {
+//             let rem = sum % 10;
+//             carry = 1;
+
+//             sumNodes.next = new Node(rem);
+//         } else {
+//             sumNodes.next = new Node(sum);
+//         }
+//             sumNodes = sumNodes.next;
+            
+//     }
+
+//     if(carry) {
+//         sumNodes.next = new ListNode(carry);
+//     }
+//         return dummyNode.next;
+    
+// };
+
+/*
+
+  function ListNode(val, next) {
+      this.val = (val===undefined ? 0 : val)
+      this.next = (next===undefined ? null : next)
+ }
+
+var addTwoNumbers = function(l1, l2) {
+    let temp1 = l1;
+    let temp2 = l2;
+    let dummyNode = new ListNode(-1);
+    let sumNodes = dummyNode;
+    let carry = 0;
+
+    while(temp1 || temp2) {
+
+        let sum = carry;
+        carry = 0;
+
+        if(temp1) {
+            sum += temp1.data;
+            temp1 = temp1.next;
+        }
+        if(temp2) {
+            sum += temp2.data;
+            temp2 = temp2.next;
+        }
+
+        if(sum >= 10) {
+            let rem = sum % 10;
+            carry = 1;
+
+            sumNodes.next = new ListNode(rem);
+        } else {
+            sumNodes.next = new ListNode(sum);
+        }
+            sumNodes = sumNodes.next;
+            
+    }
+
+    if(carry) {
+        sumNodes.next = new ListNode(carry);
+    }
+        return dummyNode.next;
+    
+};
+
+const head1 = createLinkedList([2, 4, 3]);
+const head2 = createLinkedList([5, 6, 4]);
+
+// const obj = new Solution();
+console.log(addTwoNumbers(head1, head2));
+
+*/
+
+
+// var reverseLL = function(temp) {
+//     let prev = null;
+//     let next;
+
+//     while(temp) {
+//         next = temp.next;
+//         temp.next = prev;
+//         prev = temp;
+//         temp = next;
+//     }
+//     return prev;
+// }
+
+// var returnKthNode = function(temp, k) {
+
+//     while(temp) {
+//         k--;
+//         if(k===0) return temp;
+//         temp = temp.next;
+//     }
+//     return temp;
+// }
+
+
+// var reverseKGroup = function(head, k) {
+//     // split the group with given k elements
+//     // reverse the group
+//     if(!head || !head.next) return head;
+//     let temp = head;
+//     let prevNode;
+//     while(temp) {
+
+//         let kthNode = returnKthNode(temp, k);
+
+//         if(!kthNode) {
+//             if(prevNode) {
+//                 prevNode.next = temp;
+//             }
+//             break;
+//         }
+
+//         let nextNode = kthNode.next;
+//         kthNode.next = null;
+//         let newList = reverseLL(temp);
+
+//         if(head === temp) {
+//             head = newList;
+//         } else {
+//             prevNode.next = newList;
+//         }
+//         prevNode = temp;
+//         temp = nextNode;
+//     } 
+// console.log(JSON.stringify(head));
+// };
+
+// const head = createLinkedList([1, 2, 3, 4, 5, 6 ,7]);
+// reverseKGroup(head, 2);
+
+
+// var mergeNodes = function(head) {
+//     let temp = head.next;
+//     let dummyHead = new Node();
+//     let tempHead = dummyHead;
+//     let sum = 0;
+
+//     while(temp) {
+//         if(temp.data === 0) {
+//             if(sum) {
+//                 tempHead.next = new Node(sum);
+//                 sum = 0;
+//                 tempHead = tempHead.next;
+//             }
+//         }
+//         sum += temp.data;
+//         temp = temp.next;
+//     }
+//     console.log(dummyHead.next);
+// };
+
+
+// var mergeNodes = function(head) {
+//     let sum =0;
+//     let curr = head.next;
+//     let result = curr;
+//     while(curr){
+//         if(curr.data == 0){
+//             // curr.data = sum;
+//             result.data = sum;
+//             curr = curr.next;
+//             result.next = curr;
+//             result = result.next;
+//             sum = 0;
+//         }
+//         else{
+//           sum += curr.data;
+//           curr = curr.next;
+//         }
+//     }
+//     return head.next;
+// };
+
+
+// var hasCycle = function(head) {
+//     let slowPtr = head;
+//     let fastPtr = head;
+
+//     while(fastPtr && fastPtr.next) {
+//         fastPtr = fastPtr.next.next;
+//         slowPtr = slowPtr.next;
+
+//         if(fastPtr === slowPtr) return true;
+//     }
+//     return false;
+// };
+
+
+// var startingPtr = function(head) {
+//     let slowPtr = head;
+//     let fastPtr = head;
+
+//     while(fastPtr && fastPtr.next) {
+//         slowPtr = slowPtr.next;
+//         fastPtr = fastPtr.next.next;
+
+//         if(slowPtr === fastPtr) {
+//             let cnt = 1;
+//             fastPtr = fastPtr.next;
+//             while(slowPtr !== fastPtr) {
+//                 cnt++;
+//                 fastPtr = fastPtr.next;
+//             }
+//             return cnt;
+//         }
+//     }
+// }
+
+// var reverveRecursive = function(head) {
+
+//     if(head.next === null) return head;
+    
+//     let newHead = reverveRecursive(head.next);
+
+//     let currentNext = head.next;
+//     currentNext.next = head;
+
+//     head.next = null;
+
+
+//     return newHead;
+// }
+
+
+class WithRandomPtr {
+    constructor(val = -1, next = null, random = null) {
+        this.data = val;
+        this.next = next;
+        this.random = random;
+    }
+}
+
+function LinkedListWithRandomPtr(arr, ind) {
+
+    let nodes = arr.map(data => new WithRandomPtr(data));
+
+    for(let i = 0; i < nodes.length; i++) {
+        nodes[i].next = nodes[i+1];
+    }
+
+    for(let i = 0; i < nodes.length; i++) {
+        if(ind[i] !== null && ind[i] < nodes.length)
+        nodes[i].random = nodes[ind[i]];
+    }
+    
+    return nodes[0];
+
+}
+
+var copyWithrandom = function(head) {
+
+
+}
+// let head = LinkedListWithRandomPtr([7, 13, 11, 10, 1], [null, 0, 4, 2, 0]);
+// copyWithRandom(head);
+// while(head) {
+//     console.log(head.next.data)
+//     head = head.next;
+// }
+
+// 1. create a map, key as original node, value as node's data
+// 2. in next loop, set next and random ptr
+
+// function copyWithRandom(head) {
+
+//     let temp = head;
+//     let nodeMap = new Map();
+//     let dummyNode = new WithRandomPtr();
+//     let currentNode = dummyNode;
+
+//     while(temp) {
+//         let newNode = new WithRandomPtr(temp.data);
+//         nodeMap.set(temp, newNode);
+//         temp = temp.next;
+//     }
+
+//     let temp1 = head;
+//     while(temp1) {
+//         let copiedNode = nodeMap.get(temp1);
+//         copiedNode.next = nodeMap.get(temp1.next);
+//         copiedNode.random = nodeMap.get(temp1.random);
+
+//         currentNode.next = copiedNode;
+
+//         temp1 = temp1.next;
+//         currentNode = currentNode.next;
+//     }
+
+//     console.log(dummyNode.next);
+// }
+
+
+
+
+var copyRandomList = function(head) {
+
+    let temp = head;
+    let dummyNode = new WithRandomPtr(-1, null, null);
+    let copiedNode = dummyNode;
+
+    while(temp) {
+        let newNode = new WithRandomPtr(temp.data, null, null);
+        newNode.next = temp.next;
+        temp.next = newNode;
+        temp = temp.next.next;
+    }
+    
+    let temp1 = head;
+    while(temp1) {
+        temp1.next.random = temp1.random.next;
+
+        temp1 = temp1.next.next;
+    }
+
+     let temp2 = head;
+    while(temp2) {
+        copiedNode.next = temp2.next;
+        temp2.next = temp2.next.next;
+
+        temp2 = temp2.next;
+        copiedNode = copiedNode.next;
+    }
+
+return dummyNode.next;
+};
+
+
+let head = LinkedListWithRandomPtr([7, 13, 11, 10, 1], [null, 0, 4, 2, 0]);
+// console.log(copyRandomList(head));
+
+// function copyRandomList(head) {
+// let temp = head;
+// let dummyNode = new WithRandomPtr();
+// let copiedNode = dummyNode;
+
+
+//     while(temp) {
+//         let newNode = new WithRandomPtr(temp.data, null, null);
+//         newNode.next = temp.next;
+//         temp.next = newNode;
+//         temp = temp.next.next;
+//     }
+//     let temp1 = head;
+//     while(temp1) {
+//         // temp1.next.random = temp1.random.next;
+
+//         if(temp1.next.random) {
+//             temp1.next.random = temp1.random.next;
+//         } else {
+//             temp1.next.random = null;
+//         }
+
+//         temp1 = temp1.next.next;
+//     }
+
+//      let temp2 = head;
+//     while(temp2) {
+
+//         copiedNode.next = temp2.next;
+//         temp2.next = temp2.next.next;
+//         temp2 = temp2.next;
+//         copiedNode = copiedNode.next;
+//     }
+// }
+
+// var copyRandomList = function(head) {
+//     // Create a map to map new node with the old noe, the key will be the old node, the value will be 
+//     // the new node
+//     const nodeMap = new Map();
+
+//     let curNode = head; 
+//     let preNewNode = newHead = new Node(), curNewNode;
+
+//     while (curNode) {
+//       curNewNode = new Node(curNode.val);
+//       nodeMap.set(curNode, curNewNode);
+
+//       preNewNode.next = curNewNode;
+
+//       curNode = curNode.next;
+//       preNewNode = curNewNode;
+//     }
+
+//     nodeMap.forEach((newNode, oldNode) => {
+//       newNode.random = nodeMap.get(oldNode.random) ?? null
+//     })
+
+//     return newHead.next
+// }
+
+
+// browser implementation
+
+class DLLNode {
+
+    constructor(url, next = null, prev = null) {
+        this.current = url;
+        this.next = next;
+        this.prev = prev;
+    }
+
+}
+class Browser {
+
+    currentUrl;
+    constructor(url, next = null, prev = null) {
+        this.currentUrl = new DLLNode(url, next, prev);
+    }
+
+    visit(url) {
+        let newNode = new DLLNode(url, null, this.currentUrl);
+        this.currentUrl.next = newNode;
+        this.currentUrl = this.currentUrl.next;
+        return this.currentUrl;
+    }
+
+    moveForward(steps) {
+        let temp = this.currentUrl;
+        while(steps && temp) {
+            steps--;
+            if(steps === 0) {
+                this.currentUrl = temp;
+                return this.currentUrl;
+            }
+            temp = temp.next;
+        }
+        return null;
+    }
+
+    moveBackward(steps) {
+        let temp = this.currentUrl;
+        while(steps && temp) {
+            steps--;
+            if(steps === 0) {
+                this.currentUrl = temp;
+                return this.currentUrl;
+            }
+            temp = temp.prev;
+        }
+        return temp.data;
+    }
+
+}
+
+let obj = new Browser('www.google.com');
+obj.visit('www.takeyouforward.com');
+obj.visit('www.takeyouforward-1.com');
+obj.visit('www.takeyouforward-2.com');
+// obj.visit()
+
+obj.moveForward(1);
+console.log(obj);
