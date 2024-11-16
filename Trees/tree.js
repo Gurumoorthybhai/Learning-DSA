@@ -539,66 +539,143 @@ function verticalLines(node) {
 // print leaf node
 // print right subtree
 
-function leftSubTree(node, res) {
-    if(node === null) return;
+// function leftSubTree(node, res) {
+//     if(node === null) return;
 
-    if(node.left) {
-        res.push(node.data);
-        leftSubTree(node.left, res);
-    } else if(node.right) {
-        res.push(node.data);
-        leftSubTree(node.right, res);
+//     if(node.left) {
+//         res.push(node.data);
+//         leftSubTree(node.left, res);
+//     } else if(node.right) {
+//         res.push(node.data);
+//         leftSubTree(node.right, res);
+//     }
+// }
+
+// function rightSubTree(node, res) {
+//     if(node === null) return;
+
+//     if(node.right) {
+//         rightSubTree(node.right, res);
+//         res.push(node.data);
+//     } else if(node.left) {
+//         rightSubTree(node.left, res);
+//         res.push(node.data);
+//     }
+// }
+
+// function leafNode(node, res) {
+//     if(node === null) return;
+
+//     if(node.left === null && node.right === null)
+//         res.push(node.data);
+//     leafNode(node.left, res)
+//     leafNode(node.right, res)
+// }
+
+// function boundaryOrder(node) {
+
+//     let res = [];
+
+//     res.push(node.data);
+
+//     leftSubTree(node.left, res);
+//     leafNode(node, res);
+//     rightSubTree(node.right, res);
+
+//     return res;
+// }
+
+// let root = new Node(1);
+// root.left = new Node(2);
+// root.right = new Node(3);
+// root.left.left = new Node(4);
+// root.left.right = new Node(5);
+
+// root.right.left = new Node(6);
+// root.right.right = new Node(7);
+
+// root.right.left.right = new Node(8);
+// root.right.right.right = new Node(9);
+
+// root.right.right.right.left = new Node(10);
+// root.right.right.right.right = new Node(11);
+// root.right.right.right.right.right = new Node(12);
+
+// console.log(boundaryOrder(root).join(', '));
+
+
+// ========================== ========================== ==========================
+
+// 14. Find the depth of the binary tree
+
+// what is the depth of the binary tree ? => the longest path from root to the leaf node
+
+//             1
+//         2       3
+//     4      5 6     7
+// 8
+// o/p => 4
+
+// from the above tree, we use the formaula 1 + max(depth of left, depth of right)
+
+// this can be solved by 
+// 1. recursive => 
+    // worst case is skew tree, where store auxiliary space of we O(n), O(n) time complexity
+// 2. level order
+    // worst case is complete tree, where store auxiliary space of we O(n), O(n) time complexity
+
+// function depthOfTree(node) {
+
+//     if(node === null) return 0;
+
+//     let leftDepth = depthOfTree(node.left);
+//     let rightDepth = depthOfTree(node.right);
+
+//     return 1 + Math.max(leftDepth, rightDepth);
+// }
+
+// let root = new Node(1);
+// root.left = new Node(2);
+// root.right = new Node(3);
+// root.left.left = new Node(4);
+// root.left.left.left = new Node(8);
+
+// root.right.left = new Node(6);
+// root.right.right = new Node(7);
+
+// console.log(depthOfTree(root));
+
+
+
+// level order approach
+
+// on each level completion, increment the heigth (h)
+
+function depthOfTree(node) {
+    let q = [];
+    let h = 0;
+
+    q.push(node);
+
+    while(q.length) {
+    for(let i = 0; i < q.length; i++) {
+        let temp = q.shift();
+
+        if(temp.left) q.push(temp.left);
+        if(temp.right) q.push(temp.right);
     }
+    h++;
 }
-
-function rightSubTree(node, res) {
-    if(node === null) return;
-
-    if(node.right) {
-        rightSubTree(node.right, res);
-        res.push(node.data);
-    } else if(node.left) {
-        rightSubTree(node.left, res);
-        res.push(node.data);
-    }
-}
-
-function leafNode(node, res) {
-    if(node === null) return;
-
-    if(node.left === null && node.right === null)
-        res.push(node.data);
-    leafNode(node.left, res)
-    leafNode(node.right, res)
-}
-
-function boundaryOrder(node) {
-
-    let res = [];
-
-    res.push(node.data);
-
-    leftSubTree(node.left, res);
-    leafNode(node, res);
-    rightSubTree(node.right, res);
-
-    return res;
+return h;
 }
 
 let root = new Node(1);
 root.left = new Node(2);
 root.right = new Node(3);
 root.left.left = new Node(4);
-root.left.right = new Node(5);
+root.left.left.left = new Node(8);
 
 root.right.left = new Node(6);
 root.right.right = new Node(7);
 
-root.right.left.right = new Node(8);
-root.right.right.right = new Node(9);
-
-root.right.right.right.left = new Node(10);
-root.right.right.right.right = new Node(11);
-root.right.right.right.right.right = new Node(12);
-
-console.log(boundaryOrder(root).join(', '));
+console.log(depthOfTree(root));
