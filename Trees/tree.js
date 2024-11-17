@@ -651,31 +651,83 @@ function verticalLines(node) {
 
 // on each level completion, increment the heigth (h)
 
-function depthOfTree(node) {
-    let q = [];
-    let h = 0;
+// function depthOfTree(node) {
+//     let q = [];
+//     let h = 0;
 
-    q.push(node);
+//     q.push(node);
 
-    while(q.length) {
-    for(let i = 0; i < q.length; i++) {
-        let temp = q.shift();
+//     while(q.length) {
+//     for(let i = 0; i < q.length; i++) {
+//         let temp = q.shift();
 
-        if(temp.left) q.push(temp.left);
-        if(temp.right) q.push(temp.right);
-    }
-    h++;
+//         if(temp.left) q.push(temp.left);
+//         if(temp.right) q.push(temp.right);
+//     }
+//     h++;
+// }
+// return h;
+// }
+
+// let root = new Node(1);
+// root.left = new Node(2);
+// root.right = new Node(3);
+// root.left.left = new Node(4);
+// root.left.left.left = new Node(8);
+
+// root.right.left = new Node(6);
+// root.right.right = new Node(7);
+
+// console.log(depthOfTree(root));
+
+
+// ========================== ========================== ==========================
+
+
+// L.15 check the given binary tree is balanced or not
+
+// balanced tree => At each Node, the diff of left subtree node, right subtree node should be <= 1
+// so the idea is in the previous prb we have solved to get the height of tree, in that will add condition to check the height diff, if its left subtree and right subtree is greater than 1, return -1 and stop recursion
+
+
+// depth first search
+function dfs(node) {
+
+    if(node === null) return 0;
+
+    let lh = dfs(node.left);
+
+    if(lh === -1) return -1;
+
+    let rh = dfs(node.right);
+
+    if(rh === -1) return -1;
+
+    if(Math.abs(lh-rh) > 1) return -1;
+
+    return 1 + Math.max(lh, rh);
 }
-return h;
+
+function isBalancedTree(node) {
+    return dfs(node) !== -1 ;
 }
+
+// not a balance tree - o/p false
+
+// let root = new Node(1);
+// root.left = new Node(2);
+// root.right = new Node(3);
+// root.left.left = new Node(4);
+// root.left.right = new Node(6);
+// root.left.left.left = new Node(5);
 
 let root = new Node(1);
 root.left = new Node(2);
 root.right = new Node(3);
 root.left.left = new Node(4);
-root.left.left.left = new Node(8);
+root.left.right = new Node(6);
+root.left.left.left = new Node(5);
 
-root.right.left = new Node(6);
-root.right.right = new Node(7);
+root.right.right = new Node(6);
 
-console.log(depthOfTree(root));
+console.log(`The given binary tree is a balanced - ${isBalancedTree(root)}`);
