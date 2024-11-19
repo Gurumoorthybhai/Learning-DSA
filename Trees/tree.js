@@ -691,26 +691,26 @@ function verticalLines(node) {
 
 
 // depth first search
-function dfs(node) {
+// function dfs(node) {
 
-    if(node === null) return 0;
+//     if(node === null) return 0;
 
-    let lh = dfs(node.left);
+//     let lh = dfs(node.left);
 
-    if(lh === -1) return -1;
+//     if(lh === -1) return -1;
 
-    let rh = dfs(node.right);
+//     let rh = dfs(node.right);
 
-    if(rh === -1) return -1;
+//     if(rh === -1) return -1;
 
-    if(Math.abs(lh-rh) > 1) return -1;
+//     if(Math.abs(lh-rh) > 1) return -1;
 
-    return 1 + Math.max(lh, rh);
-}
+//     return 1 + Math.max(lh, rh);
+// }
 
-function isBalancedTree(node) {
-    return dfs(node) !== -1 ;
-}
+// function isBalancedTree(node) {
+//     return dfs(node) !== -1 ;
+// }
 
 // not a balance tree - o/p false
 
@@ -721,13 +721,68 @@ function isBalancedTree(node) {
 // root.left.right = new Node(6);
 // root.left.left.left = new Node(5);
 
-let root = new Node(1);
+// let root = new Node(1);
+// root.left = new Node(2);
+// root.right = new Node(3);
+// root.left.left = new Node(4);
+// root.left.right = new Node(6);
+// root.left.left.left = new Node(5);
+
+// root.right.right = new Node(6);
+
+// console.log(`The given binary tree is a balanced - ${isBalancedTree(root)}`);
+
+
+// Maxi Path Sum - return max path sum btw 2 nodes
+// 2 things
+// 1. each node should take care of max path sum mean return sum max (node + left subtree + right subtree)
+// 2. track the max sum (it can be only node, max(left + right) + node, l+r+node)
+
+let maxi = Number.MIN_VALUE;
+
+function findMaxUtil(node) {
+
+    if(node === null) return 0;
+
+    let l = findMaxUtil(node.left);
+    let r = findMaxUtil(node.right);
+
+    let maxiPath = Math.max(node.data, Math.max(l, r) + node.data);
+
+    let nodeMaxi = Math.max(l+r+node.data, maxiPath);
+
+    maxi = Math.max(nodeMaxi, maxi);
+
+
+    return maxiPath;
+}
+
+
+function findMaxSum(root) {
+    
+    return findMaxUtil(root);
+}
+function findMaxsum() {
+    findMaxSum(root)
+    return maxi;
+}
+
+
+let root = new Node(10);
 root.left = new Node(2);
-root.right = new Node(3);
-root.left.left = new Node(4);
-root.left.right = new Node(6);
-root.left.left.left = new Node(5);
+root.right = new Node(10);
+root.left.left = new Node(20);
+root.left.right = new Node(1);
+root.right.right = new Node(-25);
+root.right.right.left = new Node(3);
+root.right.right.right = new Node(4);
+console.log(findMaxsum());
 
-root.right.right = new Node(6);
 
-console.log(`The given binary tree is a balanced - ${isBalancedTree(root)}`);
+
+// let root = new Node(1);
+// root.left = new Node(2);
+// root.right = new Node(3);
+// let maxi = 0;
+// maxPathSum(root, maxi);
+// console.log(maxi);
