@@ -738,45 +738,45 @@ function verticalLines(node) {
 // 1. each node should take care of max path sum mean return sum max (node + left subtree + right subtree)
 // 2. track the max sum (it can be only node, max(left + right) + node, l+r+node)
 
-let maxi = Number.MIN_VALUE;
+// let maxi = Number.MIN_VALUE;
 
-function findMaxUtil(node) {
+// function findMaxUtil(node) {
 
-    if(node === null) return 0;
+//     if(node === null) return 0;
 
-    let l = findMaxUtil(node.left);
-    let r = findMaxUtil(node.right);
+//     let l = findMaxUtil(node.left);
+//     let r = findMaxUtil(node.right);
 
-    let maxiPath = Math.max(node.data, Math.max(l, r) + node.data);
+//     let maxiPath = Math.max(node.data, Math.max(l, r) + node.data);
 
-    let nodeMaxi = Math.max(l+r+node.data, maxiPath);
+//     let nodeMaxi = Math.max(l+r+node.data, maxiPath);
 
-    maxi = Math.max(nodeMaxi, maxi);
-
-
-    return maxiPath;
-}
+//     maxi = Math.max(nodeMaxi, maxi);
 
 
-function findMaxSum(root) {
+//     return maxiPath;
+// }
+
+
+// function findMaxSum(root) {
     
-    return findMaxUtil(root);
-}
-function findMaxsum() {
-    findMaxSum(root)
-    return maxi;
-}
+//     return findMaxUtil(root);
+// }
+// function findMaxsum() {
+//     findMaxSum(root)
+//     return maxi;
+// }
 
 
-let root = new Node(10);
-root.left = new Node(2);
-root.right = new Node(10);
-root.left.left = new Node(20);
-root.left.right = new Node(1);
-root.right.right = new Node(-25);
-root.right.right.left = new Node(3);
-root.right.right.right = new Node(4);
-console.log(findMaxsum());
+// let root = new Node(10);
+// root.left = new Node(2);
+// root.right = new Node(10);
+// root.left.left = new Node(20);
+// root.left.right = new Node(1);
+// root.right.right = new Node(-25);
+// root.right.right.left = new Node(3);
+// root.right.right.right = new Node(4);
+// console.log(findMaxsum());
 
 
 
@@ -786,3 +786,112 @@ console.log(findMaxsum());
 // let maxi = 0;
 // maxPathSum(root, maxi);
 // console.log(maxi);
+
+
+// ========================== ========================== ==========================
+
+// L.16 Check the given BT is same or not
+
+// eg: 
+
+// tree1
+
+//             1
+//     2               3
+// 4       5       6        7
+
+
+// tree2
+
+    //         1
+    //  2               3
+    //      5       6        7
+
+    // o/p false
+
+    // idea is traversal both trees with left subtree and right subtree, if both node values are same continue with recursion
+    // if any of the node returns false, return & stop the recursion
+
+function isSameTree(node1, node2) {
+    if(node1 === null || node2 === null) return node1 === node2
+
+    return (node1.data === node2.data) && isSameTree(node1.left, node2.left) && isSameTree(node1.right, node2.right);
+}
+
+// let root1 = new Node(1);
+// root1.left = new Node(2);
+// root1.right = new Node(3);
+
+// let root2 = new Node(1);
+// root2.left = new Node(2);
+// root2.right = new Node(3);
+
+
+// let root1 = new Node(1);
+// root1.left = new Node(2);
+// root1.right = new Node(3);
+
+// let root2 = new Node(1);
+// root2.left = new Node(2);
+// root2.right = new Node(2);
+
+// console.log(isSameTree(root1, root2));
+
+// Implement above with level oreder traversal
+
+function isSameTree(node1, node2) {
+
+    if(node1 === null || node2 === null) return node1 === node2;
+
+    let queue1 = [node1];
+    let queue2 = [node2];
+
+    while (queue1.length > 0 && queue2.length > 0) {
+        let node1 = queue1.shift();
+        let node2 = queue2.shift();
+
+        // Check if the current nodes' data are not equal
+        if (node1.data !== node2.data)
+            return false;
+
+        // Check left children
+        if (node1.left && node2.left) {
+            queue1.push(node1.left);
+            queue2.push(node2.left);
+        } 
+        else if (node1.left || node2.left) {
+            return false;
+        }
+
+        // Check right children
+        if (node1.right && node2.right) {
+            queue1.push(node1.right);
+            queue2.push(node2.right);
+        } 
+        else if (node1.right || node2.right) {
+            return false;
+        }
+    }
+    return true;
+
+}
+
+
+// same tree
+
+// let root1 = new Node(1);
+// root1.left = new Node(2);
+// root1.right = new Node(3);
+
+// let root2 = new Node(1);
+// root2.left = new Node(2);
+// root2.right = new Node(3);
+
+// diff
+let root1 = new Node(1);
+root1.left = new Node(2);
+
+let root2 = new Node(1);
+root2.left = new Node(2);
+
+console.log(isSameTree(root1, root2));
