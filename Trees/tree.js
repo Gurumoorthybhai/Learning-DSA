@@ -839,42 +839,42 @@ function isSameTree(node1, node2) {
 
 // Implement above with level oreder traversal
 
-function isSameTree(node1, node2) {
+// function isSameTree(node1, node2) {
 
-    if(node1 === null || node2 === null) return node1 === node2;
+//     if(node1 === null || node2 === null) return node1 === node2;
 
-    let queue1 = [node1];
-    let queue2 = [node2];
+//     let queue1 = [node1];
+//     let queue2 = [node2];
 
-    while (queue1.length > 0 && queue2.length > 0) {
-        let node1 = queue1.shift();
-        let node2 = queue2.shift();
+//     while (queue1.length > 0 && queue2.length > 0) {
+//         let node1 = queue1.shift();
+//         let node2 = queue2.shift();
 
-        // Check if the current nodes' data are not equal
-        if (node1.data !== node2.data)
-            return false;
+//         // Check if the current nodes' data are not equal
+//         if (node1.data !== node2.data)
+//             return false;
 
-        // Check left children
-        if (node1.left && node2.left) {
-            queue1.push(node1.left);
-            queue2.push(node2.left);
-        } 
-        else if (node1.left || node2.left) {
-            return false;
-        }
+//         // Check left children
+//         if (node1.left && node2.left) {
+//             queue1.push(node1.left);
+//             queue2.push(node2.left);
+//         } 
+//         else if (node1.left || node2.left) {
+//             return false;
+//         }
 
-        // Check right children
-        if (node1.right && node2.right) {
-            queue1.push(node1.right);
-            queue2.push(node2.right);
-        } 
-        else if (node1.right || node2.right) {
-            return false;
-        }
-    }
-    return true;
+//         // Check right children
+//         if (node1.right && node2.right) {
+//             queue1.push(node1.right);
+//             queue2.push(node2.right);
+//         } 
+//         else if (node1.right || node2.right) {
+//             return false;
+//         }
+//     }
+//     return true;
 
-}
+// }
 
 
 // same tree
@@ -888,10 +888,91 @@ function isSameTree(node1, node2) {
 // root2.right = new Node(3);
 
 // diff
-let root1 = new Node(1);
-root1.left = new Node(2);
+// let root1 = new Node(1);
+// root1.left = new Node(2);
 
-let root2 = new Node(1);
-root2.left = new Node(2);
+// let root2 = new Node(1);
+// root2.left = new Node(2);
 
-console.log(isSameTree(root1, root2));
+// console.log(isSameTree(root1, root2));
+
+// L.19 Zig-Zag traversal
+
+//              1
+//     2               3
+// 4       5       6        7
+
+// ask is for odd level, print from L -> R
+// for even level, print from R -> L
+
+// for even levels, push right left, so that the next odd level
+// will get first
+
+// odd  -> 1 -> 2, 3
+// even -> 3 -> 7, 6
+//      -> 2 -> 5, 4     => 7 6 5 4
+// odd -> 4, 5, 6, 7
+
+// if(temp.right) {
+//     q.unshift(temp.right);
+// }
+// if(temp.left) {
+//     q.unshift(temp.left);
+// }
+
+// why did unshift, if we use push, in pop, we will get the pushed value
+
+// function zigZag(node) {
+
+//     if(node === null) return;
+
+//     let q = [node];
+//     let odd = true;
+//     let ans = [];
+
+//     while(q.length) {
+//         let size = q.length;
+//         for(let i = 0; i < size; i++) {
+//             let curr;
+
+//             if(odd) {
+//                 curr = q.shift();
+//                 if(curr.left) {
+//                     q.push(curr.left);
+//                 }
+//                 if(curr.right) {
+//                 q.push(curr.right);
+//                 }
+//             } else {
+//                 curr = q.pop();
+
+//                 if(curr.right) {
+//                     q.unshift(curr.right);
+//                 }
+//                 if(curr.left) {
+//                     q.unshift(curr.left);
+//                 }
+//             }
+
+//             ans.push(curr.data);
+//         }
+
+        
+//         odd = !odd;
+//     }
+
+//     console.log(ans.join(', '));
+// }
+
+// let root = new Node(1);
+// root.left = new Node(2);
+// root.left.left = new Node(4);
+// root.left.right = new Node(5);
+// root.right = new Node(3);
+// root.right.left = new Node(6);
+// root.right.right = new Node(7);
+
+// o/p -> 1, 3, 2, 4, 5, 6, 7
+// console.log(zigZag(root));
+
+// approach2- we can solve this with 2 stack
