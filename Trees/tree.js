@@ -533,6 +533,57 @@ function verticalLines(node) {
 
 // verticalOrder(root);
 
+// With DFS, the order of the node will not in expected way bcz if we see the 
+// above node 10 is printed before 7, to solve this issue, we need to traverse with BFS
+
+// function verticalLine(node) {
+
+//     const map = new Map();
+//     let hd = 0;
+//     let q = [[node, hd]];
+
+//     while(q.length) {
+
+//         let [node, hd] = q.shift();
+
+//         if(!map.has(hd)) {
+//             map.set(hd, []);
+//         }
+
+//         map.get(hd).push(node.data);
+
+//         if(node.left) {
+//             q.push([node.left, hd-1]);
+//         }
+
+//         if(node.right) {
+//             q.push([node.right, hd+1]);
+//         }
+//     }
+
+//     console.log([...map.keys()]);
+//     // [...map.keys()].sort((a, b) => (a-b)).forEach(key => console.log(map.get(key)))
+
+//     // for(let [key, val] of [...map.keys()].sort((a, b) => (a-b)))
+//     //     console.log(val);
+// }
+
+// let root = new Node(1);
+// root.left = new Node(2);
+// root.left.left = new Node(4);
+// root.left.right = new Node(5);
+// root.right = new Node(3);
+// root.right.left = new Node(6);
+// root.right.left.right = new Node(8);
+// root.right.left.right.right = new Node(9);
+// root.right.left.right.right.right = new Node(10);
+
+// root.right.right = new Node(7);
+
+// verticalLine(root);
+
+
+
 // Boundary Tree - Revise
 
 // print left subtree
@@ -812,11 +863,11 @@ function verticalLines(node) {
     // idea is traversal both trees with left subtree and right subtree, if both node values are same continue with recursion
     // if any of the node returns false, return & stop the recursion
 
-function isSameTree(node1, node2) {
-    if(node1 === null || node2 === null) return node1 === node2
+// function isSameTree(node1, node2) {
+//     if(node1 === null || node2 === null) return node1 === node2
 
-    return (node1.data === node2.data) && isSameTree(node1.left, node2.left) && isSameTree(node1.right, node2.right);
-}
+//     return (node1.data === node2.data) && isSameTree(node1.left, node2.left) && isSameTree(node1.right, node2.right);
+// }
 
 // let root1 = new Node(1);
 // root1.left = new Node(2);
@@ -976,3 +1027,45 @@ function isSameTree(node1, node2) {
 // console.log(zigZag(root));
 
 // approach2- we can solve this with 2 stack
+
+// L.22 Top-view of the tree
+
+// similar to vertical line, level order approach we followed, but here each vertical line we will be having 1 node
+
+function topView(node, hd) {
+    let map = new Map();
+    let q = [[node, hd]];
+
+    while(q.length) {
+
+        let [node, hd] = q.shift();
+
+        if(!map.has(hd)) {
+            map.set(hd, node.data);
+        }
+
+        if(node.left) {
+            q.push([node.left, hd-1]);
+        }
+
+        if(node.right) {
+            q.push([node.right, hd+1]);
+        }
+    }
+
+    [...map.keys()].sort((a, b) => a-b).forEach(key => console.log(map.get(key)));
+}
+
+let root = new Node(1);
+root.left = new Node(2);
+root.left.left = new Node(4);
+root.left.right = new Node(5);
+root.right = new Node(3);
+root.right.left = new Node(6);
+root.right.left.right = new Node(8);
+root.right.left.right.right = new Node(9);
+root.right.left.right.right.right = new Node(10);
+
+root.right.right = new Node(7);
+
+topView(root, 0);
