@@ -1032,40 +1032,506 @@ function verticalLines(node) {
 
 // similar to vertical line, level order approach we followed, but here each vertical line we will be having 1 node
 
-function topView(node, hd) {
-    let map = new Map();
-    let q = [[node, hd]];
+// function topView(node, hd) {
+//     let map = new Map();
+//     let q = [[node, hd]];
 
-    while(q.length) {
+//     while(q.length) {
 
-        let [node, hd] = q.shift();
+//         let [node, hd] = q.shift();
 
-        if(!map.has(hd)) {
-            map.set(hd, node.data);
-        }
+//         if(!map.has(hd)) {
+//             map.set(hd, node.data);
+//         }
 
-        if(node.left) {
-            q.push([node.left, hd-1]);
-        }
+//         if(node.left) {
+//             q.push([node.left, hd-1]);
+//         }
 
-        if(node.right) {
-            q.push([node.right, hd+1]);
-        }
+//         if(node.right) {
+//             q.push([node.right, hd+1]);
+//         }
+//     }
+
+//     [...map.keys()].sort((a, b) => a-b).forEach(key => console.log(map.get(key)));
+// }
+
+// let root = new Node(1);
+// root.left = new Node(2);
+// root.left.left = new Node(4);
+// root.left.right = new Node(5);
+// root.right = new Node(3);
+// root.right.left = new Node(6);
+// root.right.left.right = new Node(8);
+// root.right.left.right.right = new Node(9);
+// root.right.left.right.right.right = new Node(10);
+
+// root.right.right = new Node(7);
+
+// topView(root, 0);
+
+
+// find max width of the BT, max width of 2 nodes in a level
+
+// level order transversing, bcz we need max width at each level
+
+// approach 1: use max var to get max length of each level
+
+
+// function maxWidth(node) {
+
+//     if(node === null) return 0;
+
+//     let max = 0;
+
+//     let q = [node];
+
+//     while(q.length) {
+
+//         max = Math.max(max, q.length);
+//         let size = q.length;
+        
+//         for(let i = 0; i < size; i++) {
+//             q.shift();
+//         }
+
+//         if()
+//     }
+// }
+
+
+// L.30 Print all the nodes at a distance of 'k', with give k = 3, target=4
+
+
+// function printAllNodes(nodes, k, target) {
+//     let ans = [];
+
+//     kDistanceRecur(node, k, target, ans);
+// }
+
+// function kDistanceRecur(node, k, target, ans) {
+
+//     if(node === null) return -1;
+
+//     if(node.data === target) {
+//         findNodes(node, k, ans);
+//         return 1;
+//     }
+
+//     let left = kDistanceRecur(node.left, k, target, ans);
+
+//     if(left !== -1) {
+//         if(k-left === 0) {
+//             ans.push(node.data);
+//         } else {
+//             findNodes(node, k-left-1, ans);
+//         }
+//     }
+// }
+
+// function findNodes(node, dis, ans) {
+
+//     if(node === null) return;
+
+//     if(dis === 0) {
+//         ans.push(node.data);
+//         return;
+//     }
+
+//     findNodes(node.left, dis-1, ans);
+//     findNodes(node.right, dis-1, ans);
+// }
+
+// approach 2: with parent node with level order traversal
+// 1. create a parentmap => by travering in level order
+// 2. create a visited map => to avoid already visited nodes
+
+
+// function findTarNode(root, target, parent) {
+//     let left = null;
+//     let right = null;
+
+//     if (root.left) {
+//         parent.set(root.left, root);
+//         left = findTarNode(root.left, target, parent);
+//     }
+
+//     if (root.right) {
+//         parent.set(root.right, root);
+//         right = findTarNode(root.right, target, parent);
+//     }
+
+//     if (root.data === target) {
+//         return root;
+//     }
+
+//     else if (root.left !== null) {
+//         return left;
+//     }
+
+//     return right;
+// }
+
+// function kDistranceNode(root, target, k) {
+
+//     let ans = [];
+//     if(root === null) return ans;
+
+//     let parent = new Map();
+//     parent.set(root, null);
+
+//     let q = [root];
+//     let tar = null;
+    
+//     while(q.length) {
+//         let curr = q.shift();
+
+//         if(curr.data === target) {
+//             tar = curr;
+//         }
+
+//         if(curr.left) {
+//         q.push(curr.left);
+//             parent.set(curr.left, curr);
+//         }
+
+//         if(curr.right) {
+//             q.push(curr.right);
+//             parent.set(curr.right, curr);
+//         }
+//     }
+
+//     q.push(tar);
+
+//     // visited map
+//     let visitedMap = new Map();
+//     visitedMap.set(tar, true);
+
+//     while(q.length) {
+
+//         // nodes inside q are at a distance of 'k'
+//         if(k === 0) {
+//             while(q.length) {
+//                 ans.push(q.shift().data);
+//             }
+//             break;
+//         }
+
+//         let size = q.length;
+        
+//         while(size-- > 0) {
+//             let curr = q.shift();
+
+//             if(curr.left && !visitedMap.has(curr.left)) {
+//                 q.push(curr.left);
+//                 visitedMap.set(curr.left, true);
+//             }
+
+//             if(curr.right && !visitedMap.has(curr.right)) {
+//                 q.push(curr.right);
+//                 visitedMap.set(curr.right, true);
+//             }
+
+//             //parent node
+//             let parNode = parent.get(curr);
+//             if(parNode && !visitedMap.has(parNode)) {
+//                 q.push(parNode);
+//                 visitedMap.set(parNode, true);
+//             }
+//         }
+//         k--;
+//     }
+
+//     ans.sort((a, b) => a-b);
+//     return ans;
+// }
+
+// function printNodes(nodes) {
+//     console.log(nodes.join(', '));
+// }
+
+// const root = new Node(20);
+// root.left = new Node(7);
+// root.right = new Node(2);
+// root.left.left = new Node(4);
+// root.left.right = new Node(3);
+// root.left.right.left = new Node(24);
+
+// const target = 7, k = 2;
+// // o/p => 2, 24
+// let ans = kDistranceNode(root, target, k);
+// printNodes(ans);
+
+
+// approach:
+// 1. with recursion, store the nodes in array
+// 2. find the leaf node, apply pathlen-k-1, to stored array and get the respective node
+
+// visited array to avoid already visited node
+
+
+// function kDistanceFromLeaf(node, path, pathLen, visited, k) {
+
+//     if(node === null) return null;
+
+//     path[pathLen] = node.data;
+//     visited[pathLen] = false;
+//     pathLen++;
+
+//     if(node.left === null && node.right === null && (pathLen-k-1) >= 0 && visited[pathLen-k-1] === false) {
+//         ans.push(path[pathLen-k-1]);
+//         visited[pathLen-k-1] = true;
+//         return;
+//     }
+
+
+//     kDistanceFromLeaf(node.left, path, pathLen, visited, k);
+//     kDistanceFromLeaf(node.right, path, pathLen, visited, k);
+// }
+
+
+// function printNodes(nodes) {
+//     console.log(nodes.join(', '));
+// }
+
+// const root = new Node(20);
+// root.left = new Node(7);
+// root.right = new Node(2);
+// root.left.left = new Node(4);
+// root.left.right = new Node(3);
+// root.left.right.left = new Node(24);
+
+// const k = 2;
+// // // o/p => 7
+// let path = new Array(1000);
+// path.fill(0);
+// let visited = new Array(1000);
+// visited.fill(false);
+// let pathLen = 0;
+// let ans = [];
+
+// kDistanceFromLeaf(root, path, pathLen, visited, k, ans);
+// printNodes(ans);
+
+
+
+// L.31 min time required to burn the BT, given target
+// rules
+// 1. it takes constant time to burn each node
+// 2. it spreads with connected nodes
+
+// approach
+// will use level order traversal
+// 1. create parent child mapping
+// 2. find target, apply parent, child mapping to traverse, take the time and increment with each level
+
+// function findTarNode(root, target, parent) {
+
+//     if(root === null) return null;
+//     let q = [root];
+//     let tar = null;
+//     let time = 0;
+
+//     parent.set(root, null);
+
+//     while(q.length) {
+//         let node = q.shift();
+
+//         if(node.data === target) {
+//             tar = node;
+//         }
+
+//         if(node.left) {
+//             parent.set(node.left, node);
+//             q.push(node.left);
+//         }
+
+//         if(node.right) {
+//             parent.set(node.right, node);
+//             q.push(node.right);
+//         }
+//     }
+
+//     q.push(tar);
+//     let visitedMap = new Map();
+//     visitedMap.set(tar, true);
+
+//     while(q.length) {
+//         let size = q.length;
+//         // count only if any of the adjacent node is burnt
+//         let burnt = 0;
+//         while(size-- > 0) {
+//             let node = q.shift();
+//             // ans.push(node.data);
+            
+//             if(node.left && !visitedMap.get(node.left)) {
+//                 burnt = 1;
+//                 visitedMap.set(node.left, true);
+//                 q.push(node.left);
+//             }
+//             if(node.right && !visitedMap.get(node.right)) {
+//                 burnt = 1;
+//                 visitedMap.set(node.right, true);
+//                 q.push(node.right);
+//             }
+
+//             let parentNode = parent.get(node);
+//             if(parentNode && !visitedMap.get(parentNode)) {
+//                 burnt = 1;
+//                 q.push(parentNode);
+//                 visitedMap.set(parentNode, true);
+//             }
+//         }
+//         // catch is count only when any of the adjacent node is burned
+//         if(burnt)
+//             time++;
+//     }
+//     return time;
+// }
+
+// function findTarNode(root, target, parent) {
+
+//         if(root === null) return null;
+//         let q = [root];
+//         let tar = null;
+//         let time = 0;
+    
+//         parent.set(root, null);
+    
+//         while(q.length) {
+//             let node = q.shift();
+    
+//             if(node.data === target) {
+//                 tar = node;
+//             }
+    
+//             if(node.left) {
+//                 parent.set(node.left, node);
+//                 q.push(node.left);
+//             }
+    
+//             if(node.right) {
+//                 parent.set(node.right, node);
+//                 q.push(node.right);
+//             }
+//         }
+//     }
+
+
+
+// function parentMap(node, parent) {
+
+//     if(node === null) return null;
+
+//     if(!parentMap1.has(node)) {
+//         parentMap1.set(node, []);
+//         if(parent) {
+//             parentMap1.get(node).push(parent);
+//             parentMap1.get(parent).push(node)
+//         }
+//     }
+//     parentMap(node.left, node);
+//     parentMap(node.left, node);
+// }
+
+
+// const root = new Node(1);
+// root.left = new Node(2);
+// root.right = new Node(3);
+// root.left.left = new Node(4);
+// root.left.left.right = new Node(4);
+
+// root.right.left = new Node(5);
+// root.right.right = new Node(6);
+
+// let parentMap1 = new Map();
+
+// parentMap(root, null);
+// // const target = 2;
+// // findTarNode(root, target, parentMap);
+// console.log(parentMap1);
+
+
+
+
+// L32. Count no.of.nodes in given complete tree, complete BT - except last left node, all the nodes are filled, in last level nodes are filled from left
+
+// approach 1:
+
+// recursively call the left & right subtree to cnt
+
+// TC - O(n) -> need to visit every nodes
+// SC - O(h) for complete BT -> O(logN) -> tree is mostly filled
+
+// approach 3: Best approach
+// so, we can utilitze the given complete tree property, we can apply 2pow(h) - 1, we need to know height
+
+    //             1
+    //     2               3            h = 3 => 2pow(3) -1 => 8 - 1 => 7 nodes
+    // 4       5        6      7     
+
+
+    //             1
+    //     2               3            h = 3 => 2pow(3) -1 => 8 - 1 => 7 nodes (no) actually now we have 6 nodes
+    // 4       5        6          
+// to cacluclate the height, we are not using recursion
+// from top, we will try to check the both left & right height, if they are same, apply formula & return the cnt
+// if not, check next level
+
+// TC - O(logn)^2
+// We traverse logN nodes, for each node we calculate height logN
+// SC - O(logn) recursive stack
+
+function countNodes(root) {
+
+    if(root === null) return 0;
+
+    let lh = leftHeight(root.left);
+    let rh = leftHeight(root.right);
+
+    if(lh === rh) {
+        return Math.pow(2, lh)-1;
     }
 
-    [...map.keys()].sort((a, b) => a-b).forEach(key => console.log(map.get(key)));
+    return countNodes(root.left) + countNodes(root.right) + 1;
 }
 
-let root = new Node(1);
+function leftHeight(root) {
+
+    let lheight = 1;
+    while(root) {
+        lheight++;
+        root = root.left
+    }
+    return lheight;
+}
+
+function rightHeight(root) {
+
+    let rheight = 1;
+    while(root) {
+        rheight++;
+        root = root.right
+    }
+    return rheight;
+}
+
+const root = new Node(1);
 root.left = new Node(2);
+root.right = new Node(3);
+
 root.left.left = new Node(4);
 root.left.right = new Node(5);
-root.right = new Node(3);
-root.right.left = new Node(6);
-root.right.left.right = new Node(8);
-root.right.left.right.right = new Node(9);
-root.right.left.right.right.right = new Node(10);
 
+root.right.left = new Node(6);
 root.right.right = new Node(7);
 
-topView(root, 0);
+root.left.left.left = new Node(8);
+root.left.left.right = new Node(9);
+
+root.left.right.left = new Node(10);
+root.left.right.right = new Node(11);
+
+const totNodes = countNodes(root);
+console.log(totNodes);
+
