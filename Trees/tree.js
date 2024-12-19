@@ -1654,65 +1654,110 @@ PreOrder - [0 1 3 4 2 5]
 
 
 
-function serialize(root) {
-    if (root === null) return null;
+// function serialize(root) {
+//     if (root === null) return null;
 
-    let arr = [];
-    let q = [];
-    q.push(root);
+//     let arr = [];
+//     let q = [];
+//     q.push(root);
 
-    while (q.length) {
-        let node = q.shift();
+//     while (q.length) {
+//         let node = q.shift();
 
-        if (node === null) {
-            arr.push(-1);
-            continue;
-        }
-        arr.push(node.data);
+//         if (node === null) {
+//             arr.push(-1);
+//             continue;
+//         }
+//         arr.push(node.data);
 
-        q.push(node.left);
-        q.push(node.right);
+//         q.push(node.left);
+//         q.push(node.right);
+//     }
+
+//     return arr;
+// }
+
+// function deSerialize(arr) {
+
+//     if(arr.length === 0) return null;
+
+//     let root = new Node(arr[0]);
+//     let q = [root];
+//     let i = 1;
+
+//     while(q.length) {
+//         let curr = q.shift();
+
+//         if(arr[i] !== -1) {
+//             let left = new Node(arr[i]);
+//             curr.left = left;
+//             q.push(left);
+//         }
+//         i++;
+//         if(arr[i] !== -1) {
+//             let right = new Node(arr[i]);
+//             curr.right = right;
+//             q.push(right);
+//         }
+//         i++;
+
+//     }
+//     return root;
+// }
+
+
+// const root = new Node(1);
+// root.left = new Node(2);
+// root.right = new Node(3);
+// root.left.left = new Node(4);
+// root.right.left = new Node(6);
+
+// let arr = serialize(root);
+// // console.log(arr);
+// let ans = deSerialize(arr);
+// console.log(ans);
+
+
+
+// ---------------------------- ** -------------------
+//  Approach 2 - preorder
+// traverse and collect all node elements
+
+function serialize(root, arr) {
+
+    if(root === null) {
+        arr.push(-1);
+        return null;
     }
 
-    return arr;
+    arr.push(root.data);
+    serialize(root.left, arr);
+    serialize(root.right, arr);
 }
 
-function deSerialize(arr) {
+function deserialize(arr1, i) {
 
-    if(arr.length === 0) return null;
+    if(arr1[i[0]] === -1) {
+        i[0]++;
+        return null;
+    } 
 
-    let root = new Node(arr[0]);
-    let q = [root];
-    let i = 1;
+    let root = new Node(arr1[i[0]]);
+    i[0]++;
+    root.left = deserialize(arr1, i);
+    root.right = deserialize(arr1, i);
 
-    while(q.length) {
-        let curr = q.shift();
-
-        if(arr[i] !== -1) {
-            let left = new Node(arr[i]);
-            curr.left = left;
-            q.push(left);
-        }
-        i++;
-        if(arr[i] !== -1) {
-            let right = new Node(arr[i]);
-            curr.right = right;
-            q.push(right);
-        }
-        i++;
-
-    }
     return root;
 }
-
 
 const root = new Node(1);
 root.left = new Node(2);
 root.right = new Node(3);
 root.left.left = new Node(4);
 root.right.left = new Node(6);
+let arr = [];
+serialize(root, arr);
+let i = [0];
+let ans = deserialize(arr, i);
 
-let arr = serialize(root);
-// console.log(arr);
-let ans = deSerialize(arr);
 console.log(ans);
