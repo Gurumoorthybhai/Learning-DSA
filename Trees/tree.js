@@ -1482,56 +1482,237 @@ function verticalLines(node) {
 // We traverse logN nodes, for each node we calculate height logN
 // SC - O(logn) recursive stack
 
-function countNodes(root) {
+// function countNodes(root) {
 
-    if(root === null) return 0;
+//     if(root === null) return 0;
 
-    let lh = leftHeight(root.left);
-    let rh = leftHeight(root.right);
+//     let lh = leftHeight(root.left);
+//     let rh = leftHeight(root.right);
 
-    if(lh === rh) {
-        return Math.pow(2, lh)-1;
+//     if(lh === rh) {
+//         return Math.pow(2, lh)-1;
+//     }
+
+//     return countNodes(root.left) + countNodes(root.right) + 1;
+// }
+
+// function leftHeight(root) {
+
+//     let lheight = 1;
+//     while(root) {
+//         lheight++;
+//         root = root.left
+//     }
+//     return lheight;
+// }
+
+// function rightHeight(root) {
+
+//     let rheight = 1;
+//     while(root) {
+//         rheight++;
+//         root = root.right
+//     }
+//     return rheight;
+// }
+
+// const root = new Node(1);
+// root.left = new Node(2);
+// root.right = new Node(3);
+
+// root.left.left = new Node(4);
+// root.left.right = new Node(5);
+
+// root.right.left = new Node(6);
+// root.right.right = new Node(7);
+
+// root.left.left.left = new Node(8);
+// root.left.left.right = new Node(9);
+
+// root.left.right.left = new Node(10);
+// root.left.right.right = new Node(11);
+
+// const totNodes = countNodes(root);
+// console.log(totNodes);
+
+
+// construct unique binary tree with given preOrder and InOrder
+
+
+//         0
+//     1        2
+// 3      4   5
+
+// from above 
+
+/* 
+[ left Root right]
+inOrder -  [3 1 4 0 5 2]
+
+[Root left right]
+PreOrder - [0 1 3 4 2 5]
+*/
+
+// find root from  - preOrder
+// find left, right from - inOrder
+
+// step 1 - with recursion loop preOrder, make it a root element from it, 
+// find the respect element inOrder, to its left are left subtree, to its right are right subtree
+// will be using indexing to find element
+
+
+
+// function buildTree(preOrder, preOrderStart, preOrderEnd, inOrder, inOrderStart, inOrderEnd) {
+
+//     if(preOrderStart > preOrderEnd || inOrderStart > inOrderEnd) return null;
+
+//     let rootEle = preOrder[preOrderStart];
+//     let root = new Node(rootEle);
+//     let rootIndex = getRootIndex(rootEle, inOrder);
+
+//     let leftElements = rootIndex - inOrderStart;
+
+//     root.left = buildTree(preOrder, preOrderStart+1, preOrderEnd, inOrder, inOrderStart, rootIndex-1);
+
+//     root.right = buildTree(preOrder, preOrderStart+leftElements+1, preOrderEnd, inOrder, rootIndex+1, inOrderEnd);
+
+//     return root;
+// }
+
+// function getRootIndex(rootEle, Inorder) {
+
+//     for(let i = 0; i < Inorder.length; i++) {
+//         if(Inorder[i] === rootEle) return i;
+//     }
+// }
+
+
+// const preOrder = [0, 1, 3, 4, 2, 5];
+// const inOrder =  [3, 1, 4, 0, 5, 2];
+
+// let end = preOrder.length;
+// buildTree(preOrder, 0, end, inOrder, 0, end);
+
+// Best Approach
+// TC - O(nlogn)
+
+// with preOrder and inOrder
+
+// iStart -> inOrder start index
+// iEnd-> inOrder end index
+
+// function buildTree(preOrder, inOrder, iStart, iEnd, preIndex, map) {
+
+//     if(iStart > iEnd) return null;
+
+//     console.log(preOrder[preIndex]);
+//     let root = new Node(preOrder[preIndex]);
+//     preIndex[0]++;  // this is the mandary place to incresment, if we incresement at method call, it will not work
+//     if(iStart === iEnd) return root;
+
+//     let rootIndex = getRootIndex(map, preOrder[preIndex-1]); // sub -1 bcz we have incresmented in 1609
+
+//     root.left = buildTree(preOrder, inOrder, iStart, rootIndex-1, preIndex, map);  // preIndex+1 this will not work
+//     root.right = buildTree(preOrder, inOrder, rootIndex+1, iEnd, preIndex, map);
+
+//     return root;
+// }
+
+// function returnTree(preOrder, inOrder) {
+
+//     const iStart = 0;
+//     const iEnd = preOrder.length;
+//     const preIndex = [0];
+
+//     let map = new Map();
+//     inOrder.forEach((element, ind) => {
+//         map.set(element, ind);
+//     })
+//     return buildTree(preOrder, inOrder, iStart, iEnd-1, preIndex, map);
+// }
+
+// function getRootIndex(map, preIndex) {
+//     return map.get(preIndex) ?? -1;
+// }
+
+// const preOrder = [0, 1, 3, 4, 2, 5];
+// const inOrder =  [3, 1, 4, 0, 5, 2];
+
+// let bt = returnTree(preOrder, inOrder);
+// console.log(JSON.stringify(bt));
+
+// L36. Serialize and De-Serialize
+
+// Serialize    -> convert given tree -> array of strings
+// De-Serialize -> convert array of strings -> tree
+
+// this prb can be solved in many approaches, now will try to solve by  level order traversal
+
+// 1. how we will identify if node has no left or right child node
+        // so to indicate push -1 for respective node
+
+
+
+
+function serialize(root) {
+    if (root === null) return null;
+
+    let arr = [];
+    let q = [];
+    q.push(root);
+
+    while (q.length) {
+        let node = q.shift();
+
+        if (node === null) {
+            arr.push(-1);
+            continue;
+        }
+        arr.push(node.data);
+
+        q.push(node.left);
+        q.push(node.right);
     }
 
-    return countNodes(root.left) + countNodes(root.right) + 1;
+    return arr;
 }
 
-function leftHeight(root) {
+function deSerialize(arr) {
 
-    let lheight = 1;
-    while(root) {
-        lheight++;
-        root = root.left
+    if(arr.length === 0) return null;
+
+    let root = new Node(arr[0]);
+    let q = [root];
+    let i = 1;
+
+    while(q.length) {
+        let curr = q.shift();
+
+        if(arr[i] !== -1) {
+            let left = new Node(arr[i]);
+            curr.left = left;
+            q.push(left);
+        }
+        i++;
+        if(arr[i] !== -1) {
+            let right = new Node(arr[i]);
+            curr.right = right;
+            q.push(right);
+        }
+        i++;
+
     }
-    return lheight;
+    return root;
 }
 
-function rightHeight(root) {
-
-    let rheight = 1;
-    while(root) {
-        rheight++;
-        root = root.right
-    }
-    return rheight;
-}
 
 const root = new Node(1);
 root.left = new Node(2);
 root.right = new Node(3);
-
 root.left.left = new Node(4);
-root.left.right = new Node(5);
-
 root.right.left = new Node(6);
-root.right.right = new Node(7);
 
-root.left.left.left = new Node(8);
-root.left.left.right = new Node(9);
-
-root.left.right.left = new Node(10);
-root.left.right.right = new Node(11);
-
-const totNodes = countNodes(root);
-console.log(totNodes);
-
+let arr = serialize(root);
+// console.log(arr);
+let ans = deSerialize(arr);
+console.log(ans);
