@@ -1723,41 +1723,115 @@ PreOrder - [0 1 3 4 2 5]
 //  Approach 2 - preorder
 // traverse and collect all node elements
 
-function serialize(root, arr) {
+// function serialize(root, arr) {
 
-    if(root === null) {
-        arr.push(-1);
-        return null;
+//     if(root === null) {
+//         arr.push(-1);
+//         return null;
+//     }
+
+//     arr.push(root.data);
+//     serialize(root.left, arr);
+//     serialize(root.right, arr);
+// }
+
+// function deserialize(arr1, i) {
+
+//     if(arr1[i[0]] === -1) {
+//         i[0]++;
+//         return null;
+//     } 
+
+//     let root = new Node(arr1[i[0]]);
+//     i[0]++;
+//     root.left = deserialize(arr1, i);
+//     root.right = deserialize(arr1, i);
+
+//     return root;
+// }
+
+// const root = new Node(1);
+// root.left = new Node(2);
+// root.right = new Node(3);
+// root.left.left = new Node(4);
+// root.right.left = new Node(6);
+// let arr = [];
+// serialize(root, arr);
+// let i = [0];
+// let ans = deserialize(arr, i);
+
+// console.log(ans);
+
+// 37. Morris Traversal
+
+// why we need Morris Traversal ? so, if we see other traversal's like inorder, preorder and postorder the
+// the auxiliary space is O(n) bcz of recursive call
+
+// how it will helps ? it create a thread based implementation to connect the next root
+
+//             1
+//     2               3
+// 4       5       6        7
+
+// Inorder(left, root, right) -> [4 2 5, 1, 6, 3, 7]
+// from the above, we can see that after node 5, we need to connect 1, approach here's
+// 3 cases
+// 1. No left subtree
+        // -> print the root and move right
+// 2. Create thread
+        //  -> before moving from the curr node, traverse to the right most node from left subtree to root, from the above tree its node 5, its node 5's right should be connect to root node 1.
+        // 5 -> 1, now we will be able to connect without backtracking
+        // move the curr to curr.left
+// 3. remove thread
+        //  its recommended to remove the thread once its traversed left subtress completely
+        //  prev.right = null
+        //  curr = curr.right
+
+
+function morrisInorder(root) {
+
+    if(root === null) return null;
+
+    let curr = root;
+    const inOrder = [];
+
+    while(curr !== null) {
+
+        // case1: no left subtree
+        if(curr.left === null) {
+            inOrder.push(curr);
+            curr = curr.right;
+        } else {
+            // case2: find right most node connect to root
+            let prev = curr.left;
+            while(prev.right && prev.right !== curr) {
+                prev = prev.right;
+            }
+    
+            if(prev.right === null) {
+                // create a thread
+                prev.right = curr;
+                curr = curr.left;
+            } else {
+                // thread already exists, need to remove that
+                prev.right = null;
+                inOrder.push(curr);
+                curr = curr.right;
+            }
+        }
     }
 
-    arr.push(root.data);
-    serialize(root.left, arr);
-    serialize(root.right, arr);
+    return inOrder;
 }
 
-function deserialize(arr1, i) {
-
-    if(arr1[i[0]] === -1) {
-        i[0]++;
-        return null;
-    } 
-
-    let root = new Node(arr1[i[0]]);
-    i[0]++;
-    root.left = deserialize(arr1, i);
-    root.right = deserialize(arr1, i);
-
-    return root;
-}
 
 const root = new Node(1);
 root.left = new Node(2);
 root.right = new Node(3);
 root.left.left = new Node(4);
+root.left.right = new Node(5);
 root.right.left = new Node(6);
-let arr = [];
-serialize(root, arr);
-let i = [0];
-let ans = deserialize(arr, i);
+root.right.right = new Node(7);
 
-console.log(ans);
+const inOrder = morrisInorder(root);
+console.log(inOrder);
