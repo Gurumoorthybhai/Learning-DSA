@@ -1787,41 +1787,90 @@ PreOrder - [0 1 3 4 2 5]
         //  prev.right = null
         //  curr = curr.right
 
+// TC - O(n)
+// SC - O(1) no auxiliary space is used
 
-function morrisInorder(root) {
+// function morrisInorder(root) {
 
-    if(root === null) return null;
+//     if(root === null) return null;
 
+//     let curr = root;
+//     const inOrder = [];
+
+//     while(curr !== null) {
+
+//         // case1: no left subtree
+//         if(curr.left === null) {
+//             inOrder.push(curr.data);
+//             curr = curr.right;
+//         } else {
+//             // case2: find right most node connect to root
+//             let prev = curr.left;
+//             while(prev.right && prev.right !== curr) {
+//                 prev = prev.right;
+//             }
+    
+//             if(prev.right === null) {
+//                 // create a thread
+//                 prev.right = curr;
+//                 curr = curr.left;
+//             } else {
+//                 // thread already exists, need to remove that
+//                 prev.right = null;
+//                 inOrder.push(curr.data);
+//                 curr = curr.right;
+//             }
+//         }
+//     }
+
+//     return inOrder;
+// }
+
+
+// const root = new Node(1);
+// root.left = new Node(2);
+// root.right = new Node(3);
+// root.left.left = new Node(4);
+// root.left.right = new Node(5);
+// root.right.left = new Node(6);
+// root.right.right = new Node(7);
+
+// const inOrder = morrisInorder(root);
+// console.log(inOrder);
+
+// TC - O(n)
+// SC - O(1) no auxiliary space is used
+function morrisPreOrder(root) {
+
+    if (root === null) return null;
+
+    const preOrder = [];
     let curr = root;
-    const inOrder = [];
+    while (curr !== null) {
 
-    while(curr !== null) {
-
-        // case1: no left subtree
-        if(curr.left === null) {
-            inOrder.push(curr);
+        if (curr.left === null) {
+            preOrder.push(curr.data);
             curr = curr.right;
         } else {
-            // case2: find right most node connect to root
             let prev = curr.left;
-            while(prev.right && prev.right !== curr) {
+
+            while (prev.right && prev.right !== curr) {
                 prev = prev.right;
             }
-    
-            if(prev.right === null) {
-                // create a thread
+
+            if (prev.right === null) {
                 prev.right = curr;
+                // before moving the curr, we need that data
+                preOrder.push(curr.data);
                 curr = curr.left;
             } else {
-                // thread already exists, need to remove that
                 prev.right = null;
-                inOrder.push(curr);
                 curr = curr.right;
             }
         }
     }
 
-    return inOrder;
+    return preOrder;
 }
 
 
@@ -1833,5 +1882,5 @@ root.left.right = new Node(5);
 root.right.left = new Node(6);
 root.right.right = new Node(7);
 
-const inOrder = morrisInorder(root);
-console.log(inOrder);
+const preOrder = morrisPreOrder(root);
+console.log(preOrder);
