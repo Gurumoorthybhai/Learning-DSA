@@ -25,49 +25,104 @@ class Node{
 // step1: if the give value is greater than node 10, traverse in the right, if the given value is smaller than root, traverse in the left
 
 
-function searchNode(root, value) {
+// function searchNode(root, value) {
 
-    let ans = -1;
+//     let ans = -1;
+//     while(root) {
+//         if(root.data > value) {
+//             root = root.left;
+//         } else {
+//             if(root.data === value) return root;
+//             ans = root.data;
+//             root = root.right;
+//         }
+//     }
+
+//     return ans;
+// }
+
+
+// // recursive
+
+// function searchNode(root, key) {
+
+//     if(root === null) return -1;
+
+//     if(root.data === key) return root;
+//     if(root.data > key) {
+//         return searchNode(root.left, key);
+//     } else {
+//         return searchNode(root.right, key);
+//     }
+// }
+// const root = new Node(8);
+// root.left = new Node(5);
+// root.right = new Node(12);
+
+// root.left.left = new Node(4);
+// root.left.right = new Node(7);
+
+// root.right.left = new Node(10);
+// root.right.right = new Node(14);
+
+// root.left.right.left = new Node(6);
+// root.right.right.left = new Node(13);
+
+// let value = 6;  // node found
+// // let value = 20;  // not found
+// console.log(searchNode(root, value));
+
+// =========== *** =========== *** ===========
+
+// L41. ceil of the given node
+
+// ceil means equal or nearest greatest number
+
+// case1: key 7 found
+// case2: key 13  //we dont have 13, so its nearest greatest no 14
+
+    //          9
+    //     5             14
+    // 2       7    10        16
+
+
+function returnCeil(root, key) {
+
+    let ceil = -1;
     while(root) {
-        if(root.data > value) {
+
+        if(root.data === key) {
+            ceil = root.data;
+            return ceil;
+        }
+        if(root.data > key) {
+            ceil = root.data;
             root = root.left;
         } else {
-            if(root.data === value) return root;
-            ans = root.data;
             root = root.right;
         }
     }
-
-    return ans;
+    return ceil;
 }
 
-
-// recursive
-
-function searchNode(root, key) {
-
-    if(root === null) return -1;
-
-    if(root.data === key) return root;
-    if(root.data > key) {
-        return searchNode(root.left, key);
-    } else {
-        return searchNode(root.right, key);
-    }
-}
-const root = new Node(8);
+const root = new Node(9);
 root.left = new Node(5);
-root.right = new Node(12);
+root.right = new Node(14);
 
-root.left.left = new Node(4);
+root.left.left = new Node(2);
 root.left.right = new Node(7);
 
 root.right.left = new Node(10);
-root.right.right = new Node(14);
+root.right.right = new Node(16);
 
-root.left.right.left = new Node(6);
-root.right.right.left = new Node(13);
+// found node
+// let key = 2;
+// console.log(returnCeil(root, key)); node data
 
-let value = 6;  // node found
-// let value = 20;  // not found
-console.log(searchNode(root, value));
+// not found node
+let key = 15
+console.log(returnCeil(root, key)); // 16
+
+
+
+
