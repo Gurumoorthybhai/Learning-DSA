@@ -86,23 +86,197 @@ class Node{
     // 2       7    10        16
 
 
-function returnCeil(root, key) {
+// function returnCeil(root, key) {
 
-    let ceil = -1;
-    while(root) {
+//     let ceil = -1;
+//     while(root) {
 
-        if(root.data === key) {
-            ceil = root.data;
-            return ceil;
-        }
-        if(root.data > key) {
-            ceil = root.data;
-            root = root.left;
+//         if(root.data === key) {
+//             ceil = root.data;
+//             return ceil;
+//         }
+//         if(root.data > key) {
+//             ceil = root.data;
+//             root = root.left;
+//         } else {
+//             root = root.right;
+//         }
+//     }
+//     return ceil;
+// }
+
+// const root = new Node(9);
+// root.left = new Node(5);
+// root.right = new Node(14);
+
+// root.left.left = new Node(2);
+// root.left.right = new Node(7);
+
+// root.right.left = new Node(10);
+// root.right.right = new Node(16);
+
+// // found node
+// // let key = 2;
+// // console.log(returnCeil(root, key)); node data
+
+// // not found node
+// let key = 15
+// console.log(returnCeil(root, key)); // 16
+
+// =========== *** =========== *** ===========
+
+// L42. floor of the given node
+
+// floor - equal or smallest value
+
+//             9
+//     5             14
+// 2       7     10        16
+
+// function returnFloor(root, key) {
+
+//     let floor = -1;
+
+//     while(root) {
+//         if(root === key) {
+//             floor = root.data;
+//             return floor;
+//         }
+
+//         if(key < root.data) {
+//             root = root.left;
+//         } else {
+//             floor = root.data;
+//             root = root.right;
+//         }
+//     }
+
+//     return floor;
+// }
+
+// const root = new Node(9);
+// root.left = new Node(5);
+// root.right = new Node(14);
+
+// root.left.left = new Node(2);
+// root.left.right = new Node(7);
+
+// root.right.left = new Node(10);
+// root.right.right = new Node(16);
+
+// // found node
+// // let key = 2;
+// // console.log(returnFloor(root, key)); // node data
+
+// let key = 15;
+// console.log(returnFloor(root, key)); // node data
+
+
+// L45. kth smallest and largest elements
+
+//             9
+//     5             14
+// 2       7     10        16
+
+
+// Brute force
+// 1. we can use any traversal to collect the nodes in list - O(n)
+// 2. sort them - O(nlogn)
+// 3. find the kth node
+
+// optimized approach
+
+// use morris traversal to collect nodes
+// if we see inorder traversal property - the nodes are already sorted by default
+// to get the kth node, will introduce a cnt variable to track
+// will follow morris traversal
+
+// Brute force
+
+// function kthSmallest(root, k) {
+
+//     let curr = root;
+//     const inOrder = [];
+
+//     while (curr) {
+
+//         if (curr.left === null) {
+//             inOrder.push(curr.data);
+//             curr = curr.right;
+//         } else {
+//             let nxtNode = curr.left;
+
+//             while (nxtNode.right && nxtNode.right !== curr) {
+//                 nxtNode = nxtNode.right;
+//             }
+
+//             if (nxtNode.right === null) {
+//                 nxtNode.right = curr;
+//                 curr = curr.left;
+//             } else {
+//                 nxtNode.right = null;
+//                 inOrder.push(curr.data);
+//                 curr = curr.right;
+//             }
+//         }
+
+//     }
+//     return inOrder;
+// }
+
+// const root = new Node(9);
+// root.left = new Node(5);
+// root.right = new Node(14);
+
+// root.left.left = new Node(2);
+// root.left.right = new Node(7);
+
+// root.right.left = new Node(10);
+// root.right.right = new Node(16);
+
+// const k = 3;
+// const inOrder = kthSmallest(root, k);
+
+// const kthSmallestEle = inOrder[k-1];
+// const kthLargestEle = inOrder[inOrder.length-k];
+
+// console.log(` kthSmallestEle - ${kthSmallestEle}`);
+
+// console.log(` kthLargestEle - ${kthLargestEle}`);
+
+// Optimised approach
+
+function kthSmallest(root) {
+
+    if(root === null) return -1;
+    let curr = root;
+    let cnt = 0;
+
+    while(curr) {
+
+        // no left
+        if(!curr.left) {
+            cnt++;
+            if(cnt === k) return curr.data;
+            curr = curr.right;
         } else {
-            root = root.right;
+            let nxtNode = curr.left;
+
+            while(nxtNode.right && nxtNode.right !== curr) {
+                nxtNode = nxtNode.right;
+            }
+
+            if(nxtNode.right === null) {
+                nxtNode.right = curr;
+                curr = curr.left;
+            } else {
+                nxtNode.right = null;
+                cnt++;
+                if(cnt === k) return curr.data;
+                curr = curr.right;
+            }
         }
     }
-    return ceil;
 }
 
 const root = new Node(9);
@@ -115,14 +289,9 @@ root.left.right = new Node(7);
 root.right.left = new Node(10);
 root.right.right = new Node(16);
 
-// found node
-// let key = 2;
-// console.log(returnCeil(root, key)); node data
+const k = 2;
+const result = kthSmallest(root, k);
 
-// not found node
-let key = 15
-console.log(returnCeil(root, key)); // 16
+console.log(` kthSmallestEle - ${result}`);
 
-
-
-
+// console.log(` kthLargestEle - ${kthLargestEle}`);
